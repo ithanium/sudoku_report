@@ -1,0 +1,149 @@
+\pdfoutput=1
+
+\documentclass{l4proj}
+
+%
+% put any packages here
+%
+\usepackage{float}
+\usepackage[labelfont=bf]{caption}
+
+\renewcommand{\figurename}{Fig.}
+
+\begin{document}
+\title{Animating a Sudoku solver}
+\author{Gabriel I. Stratan}
+\date{November 18, 2015}
+\maketitle
+
+\begin{abstract}
+Sudoku is a popular puzzle played all over the world. It consists of filling in a 9x9 grid such that every row, column and 3x3 sub-grids have different digits from 1 to 9. Solving the puzzle will make use of the all-different algorithm from Constraint Programming for which an implementation will be provided. Finally, the program will animate all the steps done by the algorithm.
+\end{abstract}
+
+\educationalconsent
+%
+%NOTE: if you include the educationalconsent (above) and your project is graded an A then
+%      it may be entered in the CS Hall of Fame
+%
+%\tableofcontents
+%==============================================================================
+\chapter{Introduction}
+\label{intro}
+\pagenumbering{arabic}
+
+\section{Aims}
+
+
+\section{Background} 
+
+\section{Motivation} 
+
+\section{Report Content}
+
+\begin{itemize}
+\item Chapter~\ref{reqs}
+\item Chapter~\ref{design}
+\item Chapter~\ref{conclusion}
+\end{itemize}
+
+%==============================================================================
+
+\chapter{Requirements}
+\label{reqs}
+\section{Problem Analysis}
+
+
+\section{Proposed Solution}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=13.2cm]{screenshot.png}
+\caption{The state of the program after the all-different algorithm finishes on a row, in this case, the last one.}
+\end{figure}
+
+
+%==============================================================================
+
+\chapter{Design and Implementation}
+\label{design}
+
+\section{High-Level Overview}
+Model-View-Controller
+
+\subsection{Problem Instance Representation}
+Sudoku files
+
+\section{Ford–Fulkerson's algorithm for computing a maximum matching}
+
+\subsubsection{Origins}
+
+\subsubsection{Description}
+
+\subsubsection{Implementation}
+
+\subsubsection{Visualisation}
+
+\subsubsection{Discussion}
+
+\section{Tarjan's algorithm for finding strongly connected components}
+
+\subsubsection{Origins}
+
+\subsubsection{Description}
+
+\subsubsection{Implementation}
+
+\subsubsection{Visualisation}
+
+\subsubsection{Discussion}
+
+Having a maximum matching for our graph, the next step in the alldifferent algorithm is to turn the previously undirected graph, into a directed one. The matches resulted from the Ford Fulkerson algorithm are assigned a direction from the 1 to 9 values to the corresponding cells of the Sudoku row. The edges that remain unused in the matching are given a direction from left to right (i.e. from the Sudoku cells of the row to the 1-9 values).
+
+// write that we delete S/T nodes and corresponding edges
+
+Now that all the edges from the graph are directed, the next step in the alldifferent algorithm is to find the strongly connected components of the graph. In order to do this, we introduce now Tarjan’s algorithm for finding strongly connected components  (SCCs) in a given graph G.
+
+The algorithm starts by visiting every node in the directed graph in a depth first search manner. During the search, nodes are added to a stack in the order they are discovered only if they were not already part of the stack. 
+
+Backtracking is triggered when we reach a node that is upper compared to our previous node (if(min < low[u])).  We know this by keeping record of the upmost node reachable from node u, including node u itself during each branch of the depth first search. We use low to denote the minimum index representing the upmost node in the branch.
+
+If the current node is less than the upper node is less than the current index, it means that we have 
+
+If the upper node is equal to the node we are currently visiting, then the algorithm just found a strongly connected component that contains all nodes on the stack starting from the top of it, until encountering the current node. The nodes are popped out of the stack and a SCC id/index is assigned to it for later use. Once the current node is reached, we increment the count of the SCCs to start filling a new SCC.
+
+// write that there are no self loops / self edges (u!=i)
+\cite{tarjan1972depth}
+
+
+\chapter{Conclusion}
+\label{conclusion}
+We have shown how to implement the all-different constraint.
+
+%%%%%%%%%%%%%%%%
+%              %
+%  APPENDICES  %
+%              %
+%%%%%%%%%%%%%%%%
+\begin{appendices}
+
+\chapter{Running the Program}
+An example of running from the command line is as follows:
+\begin{verbatim}
+      > javac *.java
+      > java Sudoku
+\end{verbatim}
+This will open the application loaded with the hard Sudoku problem $/herald20061222H.txt$.
+
+\noindent
+\textbf{TODO}: what about the Choco3 library? add it to path? remove it?
+
+\end{appendices}
+
+%%%%%%%%%%%%%%%%%%%%
+%   BIBLIOGRAPHY   %
+%%%%%%%%%%%%%%%%%%%%
+
+\bibliographystyle{plain}
+\bibliography{bib}
+
+\end{document}
