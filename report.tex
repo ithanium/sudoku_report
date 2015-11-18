@@ -10,6 +10,38 @@
 
 \renewcommand{\figurename}{Fig.}
 
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+  %frame=tb,
+  language=Java,
+  %aboveskip=3mm,
+  %belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  %basicstyle={\small\ttfamily},
+  basicstyle=\scriptsize,     % the size of the fonts that are used for the code  
+  numbers=left,
+  stepnumber=1,
+  numberstyle=\small\color{gray},    % the size of the fonts that are used for the line-numbers
+  numbersep=10pt,             % how far the line-numbers are from the code
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,            % sets automatic line breaking
+  breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+  showstringspaces=false,     % Don't show underscores as space characters
+  %tabsize=4,
+  frame=trBL,                 % adds a frame around the code
+  frameround=fttt,
+  captionpos=b,               % sets the caption-position to bottom
+}
+
 \begin{document}
 \title{Animating a Sudoku solver}
 \author{Gabriel I. Stratan}
@@ -114,6 +146,12 @@ If the upper node is equal to the node we are currently visiting, then the algor
 // write that there are no self loops / self edges (u!=i)
 \cite{tarjan1972depth}
 
+\lstset{language=Java}
+
+\begin{figure}
+\lstset{caption={Implementation of Tarjan's algorithm for finding strongly connected components},label=codeTarjan}
+\lstinputlisting{Tarjan.java}
+\end{figure}
 
 \chapter{Conclusion}
 \label{conclusion}
