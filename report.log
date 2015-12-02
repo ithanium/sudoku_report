@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.18)  18 NOV 2015 23:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.18)  2 DEC 2015 21:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -123,24 +123,47 @@ Package caption3 Info: TeX engine: e-TeX on input line 57.
 \c@ContinuedFloat=\count96
 Package caption Info: float package is loaded.
 )
+(/usr/local/texlive/2015/texmf-dist/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/03/15 v2.1.5 subfigure package
+\subfigtopskip=\skip43
+\subfigcapskip=\skip44
+\subfigcaptopadj=\dimen120
+\subfigbottomskip=\skip45
+\subfigcapmargin=\dimen121
+\subfiglabelskip=\skip46
+\c@subfigure=\count97
+\c@lofdepth=\count98
+\c@subtable=\count99
+\c@lotdepth=\count100
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(/usr/local/texlive/2015/texmf-dist/tex/latex/subfigure/subfigure.cfg)
+\subfig@top=\skip47
+\subfig@bottom=\skip48
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/cleveref/cleveref.sty
+Package: cleveref 2013/12/28 v0.19 Intelligent cross-referencing
+)
 (/usr/local/texlive/2015/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count97
+\lst@mode=\count101
 \lst@gtempboxa=\box28
 \lst@token=\toks18
-\lst@length=\count98
-\lst@currlwidth=\dimen120
-\lst@column=\count99
-\lst@pos=\count100
-\lst@lostspace=\dimen121
-\lst@width=\dimen122
-\lst@newlines=\count101
-\lst@lineno=\count102
-\lst@maxwidth=\dimen123
+\lst@length=\count102
+\lst@currlwidth=\dimen122
+\lst@column=\count103
+\lst@pos=\count104
+\lst@lostspace=\dimen123
+\lst@width=\dimen124
+\lst@newlines=\count105
+\lst@lineno=\count106
+\lst@maxwidth=\dimen125
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2014/09/06 1.5e (Carsten Heinz)
-\c@lstnumber=\count103
-\lst@skipnumbers=\count104
+\c@lstnumber=\count107
+\lst@skipnumbers=\count108
 \lst@framebox=\box29
 )
 (/usr/local/texlive/2015/texmf-dist/tex/latex/listings/listings.cfg
@@ -162,34 +185,34 @@ File: lstlang1.sty 2014/09/06 1.5e listings language file
 (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 45.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 52.
  (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 (/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count105
-\scratchdimen=\dimen124
+\scratchcounter=\count109
+\scratchdimen=\dimen126
 \scratchbox=\box30
-\nofMPsegments=\count106
-\nofMParguments=\count107
+\nofMPsegments=\count110
+\nofMParguments=\count111
 \everyMPshowfont=\toks19
-\MPscratchCnt=\count108
-\MPscratchDim=\dimen125
-\MPnumerator=\count109
-\makeMPintoPDFobject=\count110
+\MPscratchCnt=\count112
+\MPscratchDim=\dimen127
+\MPnumerator=\count113
+\makeMPintoPDFobject=\count114
 \everyMPtoPDFconversion=\toks20
 ) (/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
@@ -271,43 +294,44 @@ e
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: listings package is loaded.
+Package caption Info: subfigure package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count111
+\c@lstlisting=\count115
 <images/CompSci_colour.pdf, id=1, 340.27126pt x 49.18375pt>
 File: images/CompSci_colour.pdf Graphic file (type pdf)
 
 <use images/CompSci_colour.pdf>
-Package pdftex.def Info: images/CompSci_colour.pdf used on input line 49.
+Package pdftex.def Info: images/CompSci_colour.pdf used on input line 56.
 (pdftex.def)             Requested size: 283.36508pt x -7.72174pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 49.
+(Font)              <12> on input line 56.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 49.
+(Font)              <8> on input line 56.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 49.
+(Font)              <6> on input line 56.
  [1
 
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./image
 s/CompSci_colour.pdf>]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 58.
  [1]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 55.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 62.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 55.
+(Font)              <10.95> on input line 62.
  [1]
 Chapter 1.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20.74> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 62.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24.88> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 62.
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 76.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 83.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 76.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 83.
  [1
 
 ]
@@ -315,14 +339,14 @@ Chapter 2.
 <screenshot.png, id=22, 1252.68pt x 653.44125pt>
 File: screenshot.png Graphic file (type png)
  <use screenshot.png>
-Package pdftex.def Info: screenshot.png used on input line 92.
+Package pdftex.def Info: screenshot.png used on input line 99.
 (pdftex.def)             Requested size: 375.57628pt x 195.91423pt.
  [2
 
  <./screenshot.png>]
 Chapter 3.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 105.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 112.
 Missing character: There is no â in font ptmb7t!
 Missing character: There is no € in font ptmb7t!
 Missing character: There is no “ in font ptmb7t!
@@ -344,7 +368,7 @@ LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <8> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 9.
 )
 
-LaTeX Warning: Float too large for page by 1.86241pt on input line 154.
+LaTeX Warning: Float too large for page by 1.86241pt on input line 161.
 
 [5] [6]
 Chapter 4.
@@ -355,24 +379,76 @@ Chapter 4.
 
 ]
 Appendix A.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 169.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 176.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) (./report.bbl
-[9
+) [9
 
-]) [10
+]
+Appendix B.
+<images/proof_of_concept/1.png, id=56, 1254.6875pt x 682.55pt>
+File: images/proof_of_concept/1.png Graphic file (type png)
+
+<use images/proof_of_concept/1.png>
+Package pdftex.def Info: images/proof_of_concept/1.png used on input line 218.
+(pdftex.def)             Requested size: 227.62204pt x 123.82228pt.
+
+<images/proof_of_concept/2.png, id=57, 1254.6875pt x 682.55pt>
+File: images/proof_of_concept/2.png Graphic file (type png)
+
+<use images/proof_of_concept/2.png>
+Package pdftex.def Info: images/proof_of_concept/2.png used on input line 220.
+(pdftex.def)             Requested size: 227.62204pt x 123.82228pt.
+
+<images/proof_of_concept/3.png, id=58, 1254.6875pt x 682.55pt>
+File: images/proof_of_concept/3.png Graphic file (type png)
+
+<use images/proof_of_concept/3.png>
+Package pdftex.def Info: images/proof_of_concept/3.png used on input line 228.
+(pdftex.def)             Requested size: 227.62204pt x 123.82228pt.
+
+<images/proof_of_concept/4.png, id=59, 1254.6875pt x 682.55pt>
+File: images/proof_of_concept/4.png Graphic file (type png)
+
+<use images/proof_of_concept/4.png>
+Package pdftex.def Info: images/proof_of_concept/4.png used on input line 230.
+(pdftex.def)             Requested size: 227.62204pt x 123.82228pt.
+
+<images/proof_of_concept/5.png, id=60, 1254.6875pt x 682.55pt>
+File: images/proof_of_concept/5.png Graphic file (type png)
+
+<use images/proof_of_concept/5.png>
+Package pdftex.def Info: images/proof_of_concept/5.png used on input line 238.
+(pdftex.def)             Requested size: 227.62204pt x 123.82228pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[10
+
+] [11 <./images/proof_of_concept/1.png> <./images/proof_of_concept/2.png> <./im
+ages/proof_of_concept/3.png> <./images/proof_of_concept/4.png> <./images/proof_
+of_concept/5.png>]
+<images/proof_of_concept/6.png, id=68, 1254.6875pt x 682.55pt>
+File: images/proof_of_concept/6.png Graphic file (type png)
+
+<use images/proof_of_concept/6.png>
+Package pdftex.def Info: images/proof_of_concept/6.png used on input line 249.
+(pdftex.def)             Requested size: 455.24408pt x 247.65497pt.
+ (./report.bbl [12
+
+ <./images/proof_of_concept/6.png>]) [13
 
 ] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 4682 strings out of 493089
- 71892 string characters out of 6134841
- 317770 words of memory out of 5000000
- 8094 multiletter control sequences out of 15000+600000
- 28145 words of font info for 54 fonts, out of 8000000 for 9000
+ 6430 strings out of 493089
+ 108431 string characters out of 6134841
+ 346090 words of memory out of 5000000
+ 9824 multiletter control sequences out of 15000+600000
+ 29730 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,7n,40p,456b,1347s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,7n,40p,592b,1358s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.e
 nc}</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pf
 b></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb>
@@ -384,10 +460,10 @@ b></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/
 local/texlive/2015/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texl
 ive/2015/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2015/t
 exmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (13 pages, 254893 bytes).
+Output written on report.pdf (16 pages, 1049256 bytes).
 PDF statistics:
- 95 PDF objects out of 1000 (max. 8388607)
- 66 compressed objects within 1 object stream
+ 110 PDF objects out of 1000 (max. 8388607)
+ 72 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
