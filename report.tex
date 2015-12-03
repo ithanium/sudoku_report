@@ -12,6 +12,24 @@
 
 \usepackage{cleveref}
 
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\usepackage{algorithmic}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{url}
+\usepackage{alltt}
+\urldef{\mailsa}\path|pat@dcs.gla.ac.uk|
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+\newlength{\halftextwidth}
+\setlength{\halftextwidth}{0.47\textwidth}
+
+\usepackage{amsopn}
+\DeclareMathOperator{\mod}{mod}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+
 
 \renewcommand{\figurename}{Fig.}
 \Crefformat{figure}{#2Fig.~#1#3}
@@ -50,6 +68,7 @@
 }
 
 \begin{document}
+
 \title{Animating a Sudoku solver}
 \author{Gabriel I. Stratan}
 \date{November 18, 2015}
@@ -153,12 +172,69 @@ If the upper node is equal to the node we are currently visiting, then the algor
 // write that there are no self loops / self edges (u!=i)
 \cite{tarjan1972depth}
 
-\lstset{language=Java}
+\begin{algorithm}
+\DontPrintSemicolon
+\nl $\textbf{void} ~Tarjan(\textbf{integer}~A[][],\textbf{integer} ~ n)$ \;
+\nl \Begin{
+\nl $\textbf{Global} ~ S \gets ~new~\textbf{Stack}()$ \;
+\nl $\textbf{Global} ~ stacked \gets ~new~\textbf{boolean}[n]$ \;
+\nl $ $ \;
+\nl $\textbf{Global} ~ pre \gets 0 $ \;
+\nl $\textbf{Global} ~ count \gets 0 $ \;
+\nl $ $ \;
+\nl $\textbf{Global} ~ id \gets ~new~\textbf{integer}[n]$ \;
+\nl $\textbf{Global} ~ low \gets ~new~\textbf{integer}[n]$ \;
+\nl $ $ \;
+\nl \For {$v \gets ~ 0 ~ to ~ n $}{
+\nl \lIf {$stacked[v] = ~ false $}{ $dfs(v) $ }
+}
+}
+\;
+\nl $\textbf{void} ~dfs(\textbf{integer}~u)$ \;
+\nl \Begin{
+\nl $stacked[u] \gets ~true $\;
+\nl $ $ \;
+\nl $low[u] \gets ~pre $ \;
+\nl $pre \gets pre + 1$ \;
+\nl $\textbf{integer} ~ min \gets low[u] $ \;
+\nl $ $ \;
+\nl $push(S,u) $ \;
+\nl $ $ \;
+\nl \For {$i \gets ~ 0 ~ to~ A[u].length$}{
+\nl $\textbf{integer} ~ w \gets A[u][i] $ \;
+\nl $ $ \;
+\nl \If {$w = 1 ~\bf{and} ~ u \neq i$}{
+\nl \lIf {$stacked[i] = ~false $}{ $dfs(~i) $ }
+\nl \lIf {$low[i] < min $}{ $ min \gets low[i] $ }
+  }
+ }
+\nl $ $ \;
+\nl \If {$ min < low[u] $}{
+\nl $low[u] \gets min $ \;
+\nl $\textbf{return} $ \;
+}
+\nl $ $ \;
+\nl $\textbf{integer} ~ w $ \;
+\nl $ $ \;
+\nl \Repeat{\nl $w \neq u$}{
+\nl $w \gets pop(S) $ \;
+\nl $id[w] \gets count $ \;
+\nl $low[w] \gets n $ \;
+ }
+\nl $ $ \;
+\nl $ count \gets count + 1 $ \;
 
-\begin{figure}
-\lstset{caption={Implementation of Tarjan's algorithm for finding strongly connected components},label=codeTarjan}
-\lstinputlisting{Tarjan.java}
-\end{figure}
+}
+\caption{Tarjan's strongly connected components}
+\label{TarjanPC}
+\end{algorithm}
+
+%\lstset{language=Java}
+
+%\begin{figure}
+%\lstset{caption={Implementation of Tarjan's algorithm %for finding strongly connected %components},label=codeTarjan}
+%\lstinputlisting{Tarjan.java}
+%\end{figure}
 
 \chapter{Conclusion}
 \label{conclusion}
