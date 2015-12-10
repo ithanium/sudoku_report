@@ -3,7 +3,7 @@
 *.toc
 *.bbl
 *.blg
-*.synctext.gz
+*.synctex.gz
 
 # Compiled source #
 *.com
