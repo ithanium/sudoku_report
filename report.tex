@@ -157,54 +157,56 @@ Sudoku files
 
 \begin{algorithm}
 \DontPrintSemicolon
-\nl $\textbf{void} ~FordFulkerson(\textbf{Graph}~G,\textbf{Graph}~R)$ \;
+\nl $\textbf{void} ~FordFulkerson(\textbf{Graph}~G)$ \;
 \nl \Begin{
-
-\nl $\textbf{Global} ~ \textbf{int} ~ n \gets |V(G)|$ \; %newx
+\nl $\textbf{Global} ~ \textbf{int} ~ capacity[][] \gets getCapacity(G)$ \;
+\nl $\textbf{Global} ~ \textbf{int} ~ n \gets |V(G)|$ \;
+\nl $\textbf{Global} ~ \textbf{int} ~ source \gets 0$ \;
+\nl $\textbf{Global} ~ \textbf{int} ~ sink \gets n-1$ \;
 \nl $\textbf{Global} ~ pred \gets ~new~\textbf{int}[n]$ \;
 \nl $\textbf{Global} ~ visited \gets ~new~\textbf{boolean}[n]$ \;
 \nl $\textbf{Global} ~ Q \gets ~new~\textbf{Queue}()$ \;
 \nl \While {$bfs(G)$}{
-\nl $update(R)$ \;
+\nl $update()$ \;
 }
 
 } %begin FordFulkerson
 
 \;
-\nl $\textbf{boolean} ~bfs(\textbf{Graph} ~ G, \textbf{Graph} ~ R)$ \;
+\nl $\textbf{boolean} ~bfs(\textbf{Graph} ~ G)$ \;
 \nl \Begin{
 \nl $clear(Q) $ \;
-\nl $Arrays.fill(pred,-1) $ \;
-\nl $Arrays.fill(visited,false) $ \;
-\nl $enqueue(0, Q) $ \;
-\nl $visited[0] \gets ~true $\;
-\nl \While {$(\neg Q.isEmpty())$}{
+\nl $fill(pred, -1) $ \;
+\nl $fill(visited, false) $ \;
+\nl $enqueue(source, Q) $ \;
+\nl $visited[source] \gets ~true $\;
+\nl \While {$(\neg isEmpty(Q))$}{
 \nl $\textbf{int} ~ v \gets dequeue(Q) $ \;
-\nl \lIf {$v = ~ n-1 $}{ $\textbf{return} ~ true $ }
+\nl \lIf {$v = ~ sink $}{ $\textbf{return} ~ true $ }
 
 \nl \For {$w \gets ~ 0 ~ to ~ n $}{
-\nl \If {$\neg visited[w] = ~ false ~ \textbf{and} ~ R[v][w] > 0$}{ 
+\nl \If {$\neg visited[w] ~ \textbf{and} ~ capacity[v][w] > 0$}{ 
 \nl $ pred[w] \gets v$ \;
 \nl $ enqueue(w, Q)$ \;
 \nl $ visited[w] \gets true$ \;
 } %if
 } %for
 } %while
-
+\nl $\textbf{return} ~ false $ \;
 } %begin bfs
 
 \;
 
-\nl $\textbf{void} ~update(\textbf{Graph} ~ R)$ \;
+\nl $\textbf{void} ~update()$ \;
 \nl \Begin{
 
 \nl $\textbf{int} ~ f \gets minCost()$ \;
-\nl $\textbf{int} ~ v \gets n-1 $ \;
+\nl $\textbf{int} ~ v \gets sink $ \;
 
-\nl \While {$pred[v] \neq 1$}{
+\nl \While {$pred[v] \neq -1$}{
 \nl $\textbf{int} ~ u \gets pred[v] $ \;
-\nl $R[u][v] \gets R[u][v] - f $ \;
-\nl $R[v][u] \gets R[v][u] + f $ \;
+\nl $capacity[u][v] \gets capacity[u][v] - f $ \;
+\nl $capacity[v][u] \gets capacity[v][u] + f $ \;
 } %while
 
 } %begin updateR
@@ -214,23 +216,16 @@ Sudoku files
 \nl $\textbf{int} ~minCost()$ \;
 \nl \Begin{
 
-\nl $\textbf{int} ~ minCost \gets Integer.MAX_VALUE $ \;
-\nl $\textbf{int} ~ v \gets n-1 $ \;
+\nl $\textbf{int} ~ minCost \gets \infty $ \;
+\nl $\textbf{int} ~ v \gets sink $ \;
 
-\nl \While {$pred[v] \neq 1$}{
-\nl $minCost \gets min(minCost, R[pred[v]][v])$ \;
+\nl \While {$pred[v] \neq -1$}{
+\nl $minCost \gets minimum(minCost, capacity[pred[v]][v])$ \;
 \nl $v \gets pred[v]$ \;
 }
-\nl $\textbf{return} $ \;
+\nl $\textbf{return} ~ minCost$ \;
 } %begin updateR
 
-\;
-
-\nl $\textbf{int} ~min(\textbf{int} ~ a, \textbf{int} ~ b)$ \;
-\nl \Begin{
-\nl \lIf {$a \leq ~ b $}{ $\textbf{return} ~ a $ }
-\nl $\textbf{return} ~ b $ \;
-} %begin min
 \caption{Ford Fulkerson}
 \label{FordFulkersonPC}
 \end{algorithm}
@@ -256,15 +251,7 @@ If the upper node is equal to the node we are currently visiting, then the algor
 
 \begin{algorithm}
 \DontPrintSemicolon
-<<<<<<< Updated upstream
-\nl $\textbf{void} ~Tarjan(\textbf{integer}~A[][],\textbf{int} ~ n)$ \;
-=======
-<<<<<<< HEAD
 \nl $\textbf{void} ~Tarjan(\textbf{Graph}~G)$ \;
-=======
-\nl $\textbf{void} ~Tarjan(\textbf{integer}~A[][],\textbf{int} ~ n)$ \;
->>>>>>> origin/master
->>>>>>> Stashed changes
 \nl \Begin{
 \nl $\textbf{Global} ~ \textbf{int} ~ pre \gets 0 $ \;
 \nl $\textbf{Global} ~ \textbf{int} ~ components \gets 0 $ \; %new
@@ -275,7 +262,7 @@ If the upper node is equal to the node we are currently visiting, then the algor
 \nl $\textbf{Global} ~ low \gets ~new~\textbf{int}[n]$ \;
 
 \nl \For {$u \in ~V(G)$}{
-\nl \lIf {$\neg stacked[u]$}{ $dfs(u, G) $ }
+\nl \lIf {$\neg stacked[u]$}{ $ dfs(u, G) $ }
 }
 }
 \;
@@ -289,19 +276,16 @@ If the upper node is equal to the node we are currently visiting, then the algor
 
 \nl \For {$v \in ~ N(u, G)$}{
 \nl \lIf {$\neg stacked[v]$}{ $dfs(v, G) $ }
-\nl \lIf {$low[v] < min $}{ $ min \gets low[v] $ }
+\nl $ min \gets minimum(low[v], min) $
  }
-\nl \If {$ min < low[u] $}{
-\nl $low[u] \gets min $ \;
-\nl $\textbf{return} $ \;
-}
+\nl $ low[u] \gets minimum(low[u], min) $
 
 \nl $\textbf{integer} ~ v $ \;
 
 \nl \Repeat{\nl $v \neq u$}{
 \nl $v \gets pop(S) $ \;
 \nl $id[v] \gets components $ \;
-\nl $low[v] \gets |V(G)| $ \;
+\nl $low[v] \gets n $ \;
  }
 
 \nl $ components \gets components + 1 $ \;
@@ -311,6 +295,47 @@ If the upper node is equal to the node we are currently visiting, then the algor
 \label{TarjanPC}
 \end{algorithm}
 
+\newpage
+
+Ford Fulkerson's algorithm for finding a maximum flow in a graph is shown in algorithm \ref{FordFulkersonPC}. The $Ford Fulkerson$ procedure on line 1 takes a graph $G$ as an argument and represents the start of the algorithm. The graph passed as an argument holds information about the capacity of each edge. Line 3 stores the capacity of the graph $G$ in a global two-dimensional integer array. The capacity of an edge between vertices $u$, $v$ can be found out in $capacity[u][v]$. Line 4 declares an integer $n$ used to store the number of vertices in the given graph. Lines 5 and 6 declare two integers called $source$ and $sink$ representing the first and the last vertices in the given graph.
+
+In line 7 we declare a vertex-indexed array $pred$ that is used to store references to the previous vertex discovered in the breadth-first search tree. Line 8 declares a vertex-indexed array $visited$ used to keep track if a vertex has already been visited in the breadth-first search procedure. Line 9 declares a queue of integers $Q$ used to store \textbf{XXX}.
+
+The algorithm consists of repeated calls to the breadth-first search procedure (line 10). In line 11, as long as the breadth-first search procedure finds \textbf{shorter augmenting paths?} we call the update procedure to update the capacities of the edges.
+
+The $breadth-first search$ procedure starts at line 12 and takes a graph $G$ as an argument. In lines 14 to 16, the queue $Q$, $pred$ and $visited$ array are reset to have default values.
+
+The breadth-first search calls always start from the first vertex, representing the source. This vertex is enqueued on queue $Q$ in line 17 and is marked as visited in line 18.
+
+Lines 19 to 26 contain a loop performing changes on the queue $Q$ that is used to store an augmenting path. The loop starts on line 20 by dequeuing a vertex from the queue $Q$ and storing it in $v$. Line 21 forces the breadth-first search procedure to return $true$ when we reach the last vertex in the graph, the sink. Lines 22 to 26 contain a loop over \textbf{all the vertices} $w$ in the graph. In line 23 we check to see if the discovered vertex $w$ hasn't been already visited and we consider it if it still has available capacity. Line 24 stores the parent value of $w$ in the augmenting path. Line 25 enqueues the discovered vertex $w$ on the queue $Q$ and marks it as visited in line 26. Finally, the breadth-first search procedure returns $false$ in case \textbf{of no augmenting path found?}.
+
+The $update$ procedure at line 28 is used to update the capacities in the graph to reflect the found paths. Line 30 declares an integer $f$ used to store the \textbf{difference/delta}. Line 31 declares an integer $v$, initially representing the last vertex in the graph called the sink. Lines 32 to 35 contain a loop that updates the capacities of the edges \textbf{in the augmenting path?}. Line 33 uses the integer $u$ to store a vertex that is the neighbour of vertex $v$ \textbf{in the path}, so that together they make an edge. Lines 34 and 35 updates the flow along the edge from $u$ to $v$ and $v$ to $u$ by the found difference.
+
+The $minCost$ procedure at line 36 is used to find the minimum cost, in terms of capacity used, from the sink \textbf{to the source?}. Line 38 declares an integer $minCost$ used to represent the current value of the minimum cost, and it has a very large number at the time of its initialization. Line 39 declares an integer variable $v$ used to store vertices. The variable $v$ is initialized as the last vertex in the graph called the sink. Lines 40 to 42 contains a \textbf{loop over the parent vertices} of $v$. Line 41 updates the value of the minCost variable \textbf{to the minimum}. The $minimum$ procedure returns the minimum of two given integers. Line 42 updates the value of integer $v$ to \textbf{its parent}. At the end of the $minCost$ procedure, we return the value of the currently found $minCost$ variable.
+
+\newpage
+
+Tarjan's algorithm for finding strongly connected components is shown in algorithm \ref{TarjanPC}. The $Tarjan$ proceduce in line 1 takes a Graph $G$ as an argument and represents the start of the algorithm. The global integer $pre$ declared in line 3 is used to store \textbf{XXX}. The integer $components$ in line 4 keeps track of how many components were identified in the given graph. The integer $n$ in line 5 represents the number of vertices in the given graph.
+
+In line 6 we introduce a Stack data structure that will hold all the vertices that are part of the same strongly connected component. Line 7 contains a declaration for the $stacked$ vertex-indexed array of booleans used to keep track if a vertex is present or not on the stack $S$.
+
+An integer vertex-indexed array $id$ is declared in line 8 to store the id of the strongly connected component of each vertex. Line 9 declares a vertex-indexed array $low$ used to store the topmost reachable vertex in the depth-first search tree through a back edge.
+
+Lines 10 and 11 contain a for loop that calls a procedure for performing depth first search on every vertex in the given graph that is not currently stacked.
+
+Line 12 declares a recursive procedure for performing a depth-first search starting from vertex $u$ in graph $G$.
+
+The procedure starts by pushing the vertex $u$ on the stack $S$ (line 14) and updating the value in the $stacked$ array (line 15) to reflect the change. Line 16 sets the vertex's $v$ value for $low$ to $pre$ \textbf{XXX} in line 16 to 17. Line 18 declares an integer $min$ that has an initial value \textbf{XXX}.
+
+Lines 19 to 21 loop through every vertex $v$ that is a neighbour of vertex $u$. The procedure $N(u, G)$ on line 19 returns a list of neighbouring vertices of a given vertex, not including the given vertex. If the discovered neighbour $v$ is not currently on the stack $S$, then we proceed to make a recursive call to the depth-first search function on the found vertex.
+
+After the recursive call finishes processing the sub-tree of the neighbouring vertex $v$, $min$ gets updated on line 21 to store the topmost reachable vertex that could be the same, or even higher in the tree if a higher back-edge from $v$ was discovered.
+
+Line 22 updates the topmost reachable vertex of vertex $u$ to reflect any changes after processing all the neighbouring vertices.
+
+Line 23 declares an integer $v$ used to store a vertex that for the repeat-until loop in lines 24 to 28. The loop begins by popping vertices out of the stack $s$ on line 25. Each vertex $v$ found on the stack is assigned the current component id. Line 26 assigns the last leaf node of the graph as a topmost reachable vertex of vertex $v$ in order to mark it as already part of a component. The repeat-until loop in line 24 to 28 is runs until finding \textbf{XXX self edge?}.
+
+The depth-first search procedure finishes on line 29 by updating the total number of strongly connected components discovered.
 %\lstset{language=Java}
 
 %\begin{figure}
