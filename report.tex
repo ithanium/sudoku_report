@@ -111,9 +111,9 @@ Teaching constraint programming, need for visualisations
 \noindent Humans and the alldifferent algorithm are smart enough to use this information to their advantage and remove the two values from the domains of the adjacent variables. By using this technique, we can ensure the progress of the algorithm towards a solution, even though we still don’t know which two variables take which two values. It is good to note that although humans may choose a guessing approach to continue towards a solution, the alldifferent algorithm performs no guessing and works only with the information about the current state of the puzzle.
 
 \section{The Alldifferent Constraint}
-Review Regin’s paper and explain how constraint works
+\noindent Review Regin’s paper and explain how constraint works \cite{regin1994filtering}
 
-Example of  its usage and how it works (maybe 5 variables with domains)
+\noindent Example of  its usage and how it works (maybe 5 variables with domains)
 
  
 \chapter{Algorithms for AllDiff}
@@ -122,7 +122,7 @@ Having a maximum matching for our graph, the next step in the alldifferent algor
 
 \noindent // write that we delete S/T nodes and corresponding edges
 
-\noindent Ford Fulkerson's algorithm for finding a maximum flow in a graph is shown in algorithm \ref{FordFulkersonPC}. The $Ford Fulkerson$ procedure on line 1 takes a graph $G$ as an argument and represents the start of the algorithm. The graph passed as an argument holds information about the capacity of each edge. Line 3 stores the capacity of the graph $G$ in a global two-dimensional integer array. The capacity of an edge between vertices $u$, $v$ can be found out in $capacity[u][v]$. Line 4 declares an integer $n$ used to store the number of vertices in the given graph. Lines 5 and 6 declare two integers called $source$ and $sink$ representing the first and the last vertices in the given graph.
+\noindent Ford Fulkerson's algorithm for finding a maximum flow in a graph is shown in algorithm \ref{FordFulkersonPC}. \cite{ford1956maximal}. The $Ford Fulkerson$ procedure on line 1 takes a graph $G$ as an argument and represents the start of the algorithm. The graph passed as an argument holds information about the capacity of each edge. Line 3 stores the capacity of the graph $G$ in a global two-dimensional integer array. The capacity of an edge between vertices $u$, $v$ can be found out in $capacity[u][v]$. Line 4 declares an integer $n$ used to store the number of vertices in the given graph. Lines 5 and 6 declare two integers called $source$ and $sink$ representing the first and the last vertices in the given graph.
 
 \noindent In line 7 we declare a vertex-indexed array $pred$ that is used to store references to the previous vertex discovered in the breadth-first search tree. Line 8 declares a vertex-indexed array $visited$ used to keep track if a vertex has already been visited in the breadth-first search procedure. Line 9 declares a queue of integers $Q$ used to store \textbf{XXX}.
 
@@ -229,7 +229,6 @@ Now that all the edges from the graph are directed, the next step in the alldiff
 \cite{tarjan1972depth}
 
 
-
 \noindent Tarjan's algorithm for finding strongly connected components is shown in algorithm \ref{TarjanPC}. The $Tarjan$ proceduce in line 1 takes a Graph $G$ as an argument and represents the start of the algorithm. The global integer $pre$ declared in line 3 is used to store \textbf{XXX}. The integer $components$ in line 4 keeps track of how many components were identified in the given graph. The integer $n$ in line 5 represents the number of vertices in the given graph.
 
 \noindent In line 6 we introduce a Stack data structure that will hold all the vertices that are part of the same strongly connected component. Line 7 contains a declaration for the $stacked$ vertex-indexed array of booleans used to keep track if a vertex is present or not on the stack $S$.
@@ -301,9 +300,9 @@ Now that all the edges from the graph are directed, the next step in the alldiff
 \end{algorithm}
 
 \chapter{AllDiff Demo}
-implementation and usage
+\noindent implementation and usage
 
-Explain how demo is used, what it shows, etc (NOT implementation)
+\noindent Explain how demo is used, what it shows, etc (NOT implementation)
 
  
 \chapter{Implementation}
@@ -358,7 +357,7 @@ This will open the application loaded with the hard Sudoku problem $/herald20061
 
 The following sequence of steps will provide a visual proof of the all-different algorithm. The following figures capture the user running the all-different algorithm on 5 predetermined rows, columns or 3x3 sub-grids. For demonstration purposes, the Sudoku instance used is $lockedset.txt$.
 
-The sequence is as follows:
+\noindent The sequence is as follows:
 \begin{verbatim}
       > Open lockedset.txt Sudoku instance
       >
@@ -383,7 +382,7 @@ The sequence is as follows:
       > Unselect
 \end{verbatim}
 
-Alternatively, the user can press the $Show Demo$ button to run the same steps.
+\noindent Alternatively, the user can press the $Show Demo$ button to run the same steps.
 
 \begin{figure}[h]
 \hfill
@@ -423,9 +422,9 @@ Alternatively, the user can press the $Show Demo$ button to run the same steps.
 \label{fig:proof_6}
 \end{figure}
 
-As seen in ~\Cref{fig:proof_1_5}, the all-different algorithm performs changes only to the selected 9 cells  inside a row, column or 3x3 sub-grid. 
+\noindent As seen in ~\Cref{fig:proof_1_5}, the all-different algorithm performs changes only to the selected 9 cells  inside a row, column or 3x3 sub-grid. 
 
-The end result of following the above steps can be seen in ~\Cref{fig:proof_6}. This state mimics the human thinking when solving a Sudoku. In the 1st column there are two cells with a domain of ${1, 8}$, but we don't know yet which cell will take which digit. What we do know though, is that the digits ${1, 8}$ will be distributed in that two particular cells, therefore in the last step, after running the all-different algorithm on the 1st column we can observe that the digits ${1, 8}$ disappear from the domains of the rest of the cells in the selection.
+\noindent The end result of following the above steps can be seen in ~\Cref{fig:proof_6}. This state mimics the human thinking when solving a Sudoku. In the 1st column there are two cells with a domain of ${1, 8}$, but we don't know yet which cell will take which digit. What we do know though, is that the digits ${1, 8}$ will be distributed in that two particular cells, therefore in the last step, after running the all-different algorithm on the 1st column we can observe that the digits ${1, 8}$ disappear from the domains of the rest of the cells in the selection.
 
 \end{appendices}
 
