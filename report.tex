@@ -12,6 +12,8 @@
 
 \usepackage{cleveref}
 
+\usepackage{pstricks, pst-node}
+
 \setcounter{tocdepth}{3}
 \usepackage{graphicx}
 \usepackage{algorithmic}
@@ -76,6 +78,50 @@
 
 \begin{abstract}
 Sudoku is a popular puzzle played all over the world. It consists of filling in a 9x9 grid such that every row, column and 3x3 sub-grids have different digits from 1 to 9. Solving the puzzle will make use of the all-different algorithm from Constraint Programming for which an implementation will be provided. Finally, the program will animate all the steps done by the algorithm.
+
+\begin{figure}
+\begin{center}
+%\btab{c}
+
+\psset{colsep=3cm,rowsep=1cm, arrows=->, arrowsize=9pt, labelsep=3pt}
+\begin{psmatrix}
+&[mnode=circle]2&[mnode=circle]4 \\
+&[mnode=circle]2&[mnode=circle]4 \\
+[mnode=circle]S&[mnode=circle]7&[mnode=circle]8&[mnode=circle]T\\
+&[mnode=circle]3&[mnode=circle]5 \\
+&[mnode=circle]3&[mnode=circle]5 \\
+[mnode=none]&L&R
+
+\ncline[linewidth=1.5pt]{3,1}{1,2}\mput*{1}
+\ncline{3,1}{2,2}\mput*{1}
+\ncline{3,1}{3,2}\mput*{1}
+\ncline{3,1}{4,2}\mput*{1}
+\ncline{3,1}{5,2}\mput*{1}
+
+\ncline{1,2}{1,3}\mput*{1}
+\ncline{1,2}{2,3}\mput*{1}
+\ncline{2,2}{1,3}\mput*{1}
+\ncline{3,2}{2,3}\mput*{1}
+\ncline{3,2}{3,3}\mput*{1}
+\ncline{4,2}{3,3}\mput*{1}
+\ncline{4,2}{4,3}\mput*{1}
+\ncline{4,2}{5,3}\mput*{1}
+\ncline{5,2}{5,3}\mput*{1}
+
+\ncline{1,3}{3,4}\mput*{1}
+\ncline{2,3}{3,4}\mput*{1}
+\ncline{3,3}{3,4}\mput*{1}
+\ncline{4,3}{3,4}\mput*{1}
+\ncline{5,3}{3,4}\mput*{1}
+\end{psmatrix}
+
+%\etab
+\label{GexFlow}
+
+\end{center}
+\caption{A network}
+\end{figure}
+
 \end{abstract}
 
 \educationalconsent
