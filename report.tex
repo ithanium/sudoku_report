@@ -77,42 +77,75 @@
 \maketitle
 
 \begin{abstract}
+
+\begin{figure}
+\begin{center}
+%\btab{c}
+
+\psset{colsep=3cm,rowsep=1cm}
+\begin{psmatrix}
+[mnode=circle]a&1 \\
+b&2 \\
+c&3 \\
+d&4 \\
+e&5 \\
+[mnode=none]L&[mnode=none]R 
+
+\ncline[linewidth=2pt]{1,1}{1,2}% a > 1
+\ncline{1,1}{2,2}% a > 2
+\ncline{1,2}{2,1}% b > 1
+\ncline{3,1}{2,2}  % c > 2
+\ncline[linewidth=2pt]{3,1}{3,2} % c > 3
+\ncline{4,1}{3,2} % d > 3
+\ncline[linewidth=2pt]{4,1}{4,2}  % d > 4
+\ncline{4,1}{5,2} % d > 5
+\ncline[linewidth=2pt]{5,2}{5,1} % e > 5
+
+\end{psmatrix}
+
+%\etab
+\label{GexFlow0}
+
+\end{center}
+\caption{A network}
+\end{figure}
+
 Sudoku is a popular puzzle played all over the world. It consists of filling in a 9x9 grid such that every row, column and 3x3 sub-grids have different digits from 1 to 9. Solving the puzzle will make use of the all-different algorithm from Constraint Programming for which an implementation will be provided. Finally, the program will animate all the steps done by the algorithm.
 
 \begin{figure}
 \begin{center}
 %\btab{c}
 
-\psset{colsep=3cm,rowsep=1cm, arrows=->, arrowsize=9pt, labelsep=3pt}
+\psset{colsep=3cm,rowsep=1cm, arrows=->, arrowsize=6pt, arrowinset=0, labelsep=3pt}
 \begin{psmatrix}
-&[mnode=circle]2&[mnode=circle]4 \\
-&[mnode=circle]2&[mnode=circle]4 \\
-[mnode=circle]S&[mnode=circle]7&[mnode=circle]8&[mnode=circle]T\\
-&[mnode=circle]3&[mnode=circle]5 \\
-&[mnode=circle]3&[mnode=circle]5 \\
+&[mnode=circle]a&[mnode=circle]1 \\
+&[mnode=circle]b&[mnode=circle]2 \\
+[mnode=circle]S&[mnode=circle]c&[mnode=circle]3&[mnode=circle]T\\
+&[mnode=circle]d&[mnode=circle]4 \\
+&[mnode=circle]e&[mnode=circle]5 \\
 [mnode=none]&L&R
 
-\ncline[linewidth=1.5pt]{3,1}{1,2}\mput*{1}
-\ncline{3,1}{2,2}\mput*{1}
-\ncline{3,1}{3,2}\mput*{1}
-\ncline{3,1}{4,2}\mput*{1}
-\ncline{3,1}{5,2}\mput*{1}
+\ncline[linewidth=1.5pt, linecolor=blue]{3,1}{1,2}\mput*{1}
+\ncline[linecolor=blue]{3,1}{2,2}\mput*{1}
+\ncline[linecolor=blue]{3,1}{3,2}\mput*{1}
+\ncline[linecolor=blue]{3,1}{4,2}\mput*{1}
+\ncline[linecolor=blue]{3,1}{5,2}\mput*{1}
 
-\ncline{1,2}{1,3}\mput*{1}
-\ncline{1,2}{2,3}\mput*{1}
-\ncline{2,2}{1,3}\mput*{1}
-\ncline{3,2}{2,3}\mput*{1}
-\ncline{3,2}{3,3}\mput*{1}
-\ncline{4,2}{3,3}\mput*{1}
-\ncline{4,2}{4,3}\mput*{1}
-\ncline{4,2}{5,3}\mput*{1}
-\ncline{5,2}{5,3}\mput*{1}
+\ncline{1,2}{1,3}\mput*{1} % a > 1
+\ncline{1,2}{2,3}\mput*{1} % a > 2
+\ncline{2,2}{1,3}\mput*{1} % b > 1
+\ncline{3,2}{2,3}\mput*{1} % c > 2
+\ncline{3,2}{3,3}\mput*{1} % c > 3
+\ncline{4,2}{3,3}\mput*{1} % d > 3
+\ncline{4,2}{4,3}\mput*{1} % d > 4
+\ncline{4,2}{5,3}\mput*{1} % d > 5
+\ncline{5,2}{5,3}\mput*{1} % e > 5
 
-\ncline{1,3}{3,4}\mput*{1}
-\ncline{2,3}{3,4}\mput*{1}
-\ncline{3,3}{3,4}\mput*{1}
-\ncline{4,3}{3,4}\mput*{1}
-\ncline{5,3}{3,4}\mput*{1}
+\ncline[linecolor=blue]{1,3}{3,4}\mput*{1}
+\ncline[linecolor=blue]{2,3}{3,4}\mput*{1}
+\ncline[linecolor=blue]{3,3}{3,4}\mput*{1}
+\ncline[linecolor=blue]{4,3}{3,4}\mput*{1}
+\ncline[linecolor=blue]{5,3}{3,4}\mput*{1}
 \end{psmatrix}
 
 %\etab
@@ -138,8 +171,174 @@ Sudoku is a popular puzzle played all over the world. It consists of filling in 
 \section{Aims}
 Teaching constraint programming, need for visualisations
 
+\begin{figure}
+\begin{center}
+%\btab{c}
+
+\psset{colsep=3cm,rowsep=1cm, arrows=->, arrowsize=6pt, arrowinset=0, labelsep=3pt}
+\begin{psmatrix}
+&[mnode=circle]a&[mnode=circle]1 \\
+&[mnode=circle]b&[mnode=circle]2 \\
+[mnode=circle]S&[mnode=circle]c&[mnode=circle]3&[mnode=circle]T\\
+&[mnode=circle]d&[mnode=circle]4 \\
+&[mnode=circle]e&[mnode=circle]5 \\
+[mnode=none]&L&R
+
+\ncline[linewidth=2pt, linecolor=red]{1,2}{3,1}\mput*{1} 
+\ncline{3,1}{2,2}\mput*{1}
+\ncline[linewidth=2pt, linecolor=red]{3,2}{3,1}\mput*{1}
+\ncline[linewidth=2pt, linecolor=red]{4,2}{3,1}\mput*{1}
+\ncline[linewidth=2pt, linecolor=red]{5,2}{3,1}\mput*{1}
+
+\ncline[linewidth=2pt, linecolor=red]{1,3}{1,2}\mput*{1} % a > 1
+\ncline{1,2}{2,3}\mput*{1} % a > 2
+\ncline{2,2}{1,3}\mput*{1} % b > 1
+\ncline[linewidth=2pt, linecolor=red]{2,3}{3,2}\mput*{1} % c > 2
+\ncline{3,2}{3,3}\mput*{1} % c > 3
+\ncline[linewidth=2pt, linecolor=red]{3,3}{4,2}\mput*{1} % d > 3
+\ncline{4,2}{4,3}\mput*{1} % d > 4
+\ncline{4,2}{5,3}\mput*{1} % d > 5
+\ncline[linewidth=2pt, linecolor=red]{5,3}{5,2}\mput*{1} % e > 5
+
+\ncline[linewidth=2pt, linecolor=red]{3,4}{1,3}\mput*{1}
+\ncline[linewidth=2pt, linecolor=red]{3,4}{2,3}\mput*{1}
+\ncline[linewidth=2pt, linecolor=red]{3,4}{3,3}\mput*{1}
+\ncline{4,3}{3,4}\mput*{1}
+\ncline[linewidth=2pt, linecolor=red]{3,4}{5,3}\mput*{1}
+\end{psmatrix}
+
+%\etab
+\label{GexFlow2}
+
+\end{center}
+\caption{A network}
+\end{figure}
+
+
+
+
+\begin{figure}
+\begin{center}
+%\btab{c}
+
+\psset{colsep=3cm,rowsep=1cm, arrows=->, arrowsize=6pt, arrowinset=0, labelsep=3pt}
+\begin{psmatrix}
+&[mnode=circle]a&[mnode=circle]1 \\
+&[mnode=circle]b&[mnode=circle]2 \\
+[mnode=circle]S&[mnode=circle]c&[mnode=circle]3&[mnode=circle]T\\
+&[mnode=circle]d&[mnode=circle]4 \\
+&[mnode=circle]e&[mnode=circle]5 \\
+[mnode=none]&L&R
+
+\ncline[linewidth=2pt]{1,2}{3,1}\mput*{1} \\
+\ncline[linewidth=2pt, linecolor=green]{3,1}{2,2}\mput*{1} \\
+\ncline[linewidth=2pt]{3,2}{3,1}\mput*{1} \\
+\ncline[linewidth=2pt]{4,2}{3,1}\mput*{1} \\
+\ncline[linewidth=2pt]{5,2}{3,1}\mput*{1}
+
+\ncline[linewidth=2pt, linecolor=red]{1,3}{1,2}\mput*{1}  \\ % a > 1
+\ncline[linewidth=2pt, linecolor=green]{1,2}{2,3}\mput*{1} \\ % a > 2
+\ncline[linewidth=2pt, linecolor=green]{2,2}{1,3}\mput*{1} \\ % b > 1
+\ncline[linewidth=2pt, linecolor=red]{2,3}{3,2}\mput*{1} \\ % c > 2
+\ncline[linewidth=2pt, linecolor=green]{3,2}{3,3}\mput*{1} \\ % c > 3
+\ncline[linewidth=2pt, linecolor=red]{3,3}{4,2}\mput*{1} \\ % d > 3
+\ncline[linewidth=2pt, linecolor=green]{4,2}{4,3}\mput*{1} \\ % d > 4
+\ncline{4,2}{5,3}\mput*{1} \\ % d > 5
+\ncline[linewidth=2pt]{5,3}{5,2}\mput*{1} % e > 5
+
+\ncline[linewidth=2pt]{3,4}{1,3}\mput*{1} \\
+\ncline[linewidth=2pt]{3,4}{2,3}\mput*{1} \\
+\ncline[linewidth=2pt]{3,4}{3,3}\mput*{1} \\
+\ncline[linewidth=2pt, linecolor=green]{4,3}{3,4}\mput*{1}  \\
+\ncline[linewidth=2pt]{3,4}{5,3}\mput*{1}
+\end{psmatrix}
+
+%\etab
+\label{GexFlow3}
+
+\end{center}
+\caption{A network}
+\end{figure}
 \section{Background}
 
+
+\begin{figure}
+\begin{center}
+%\btab{c}
+
+\psset{colsep=3cm,rowsep=1cm, arrows=->, arrowsize=6pt, arrowinset=0, labelsep=3pt}
+\begin{psmatrix}
+&[mnode=circle]a&[mnode=circle]1 \\
+&[mnode=circle]b&[mnode=circle]2 \\
+[mnode=circle]S&[mnode=circle]c&[mnode=circle]3&[mnode=circle]T\\
+&[mnode=circle]d&[mnode=circle]4 \\
+&[mnode=circle]e&[mnode=circle]5 \\
+[mnode=none]&L&R
+
+\ncline[linewidth=2pt]{1,2}{3,1}\mput*{1} \\
+\ncline[linewidth=2pt]{2,2}{3,1}\mput*{1} \\
+\ncline[linewidth=2pt]{3,2}{3,1}\mput*{1} \\
+\ncline[linewidth=2pt]{4,2}{3,1}\mput*{1} \\
+\ncline[linewidth=2pt]{5,2}{3,1}\mput*{1}
+
+\ncline{1,2}{1,3}\mput*{1}  \\ % a > 1
+\ncline[linewidth=2pt]{2,3}{1,2}\mput*{1} \\ % a > 2
+\ncline[linewidth=2pt]{1,3}{2,2}\mput*{1} \\ % b > 1
+\ncline{3,2}{2,3}\mput*{1} \\ % c > 2
+\ncline[linewidth=2pt]{3,3}{3,2}\mput*{1} \\ % c > 3
+\ncline{4,2}{3,3}\mput*{1} \\ % d > 3
+\ncline[linewidth=2pt]{4,3}{4,2}\mput*{1} \\ % d > 4
+\ncline{4,2}{5,3}\mput*{1} \\ % d > 5
+\ncline[linewidth=2pt]{5,3}{5,2}\mput*{1} % e > 5
+
+\ncline[linewidth=2pt]{3,4}{1,3}\mput*{1} \\
+\ncline[linewidth=2pt]{3,4}{2,3}\mput*{1} \\
+\ncline[linewidth=2pt]{3,4}{3,3}\mput*{1} \\
+\ncline[linewidth=2pt]{3,4}{4,3}\mput*{1}  \\
+\ncline[linewidth=2pt]{3,4}{5,3}\mput*{1}
+\end{psmatrix}
+
+%\etab
+\label{GexFlow4}
+
+\end{center}
+\caption{A network}
+\end{figure}
+
+
+
+
+\begin{figure}
+\begin{center}
+%\btab{c}
+
+\psset{colsep=3cm,rowsep=1cm}
+\begin{psmatrix}
+[mnode=circle]a&1 \\
+b&2 \\
+c&3 \\
+d&4 \\
+e&5 \\
+[mnode=none]L&[mnode=none]R 
+
+\ncline{1,1}{1,2}% a > 1
+\ncline[linewidth=2pt]{1,1}{2,2}% a > 2
+\ncline[linewidth=2pt]{1,2}{2,1}% b > 1
+\ncline{3,1}{2,2}  % c > 2
+\ncline[linewidth=2pt]{3,1}{3,2} % c > 3
+\ncline{4,1}{3,2} % d > 3
+\ncline[linewidth=2pt]{4,1}{4,2}  % d > 4
+\ncline{4,1}{5,2} % d > 5
+\ncline[linewidth=2pt]{5,2}{5,1} % e > 5
+
+\end{psmatrix}
+
+%\etab
+\label{GexFlow5}
+
+\end{center}
+\caption{A network}
+\end{figure}
 \section{Sudoku}
 \noindent Sudoku is a puzzle 
 
