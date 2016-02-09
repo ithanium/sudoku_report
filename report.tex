@@ -315,6 +315,236 @@ e&5 \\
 \end{figure}
 
 \newpage
+\begin{figure}[h]
+%graph21
+\begin{minipage}{8.0cm}
+\centering
+\psset{colsep=6cm, rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, radius=3cm}
+\begin{psmatrix}
+[mnode=circle]A&1 \\
+B&2 \\
+C&3 \\
+D&4 \\
+E&5 \\
+F&6 \\
+G&7 \\
+H&8 \\
+I&9 \\
+[mnode=none]L&[mnode=none]R 
+
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{1,2}{1,1} % a > 1 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{1,1}{8,2} % a > 8
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{2,1}{2,2} % b > 2
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{3,2}{2,1} % b > 3 X
+
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{2,2}{3,1} % c > 2 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{3,1}{3,2} % c > 3
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{4,1}{2,2} % d > 2 
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{4,2}{4,1} % d > 4 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{4,1}{5,2} % d > 5
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{5,1}{4,2} % e > 4 
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{5,1}{5,2} % e > 5
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{6,2}{5,1} % e > 6 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{6,1}{4,2} % f > 4
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{5,2}{6,1} % f > 5 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{6,1}{6,2} % f > 6
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{7,1}{2,2} % g > 2
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{7,2}{7,1} % g > 7 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{7,1}{9,2} % g > 9
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{8,1}{3,2} % h > 3
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{8,1}{7,2} % h > 7
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{8,2}{8,1} % h > 8 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{2,2} % i > 2
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{3,2} % i > 3
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{5,2} % i > 5
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{8,2} % i > 8
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{9,2}{9,1} % i > 9 X
+
+
+\end{psmatrix}
+\caption{Initial graph}
+\label{graph21}
+\end{minipage}
+%graph22
+\hfill
+\begin{minipage}{8.0cm}
+\centering
+\definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
+\definecolor{amber}{rgb}{1.0, 0.75, 0.0}
+\definecolor{babyblue}{rgb}{0.54, 0.81, 0.94}
+\definecolor{americanrose}{rgb}{1.0, 0.01, 0.24}
+%yellow
+
+\psset{colsep=6cm, rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, radius=3cm}
+\begin{psmatrix}
+[mnode=circle][fillstyle=solid,fillcolor=babyblue]A&[fillstyle=solid,fillcolor=americanrose]1 \\
+[fillstyle=solid,fillcolor=amber]B&[fillstyle=solid,fillcolor=amber]2 \\
+[fillstyle=solid,fillcolor=amber]C&[fillstyle=solid,fillcolor=amber]3 \\
+[fillstyle=solid,fillcolor=applegreen]D&[fillstyle=solid,fillcolor=applegreen]4 \\
+[fillstyle=solid,fillcolor=applegreen]E&[fillstyle=solid,fillcolor=applegreen]5 \\
+[fillstyle=solid,fillcolor=applegreen]F&[fillstyle=solid,fillcolor=applegreen]6 \\
+[fillstyle=solid,fillcolor=yellow]G&[fillstyle=solid,fillcolor=yellow]7 \\
+[fillstyle=solid,fillcolor=yellow]H&[fillstyle=solid,fillcolor=yellow]8 \\
+[fillstyle=solid,fillcolor=yellow]I&[fillstyle=solid,fillcolor=yellow]9 \\
+[mnode=none]L&[mnode=none]R 
+
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{1,2}{1,1} % a > 1 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{1,1}{8,2} % a > 8
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{2,1}{2,2} % b > 2
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{3,2}{2,1} % b > 3 X
+
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{2,2}{3,1} % c > 2 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{3,1}{3,2} % c > 3
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{4,1}{2,2} % d > 2 
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{4,2}{4,1} % d > 4 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{4,1}{5,2} % d > 5
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{5,1}{4,2} % e > 4 
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{5,1}{5,2} % e > 5
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{6,2}{5,1} % e > 6 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{6,1}{4,2} % f > 4
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{5,2}{6,1} % f > 5 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{6,1}{6,2} % f > 6
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{7,1}{2,2} % g > 2
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{7,2}{7,1} % g > 7 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{7,1}{9,2} % g > 9
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{8,1}{3,2} % h > 3
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{8,1}{7,2} % h > 7
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{8,2}{8,1} % h > 8 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{2,2} % i > 2
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{3,2} % i > 3
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{5,2} % i > 5
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{8,2} % i > 8
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{9,2}{9,1} % i > 9 X
+
+
+\end{psmatrix}
+\caption{Maximum matching}
+\label{graph22}
+\end{minipage}
+
+\vspace*{1cm}
+
+%graph23
+\begin{minipage}{8.0cm}
+\centering
+\definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
+\definecolor{amber}{rgb}{1.0, 0.75, 0.0}
+\definecolor{babyblue}{rgb}{0.54, 0.81, 0.94}
+\definecolor{americanrose}{rgb}{1.0, 0.01, 0.24}
+%yellow
+
+\psset{colsep=6cm, rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, radius=3cm}
+\begin{psmatrix}
+[mnode=circle][fillstyle=solid,fillcolor=babyblue]A&[fillstyle=solid,fillcolor=americanrose]1 \\
+[fillstyle=solid,fillcolor=amber]B&[fillstyle=solid,fillcolor=amber]2 \\
+[fillstyle=solid,fillcolor=amber]C&[fillstyle=solid,fillcolor=amber]3 \\
+[fillstyle=solid,fillcolor=applegreen]D&[fillstyle=solid,fillcolor=applegreen]4 \\
+[fillstyle=solid,fillcolor=applegreen]E&[fillstyle=solid,fillcolor=applegreen]5 \\
+[fillstyle=solid,fillcolor=applegreen]F&[fillstyle=solid,fillcolor=applegreen]6 \\
+[fillstyle=solid,fillcolor=yellow]G&[fillstyle=solid,fillcolor=yellow]7 \\
+[fillstyle=solid,fillcolor=yellow]H&[fillstyle=solid,fillcolor=yellow]8 \\
+[fillstyle=solid,fillcolor=yellow]I&[fillstyle=solid,fillcolor=yellow]9 \\
+[mnode=none]L&[mnode=none]R 
+
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{1,2}{1,1} % a > 1 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{2,1}{2,2} % b > 2
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{3,2}{2,1} % b > 3 X
+
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{2,2}{3,1} % c > 2 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{3,1}{3,2} % c > 3
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{4,1}{2,2} % d > 2 
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{4,2}{4,1} % d > 4 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{4,1}{5,2} % d > 5
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{5,1}{4,2} % e > 4 
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{5,1}{5,2} % e > 5
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{6,2}{5,1} % e > 6 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{6,1}{4,2} % f > 4
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{5,2}{6,1} % f > 5 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{6,1}{6,2} % f > 6
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{7,1}{2,2} % g > 2
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{7,2}{7,1} % g > 7 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{7,1}{9,2} % g > 9
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{8,1}{3,2} % h > 3
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{8,1}{7,2} % h > 7
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{8,2}{8,1} % h > 8 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{2,2} % i > 2
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{3,2} % i > 3
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{5,2} % i > 5
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{9,1}{8,2} % i > 8
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{9,2}{9,1} % i > 9 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{1,1}{8,2} % a > 8
+
+
+\end{psmatrix}
+\caption{Initial graph}
+\label{graph23}
+\end{minipage}
+%graph24
+\hfill
+\begin{minipage}{8.0cm}
+\centering
+\definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
+\definecolor{amber}{rgb}{1.0, 0.75, 0.0}
+\definecolor{babyblue}{rgb}{0.54, 0.81, 0.94}
+\definecolor{americanrose}{rgb}{1.0, 0.01, 0.24}
+%yellow
+
+\psset{colsep=6cm, rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, radius=3cm}
+\begin{psmatrix}
+[mnode=circle][fillstyle=solid,fillcolor=babyblue]A&[fillstyle=solid,fillcolor=americanrose]1 \\
+[fillstyle=solid,fillcolor=amber]B&[fillstyle=solid,fillcolor=amber]2 \\
+[fillstyle=solid,fillcolor=amber]C&[fillstyle=solid,fillcolor=amber]3 \\
+[fillstyle=solid,fillcolor=applegreen]D&[fillstyle=solid,fillcolor=applegreen]4 \\
+[fillstyle=solid,fillcolor=applegreen]E&[fillstyle=solid,fillcolor=applegreen]5 \\
+[fillstyle=solid,fillcolor=applegreen]F&[fillstyle=solid,fillcolor=applegreen]6 \\
+[fillstyle=solid,fillcolor=yellow]G&[fillstyle=solid,fillcolor=yellow]7 \\
+[fillstyle=solid,fillcolor=yellow]H&[fillstyle=solid,fillcolor=yellow]8 \\
+[fillstyle=solid,fillcolor=yellow]I&[fillstyle=solid,fillcolor=yellow]9 \\
+[mnode=none]L&[mnode=none]R 
+
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=blue]{1,2}{1,1} % a > 1 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{1,1}{8,2} % a > 8
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{4,1}{2,2} % d > 2 
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{7,1}{2,2} % g > 2
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{8,1}{3,2} % h > 3
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{9,1}{2,2} % i > 2
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{9,1}{3,2} % i > 3
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{9,1}{5,2} % i > 5
+
+\end{psmatrix}
+\caption{Maximum matching}
+\label{graph24}
+\end{minipage}
+\caption{Ford–Fulkerson algorithm}
+\label{fig:ff_1_6}
+\end{figure}
+\newpage
 \section{Background}
 
 \section{Sudoku}
