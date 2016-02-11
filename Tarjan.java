@@ -24,7 +24,7 @@ public class Tarjan {
 	for (int v = 0; v < n; v++) {
             if(!stacked[v]){
 		//System.out.println("DFS from MAIN " + v);
-		System.out.println("DFS from MAIN " + (v+1));
+		System.out.println("DFS from MAIN " + (v+1) + " (low " + (low[v]+1)  + ")");
 		dfs(v);
 	    }
         }
@@ -38,6 +38,14 @@ public class Tarjan {
 	int min = low[u];
 	
 	S.push(u);
+	System.out.println("PRE " + (pre) + " gets assigned as low");
+	System.out.print("\tPUSHED " + (u+1) + " (low " + (low[u]+1)  + ")" + " on the stack, now S: [");
+
+	for(int i=0; i<S.size(); i++){
+	    System.out.print((S.get(i) + 1) + ", ");
+	}
+	System.out.print("]");
+	System.out.println();
 	
 	for(int i=0; i<A[u].length; i++){
 	    int w = A[u][i];
@@ -45,7 +53,7 @@ public class Tarjan {
 	    if(w == 1 && u!=i){
 		if(!stacked[i]){
 		    //System.out.println("DFS from " + u + " to " + i);
-		    System.out.println("DFS from " + (u+1) + " to " + (i+1));
+		    System.out.println("DFS from " + (u+1) + " (low " + (low[u]+1)  + ")" + " to " + (i+1) + " (low " + (low[i]+1)  + ")");
 		    dfs(i);
 		}
 		
@@ -56,9 +64,12 @@ public class Tarjan {
 	}
 
 	if(min < low[u]){
+	    System.out.print("\tLow for " + (u+1) + " got updated from " + (low[u]+1) + " to ");
 	    low[u] = min;
+	    System.out.print(low[u] + 1);
+	    System.out.println();
 	    //System.out.println("RETURN FROM " + u);
-	    System.out.println("RETURN FROM " + (u+1));
+	    System.out.println("RETURN FROM " + (u+1) + " (low " + (low[u]+1) + ")");
 	    return;
 	}
 	
@@ -66,8 +77,14 @@ public class Tarjan {
 	
 	do{
 	    w = S.pop();
-
-	    System.out.println("Add " + (w+1) + " to SCC");
+	    System.out.print("\tPOP " + (w+1) + " (low " + (low[w]+1)  + ")" + " from the stack, now S: [");
+	    for(int i=0; i<S.size(); i++){
+		System.out.print((S.get(i) + 1) + ", ");
+	    }
+	    System.out.print("]");
+	    System.out.println();
+	    
+	    System.out.println("\tAdd " + (w+1) + " to SCC (low from now on " + (n+1)  + ")");
 	    
 	    id[w] = count;
 	    low[w] = n;
@@ -80,8 +97,6 @@ public class Tarjan {
     }
 
     public static void main(String[] args){
-	System.out.println("Hello Tarjan");
-
 	int[][] a = new int[18][18];
 
 	for (int i = 0; i < 18; i++) {
@@ -123,7 +138,7 @@ public class Tarjan {
 	System.out.println("count:" + t.count);
 	
 	for (int i = 0; i < 18; i++) {
-	    System.out.println(i + ":" + t.id[i]);
+	    System.out.println((i+1) + " is in component " + t.id[i]);
 	}
     }
 }
