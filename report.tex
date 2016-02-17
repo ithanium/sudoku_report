@@ -93,8 +93,46 @@ Sudoku is a popular puzzle played all over the world. It consists of filling in 
 \section{Aims}
 Teaching constraint programming, need for visualisations
 
-\newpage
-\begin{figure}[h]
+\section{Background}
+
+\section{Sudoku}
+\noindent Sudoku is a puzzle 
+
+\section{Constraint Programming}
+\noindent Every Constraint Satisfaction Problem (CSP) has variables with domains and constraints associated to them. To start solving Sudoku puzzles, we have to come up with a model representation of the problem. For the purpose of this exercise, there will be 81 variables representing the 9x9 cells in the Sudoku grid, each with an initial domain of integers from 1 to 9. As all the initial puzzles start with a partially completed grid, values that are known will be reflected as variables with an initial domain of one digit, the known value. Such variables will therefore keep their initial domain throughout the algorithm, as no other values are present in their domain.
+
+\noindent The constraints for a Sudoku puzzle can be expressed in natural language as such: “digits may not appear twice in the same row, column or 3x3 subregions”. The rules of the puzzle highlight the need of thinking in terms of 9 rows, 9 columns and 9 subregions, each of them having digits from 1 to 9 with no repetition. We can create 36 not equals constraints between the 9 variables of each row, column, subregions times 27 such regions for a total of 972 constraints between two variables. This would be highly inefficient, hence the need for a better approach. A better approach is to use 27 all-different constraints, one for each row, column and subregions. Each constraint contains 9 variables that should take different values. As each variable is part of a row, column and subregion at the same time, it will therefore be involved in 3 constraints.
+
+\noindent Initial puzzles are always partially completed with enough values that by the end of the game there will be a single unique solution to the puzzle. 
+
+\noindent We get to the solution by running the alldifferent algorithm on rows, columns and subregions to remove values from the domain of the variables. Initially, the known values given at the start of the puzzle will be removed from the domains of possible values in the variables that are part of the same row, column or subregion. As the algorithm progresses, we will eventually remove enough values from the domain of a variable until we are left with a single value that represents the correct answer for that position. Once a value is found, there is a waterfall-like effect across the puzzle as we propagate the knowledge across the grid. The propagation takes place across all the variables that are in the same row, column and subregion with the one just solved. This will keep the 3 constraints in a consistent state, as all the variables will have valid remaining domains not containing any already solved values.
+
+\noindent The algorithm is intelligent in a sense that it mimics the thinking of humans when solving a Sudoku puzzle. At some stages of the game we have enough information to know that two particular values will fill two cells, but no information about which value corresponds to which cell. This problem is what makes some Sudoku puzzles so hard to solve.
+
+\noindent Humans and the alldifferent algorithm are smart enough to use this information to their advantage and remove the two values from the domains of the adjacent variables. By using this technique, we can ensure the progress of the algorithm towards a solution, even though we still don’t know which two variables take which two values. It is good to note that although humans may choose a guessing approach to continue towards a solution, the alldifferent algorithm performs no guessing and works only with the information about the current state of the puzzle.
+
+\section{The Alldifferent Constraint}
+\noindent Review Regin’s paper and explain how constraint works \cite{regin1994filtering}
+
+\noindent Example of  its usage and how it works (maybe 5 variables with domains)
+
+ 
+\chapter{Algorithms for AllDiff}
+\section{Ford Fulkerson}
+\noindent A flow represents a directed graph with special nodes called the source and the sink. Source nodes have outgoing edges to inner nodes, while sink nodes have incoming edges from inner nodes of the graph. The problem requires sending flows, for example water through a pipe, from the source to the sink, while conserving the equilibrium.
+
+\noindent Flows need to get from the source to the sink by following the directed edges that often have different maximum capacity constraints, such as the diameter of a water pipe. Given a flow $f$ in graph $G$, we build a residual directed graph $G_f$. Forward edges in the graph haven’t reached their maximum capacity, while backward edges reached their upper bound. 
+
+\noindent Ford-Fulkerson algorithm uses the residual graph to achieve a maximum flow in the graph. The algorithm looks for augmenting paths from source $S$ to sink $T$ in a breadth first-search manner. Once a path $p$ is found, we send the weight that will make the bottleneck edge in $p$ fill its maximum capacity. Then, we add (subtract) the weight of each forward (backward) edge in $p$. Forward edges that reach their maximum capacity turn into backward edges. This results in flow $f’$ that has a greater value than before. Berge’s theorem guarantees that once all the augmenting paths have been successively visited in the algorithm, the end result is a maximum flow of the graph \cite{berge1957two}.
+
+\noindent The maximum matching problem is a special case of the maximum flow problem. For the purpose of our example, there will be only one source $S$ that has outgoing edges to the nodes in the left partition $L$ of the bipartite graph and one sink $T$ with incoming edges from the right partition $R$ of the graph. Nodes in $L$ are connected through edges to nodes in $R$. A matching TODO. A maximum matching TODO. To find a maximum matching for a Graph G, we add a source and sink nodes and set all edges to a maximum capacity of one. We then run the Ford-Fulkerson algorithm on the graph, by finding all the augmenting paths from free nodes in $L$ to free nodes in $R$.
+
+
+
+\noindent Having a maximum matching for our graph, the next step in the alldifferent algorithm is to turn the previously undirected graph, into a directed one. The matches resulted from the Ford Fulkerson algorithm are assigned a direction from the 1 to 9 values to the corresponding cells of the Sudoku row. The edges that remain unused in the matching are given a direction from left to right (i.e. from the Sudoku cells of the row to the 1-9 values).
+
+%graphffstart
+\begin{figure}[H]
 %graph1
   %\hfill
   \begin{minipage}{8.5cm}
@@ -312,296 +350,10 @@ e&5 \\
 \caption{Ford–Fulkerson algorithm}
 \label{fig:ff_1_6}
 \end{figure}
-
-\newpage
-\begin{figure}[h]
-%graph21
-\begin{minipage}{8.0cm}
-\centering
-\psset{colsep=6cm, rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, radius=3cm}
-\begin{psmatrix}
-[mnode=circle]1&10 \\
-2&11 \\
-3&12 \\
-4&13 \\
-5&14 \\
-6&15 \\
-7&16 \\
-8&17 \\
-9&18 \\
-[mnode=none]L&[mnode=none]R 
-
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{1,2}{1,1} % a > 1 X
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{1,1}{8,2} % a > 8
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{2,1}{2,2} % b > 2
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{3,2}{2,1} % b > 3 X
-
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{2,2}{3,1} % c > 2 X
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{3,1}{3,2} % c > 3
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{4,1}{2,2} % d > 2 
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{4,2}{4,1} % d > 4 X
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{4,1}{5,2} % d > 5
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{5,1}{4,2} % e > 4 
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{5,1}{5,2} % e > 5
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{6,2}{5,1} % e > 6 X
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{6,1}{4,2} % f > 4
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{5,2}{6,1} % f > 5 X
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{6,1}{6,2} % f > 6
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{7,1}{2,2} % g > 2
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{7,2}{7,1} % g > 7 X
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{7,1}{9,2} % g > 9
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{8,1}{3,2} % h > 3
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{8,1}{7,2} % h > 7
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{8,2}{8,1} % h > 8 X
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{2,2} % i > 2
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{3,2} % i > 3
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{5,2} % i > 5
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{8,2} % i > 8
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{9,2}{9,1} % i > 9 X
-
-
-\end{psmatrix}
-\caption{Initial graph}
-\label{graph21}
-\end{minipage}
-%graph22
-\hfill
-\begin{minipage}{8.0cm}
-\centering
-\definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
-\definecolor{amber}{rgb}{1.0, 0.75, 0.0}
-\definecolor{babyblue}{rgb}{0.54, 0.81, 0.94}
-\definecolor{americanrose}{rgb}{1.0, 0.01, 0.24}
-%yellow
-
-\psset{colsep=6cm, rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, radius=3cm}
-\begin{psmatrix}
-[mnode=circle][fillstyle=solid,fillcolor=babyblue]1&[fillstyle=solid,fillcolor=americanrose]10 \\
-[fillstyle=solid,fillcolor=amber]2&[fillstyle=solid,fillcolor=amber]11 \\
-[fillstyle=solid,fillcolor=amber]3&[fillstyle=solid,fillcolor=amber]12 \\
-[fillstyle=solid,fillcolor=applegreen]4&[fillstyle=solid,fillcolor=applegreen]13 \\
-[fillstyle=solid,fillcolor=applegreen]5&[fillstyle=solid,fillcolor=applegreen]14 \\
-[fillstyle=solid,fillcolor=applegreen]6&[fillstyle=solid,fillcolor=applegreen]15 \\
-[fillstyle=solid,fillcolor=yellow]7&[fillstyle=solid,fillcolor=yellow]16 \\
-[fillstyle=solid,fillcolor=yellow]8&[fillstyle=solid,fillcolor=yellow]17 \\
-[fillstyle=solid,fillcolor=yellow]9&[fillstyle=solid,fillcolor=yellow]18 \\
-[mnode=none]L&[mnode=none]R 
-
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{1,2}{1,1} % a > 1 X
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{1,1}{8,2} % a > 8
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{2,1}{2,2} % b > 2
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{3,2}{2,1} % b > 3 X
-
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{2,2}{3,1} % c > 2 X
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{3,1}{3,2} % c > 3
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{4,1}{2,2} % d > 2 
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{4,2}{4,1} % d > 4 X
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{4,1}{5,2} % d > 5
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{5,1}{4,2} % e > 4 
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{5,1}{5,2} % e > 5
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{6,2}{5,1} % e > 6 X
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{6,1}{4,2} % f > 4
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{5,2}{6,1} % f > 5 X
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{6,1}{6,2} % f > 6
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{7,1}{2,2} % g > 2
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{7,2}{7,1} % g > 7 X
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{7,1}{9,2} % g > 9
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{8,1}{3,2} % h > 3
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{8,1}{7,2} % h > 7
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{8,2}{8,1} % h > 8 X
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{2,2} % i > 2
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{3,2} % i > 3
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{5,2} % i > 5
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{8,2} % i > 8
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{9,2}{9,1} % i > 9 X
-
-
-\end{psmatrix}
-\caption{Maximum matching}
-\label{graph22}
-\end{minipage}
-
-\vspace*{1cm}
-
-%graph23
-\begin{minipage}{8.0cm}
-\centering
-\definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
-\definecolor{amber}{rgb}{1.0, 0.75, 0.0}
-\definecolor{babyblue}{rgb}{0.54, 0.81, 0.94}
-\definecolor{americanrose}{rgb}{1.0, 0.01, 0.24}
-%yellow
-
-\psset{colsep=6cm, rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, radius=3cm}
-\begin{psmatrix}
-[mnode=circle][fillstyle=solid,fillcolor=babyblue]1&[fillstyle=solid,fillcolor=americanrose]10 \\
-[fillstyle=solid,fillcolor=amber]2&[fillstyle=solid,fillcolor=amber]11 \\
-[fillstyle=solid,fillcolor=amber]3&[fillstyle=solid,fillcolor=amber]12 \\
-[fillstyle=solid,fillcolor=applegreen]4&[fillstyle=solid,fillcolor=applegreen]13 \\
-[fillstyle=solid,fillcolor=applegreen]5&[fillstyle=solid,fillcolor=applegreen]14 \\
-[fillstyle=solid,fillcolor=applegreen]6&[fillstyle=solid,fillcolor=applegreen]15 \\
-[fillstyle=solid,fillcolor=yellow]7&[fillstyle=solid,fillcolor=yellow]16 \\
-[fillstyle=solid,fillcolor=yellow]8&[fillstyle=solid,fillcolor=yellow]17 \\
-[fillstyle=solid,fillcolor=yellow]9&[fillstyle=solid,fillcolor=yellow]18 \\
-[mnode=none]L&[mnode=none]R 
-
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{1,2}{1,1} % a > 1 X
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{2,1}{2,2} % b > 2
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{3,2}{2,1} % b > 3 X
-
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{2,2}{3,1} % c > 2 X
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{3,1}{3,2} % c > 3
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{4,1}{2,2} % d > 2 
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{4,2}{4,1} % d > 4 X
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{4,1}{5,2} % d > 5
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{5,1}{4,2} % e > 4 
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{5,1}{5,2} % e > 5
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{6,2}{5,1} % e > 6 X
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{6,1}{4,2} % f > 4
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{5,2}{6,1} % f > 5 X
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{6,1}{6,2} % f > 6
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{7,1}{2,2} % g > 2
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{7,2}{7,1} % g > 7 X
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{7,1}{9,2} % g > 9
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{8,1}{3,2} % h > 3
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{8,1}{7,2} % h > 7
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{8,2}{8,1} % h > 8 X
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{2,2} % i > 2
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{3,2} % i > 3
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{5,2} % i > 5
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{9,1}{8,2} % i > 8
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{9,2}{9,1} % i > 9 X
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{1,1}{8,2} % a > 8
-
-
-\end{psmatrix}
-\caption{Initial graph}
-\label{graph23}
-\end{minipage}
-%graph24
-\hfill
-\begin{minipage}{8.0cm}
-\centering
-\definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
-\definecolor{amber}{rgb}{1.0, 0.75, 0.0}
-\definecolor{babyblue}{rgb}{0.54, 0.81, 0.94}
-\definecolor{americanrose}{rgb}{1.0, 0.01, 0.24}
-%yellow
-
-\psset{colsep=6cm, rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, radius=3cm}
-\begin{psmatrix}
-[mnode=circle][fillstyle=solid,fillcolor=babyblue]1&[fillstyle=solid,fillcolor=americanrose]10 \\
-[fillstyle=solid,fillcolor=amber]2&[fillstyle=solid,fillcolor=amber]11 \\
-[fillstyle=solid,fillcolor=amber]3&[fillstyle=solid,fillcolor=amber]12 \\
-[fillstyle=solid,fillcolor=applegreen]4&[fillstyle=solid,fillcolor=applegreen]13 \\
-[fillstyle=solid,fillcolor=applegreen]5&[fillstyle=solid,fillcolor=applegreen]14 \\
-[fillstyle=solid,fillcolor=applegreen]6&[fillstyle=solid,fillcolor=applegreen]15 \\
-[fillstyle=solid,fillcolor=yellow]7&[fillstyle=solid,fillcolor=yellow]16 \\
-[fillstyle=solid,fillcolor=yellow]8&[fillstyle=solid,fillcolor=yellow]17 \\
-[fillstyle=solid,fillcolor=yellow]9&[fillstyle=solid,fillcolor=yellow]18 \\
-[mnode=none]L&[mnode=none]R 
-
-\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=blue]{1,2}{1,1} % a > 1 X
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{1,1}{8,2} % a > 8
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{4,1}{2,2} % d > 2 
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{7,1}{2,2} % g > 2
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{8,1}{3,2} % h > 3
-
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{9,1}{2,2} % i > 2
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{9,1}{3,2} % i > 3
-\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{9,1}{5,2} % i > 5
-
-\end{psmatrix}
-\caption{Maximum matching}
-\label{graph24}
-\end{minipage}
-\caption{Ford–Fulkerson algorithm}
-\label{fig:ff_1_6}
-\end{figure}
-\newpage
-\section{Background}
-
-\section{Sudoku}
-\noindent Sudoku is a puzzle 
-
-\section{Constraint Programming}
-\noindent Every Constraint Satisfaction Problem (CSP) has variables with domains and constraints associated to them. To start solving Sudoku puzzles, we have to come up with a model representation of the problem. For the purpose of this exercise, there will be 81 variables representing the 9x9 cells in the Sudoku grid, each with an initial domain of integers from 1 to 9. As all the initial puzzles start with a partially completed grid, values that are known will be reflected as variables with an initial domain of one digit, the known value. Such variables will therefore keep their initial domain throughout the algorithm, as no other values are present in their domain.
-
-\noindent The constraints for a Sudoku puzzle can be expressed in natural language as such: “digits may not appear twice in the same row, column or 3x3 subregions”. The rules of the puzzle highlight the need of thinking in terms of 9 rows, 9 columns and 9 subregions, each of them having digits from 1 to 9 with no repetition. We can create 36 not equals constraints between the 9 variables of each row, column, subregions times 27 such regions for a total of 972 constraints between two variables. This would be highly inefficient, hence the need for a better approach. A better approach is to use 27 all-different constraints, one for each row, column and subregions. Each constraint contains 9 variables that should take different values. As each variable is part of a row, column and subregion at the same time, it will therefore be involved in 3 constraints.
-
-\noindent Initial puzzles are always partially completed with enough values that by the end of the game there will be a single unique solution to the puzzle. 
-
-\noindent We get to the solution by running the alldifferent algorithm on rows, columns and subregions to remove values from the domain of the variables. Initially, the known values given at the start of the puzzle will be removed from the domains of possible values in the variables that are part of the same row, column or subregion. As the algorithm progresses, we will eventually remove enough values from the domain of a variable until we are left with a single value that represents the correct answer for that position. Once a value is found, there is a waterfall-like effect across the puzzle as we propagate the knowledge across the grid. The propagation takes place across all the variables that are in the same row, column and subregion with the one just solved. This will keep the 3 constraints in a consistent state, as all the variables will have valid remaining domains not containing any already solved values.
-
-\noindent The algorithm is intelligent in a sense that it mimics the thinking of humans when solving a Sudoku puzzle. At some stages of the game we have enough information to know that two particular values will fill two cells, but no information about which value corresponds to which cell. This problem is what makes some Sudoku puzzles so hard to solve.
-
-\noindent Humans and the alldifferent algorithm are smart enough to use this information to their advantage and remove the two values from the domains of the adjacent variables. By using this technique, we can ensure the progress of the algorithm towards a solution, even though we still don’t know which two variables take which two values. It is good to note that although humans may choose a guessing approach to continue towards a solution, the alldifferent algorithm performs no guessing and works only with the information about the current state of the puzzle.
-
-\section{The Alldifferent Constraint}
-\noindent Review Regin’s paper and explain how constraint works \cite{regin1994filtering}
-
-\noindent Example of  its usage and how it works (maybe 5 variables with domains)
-
- 
-\chapter{Algorithms for AllDiff}
-\section{Ford Fulkerson}
-\noindent A flow represents a directed graph with special nodes called the source and the sink. Source nodes have outgoing edges to inner nodes, while sink nodes have incoming edges from inner nodes of the graph. The problem requires sending flows, for example water through a pipe, from the source to the sink, while conserving the equilibrium.
-
-\noindent Flows need to get from the source to the sink by following the directed edges that often have different maximum capacity constraints, such as the diameter of a water pipe. Given a flow $f$ in graph $G$, we build a residual directed graph $G_f$. Forward edges in the graph haven’t reached their maximum capacity, while backward edges reached their upper bound. 
-
-\noindent Ford-Fulkerson algorithm uses the residual graph to achieve a maximum flow in the graph. The algorithm looks for augmenting paths from source $S$ to sink $T$ in a breadth first-search manner. Once a path $p$ is found, we send the weight that will make the bottleneck edge in $p$ fill its maximum capacity. Then, we add (subtract) the weight of each forward (backward) edge in $p$. Forward edges that reach their maximum capacity turn into backward edges. This results in flow $f’$ that has a greater value than before. Berge’s theorem guarantees that once all the augmenting paths have been successively visited in the algorithm, the end result is a maximum flow of the graph \cite{berge1957two}.
-
-\noindent The maximum matching problem is a special case of the maximum flow problem. For the purpose of our example, there will be only one source $S$ that has outgoing edges to the nodes in the left partition $L$ of the bipartite graph and one sink $T$ with incoming edges from the right partition $R$ of the graph. Nodes in $L$ are connected through edges to nodes in $R$. A matching TODO. A maximum matching TODO. To find a maximum matching for a Graph G, we add a source and sink nodes and set all edges to a maximum capacity of one. We then run the Ford-Fulkerson algorithm on the graph, by finding all the augmenting paths from free nodes in $L$ to free nodes in $R$.
-
-
-
-\noindent Having a maximum matching for our graph, the next step in the alldifferent algorithm is to turn the previously undirected graph, into a directed one. The matches resulted from the Ford Fulkerson algorithm are assigned a direction from the 1 to 9 values to the corresponding cells of the Sudoku row. The edges that remain unused in the matching are given a direction from left to right (i.e. from the Sudoku cells of the row to the 1-9 values).
-
-\noindent // write that we delete S/T nodes and corresponding edges
-
-\noindent Ford Fulkerson's algorithm for finding a maximum flow in a graph is shown in algorithm \ref{FordFulkersonPC}. \cite{ford1956maximal}. The $Ford Fulkerson$ procedure on line 1 takes a graph $G$ as an argument and represents the start of the algorithm. The graph passed as an argument holds information about the capacity of each edge. Line 3 stores the capacity of the graph $G$ in a global two-dimensional integer array. The capacity of an edge between vertices $u$, $v$ can be found out in $capacity[u][v]$. Line 4 declares an integer $n$ used to store the number of vertices in the given graph. Lines 5 and 6 declare two integers called $source$ and $sink$ representing the first and the last vertices in the given graph.
-
-\noindent In line 7 we declare a vertex-indexed array $pred$ that is used to store references to the previous vertex discovered in the breadth-first search tree. Line 8 declares a vertex-indexed array $visited$ used to keep track if a vertex has already been visited in the breadth-first search procedure. Line 9 declares a queue of integers $Q$ used to store \textbf{XXX}.
-
-\noindent The algorithm consists of repeated calls to the breadth-first search procedure (line 10). In line 11, as long as the breadth-first search procedure finds \textbf{shorter augmenting paths?} we call the update procedure to update the capacities of the edges.
-
-\noindent The $breadth-first search$ procedure starts at line 12 and takes a graph $G$ as an argument. In lines 14 to 16, the queue $Q$, $pred$ and $visited$ array are reset to have default values.
-
-\noindent The breadth-first search calls always start from the first vertex, representing the source. This vertex is enqueued on queue $Q$ in line 17 and is marked as visited in line 18.
-
-\noindent Lines 19 to 26 contain a loop performing changes on the queue $Q$ that is used to store an augmenting path. The loop starts on line 20 by dequeuing a vertex from the queue $Q$ and storing it in $v$. Line 21 forces the breadth-first search procedure to return $true$ when we reach the last vertex in the graph, the sink. Lines 22 to 26 contain a loop over \textbf{all the vertices} $w$ in the graph. In line 23 we check to see if the discovered vertex $w$ hasn't been already visited and we consider it if it still has available capacity. Line 24 stores the parent value of $w$ in the augmenting path. Line 25 enqueues the discovered vertex $w$ on the queue $Q$ and marks it as visited in line 26. Finally, the breadth-first search procedure returns $false$ in case \textbf{of no augmenting path found?}.
-
-\noindent The $update$ procedure at line 28 is used to update the capacities in the graph to reflect the found paths. Line 30 declares an integer $f$ used to store the \textbf{difference/delta}. Line 31 declares an integer $v$, initially representing the last vertex in the graph called the sink. Lines 32 to 35 contain a loop that updates the capacities of the edges \textbf{in the augmenting path?}. Line 33 uses the integer $u$ to store a vertex that is the neighbour of vertex $v$ \textbf{in the path}, so that together they make an edge. Lines 34 and 35 updates the flow along the edge from $u$ to $v$ and $v$ to $u$ by the found difference.
-
-\noindent The $minCost$ procedure at line 36 is used to find the minimum cost, in terms of capacity used, from the sink \textbf{to the source?}. Line 38 declares an integer $minCost$ used to represent the current value of the minimum cost, and it has a very large number at the time of its initialization. Line 39 declares an integer variable $v$ used to store vertices. The variable $v$ is initialized as the last vertex in the graph called the sink. Lines 40 to 42 contains a \textbf{loop over the parent vertices} of $v$. Line 41 updates the value of the minCost variable \textbf{to the minimum}. The $minimum$ procedure returns the minimum of two given integers. Line 42 updates the value of integer $v$ to \textbf{its parent}. At the end of the $minCost$ procedure, we return the value of the currently found $minCost$ variable.
+%graphffend
 
 % use \mathit to fix italics spacing
-\begin{algorithm}
+\begin{algorithm}[H]
 \DontPrintSemicolon
 \nl $\textbf{void} ~FordFulkerson(\textbf{Graph}~G)$ \;
 \nl \Begin{
@@ -676,8 +428,162 @@ e&5 \\
 \label{FordFulkersonPC}
 \end{algorithm}
 
-\clearpage
+\noindent Ford Fulkerson's algorithm for finding a maximum flow in a graph is shown in algorithm \ref{FordFulkersonPC}. \cite{ford1956maximal}. The $Ford Fulkerson$ procedure on line 1 takes a graph $G$ as an argument and represents the start of the algorithm. The graph passed as an argument holds information about the capacity of each edge. Line 3 stores the capacity of the graph $G$ in a global two-dimensional integer array. The capacity of an edge between vertices $u$, $v$ can be found out in $capacity[u][v]$. Line 4 declares an integer $n$ used to store the number of vertices in the given graph. Lines 5 and 6 declare two integers called $source$ and $sink$ representing the first and the last vertices in the given graph.
+
+\noindent In line 7 we declare a vertex-indexed array $pred$ that is used to store references to the previous vertex discovered in the breadth-first search tree. Line 8 declares a vertex-indexed array $visited$ used to keep track if a vertex has already been visited in the breadth-first search procedure. Line 9 declares a queue of integers $Q$ used to store \textbf{XXX}.
+
+\noindent The algorithm consists of repeated calls to the breadth-first search procedure (line 10). In line 11, as long as the breadth-first search procedure finds \textbf{shorter augmenting paths?} we call the update procedure to update the capacities of the edges.
+
+\noindent The $breadth-first search$ procedure starts at line 12 and takes a graph $G$ as an argument. In lines 14 to 16, the queue $Q$, $pred$ and $visited$ array are reset to have default values.
+
+\noindent The breadth-first search calls always start from the first vertex, representing the source. This vertex is enqueued on queue $Q$ in line 17 and is marked as visited in line 18.
+
+\noindent Lines 19 to 26 contain a loop performing changes on the queue $Q$ that is used to store an augmenting path. The loop starts on line 20 by dequeuing a vertex from the queue $Q$ and storing it in $v$. Line 21 forces the breadth-first search procedure to return $true$ when we reach the last vertex in the graph, the sink. Lines 22 to 26 contain a loop over \textbf{all the vertices} $w$ in the graph. In line 23 we check to see if the discovered vertex $w$ hasn't been already visited and we consider it if it still has available capacity. Line 24 stores the parent value of $w$ in the augmenting path. Line 25 enqueues the discovered vertex $w$ on the queue $Q$ and marks it as visited in line 26. Finally, the breadth-first search procedure returns $false$ in case \textbf{of no augmenting path found?}.
+
+\noindent The $update$ procedure at line 28 is used to update the capacities in the graph to reflect the found paths. Line 30 declares an integer $f$ used to store the \textbf{difference/delta}. Line 31 declares an integer $v$, initially representing the last vertex in the graph called the sink. Lines 32 to 35 contain a loop that updates the capacities of the edges \textbf{in the augmenting path?}. Line 33 uses the integer $u$ to store a vertex that is the neighbour of vertex $v$ \textbf{in the path}, so that together they make an edge. Lines 34 and 35 updates the flow along the edge from $u$ to $v$ and $v$ to $u$ by the found difference.
+
+\noindent The $minCost$ procedure at line 36 is used to find the minimum cost, in terms of capacity used, from the sink \textbf{to the source?}. Line 38 declares an integer $minCost$ used to represent the current value of the minimum cost, and it has a very large number at the time of its initialization. Line 39 declares an integer variable $v$ used to store vertices. The variable $v$ is initialized as the last vertex in the graph called the sink. Lines 40 to 42 contains a \textbf{loop over the parent vertices} of $v$. Line 41 updates the value of the minCost variable \textbf{to the minimum}. The $minimum$ procedure returns the minimum of two given integers. Line 42 updates the value of integer $v$ to \textbf{its parent}. At the end of the $minCost$ procedure, we return the value of the currently found $minCost$ variable.
+
 \section{Tarjan algorithm}
+Now that all the edges from the graph are directed, the next step in the alldifferent algorithm is to find the strongly connected components of the graph. In order to do this, we introduce now Tarjan’s algorithm for finding strongly connected components  (SCCs) in a given graph G.
+
+\noindent The algorithm starts by visiting every node in the directed graph in a depth first search manner. During the search, nodes are added to a stack in the order they are discovered only if they were not already part of the stack. 
+
+\noindent Backtracking is triggered when we reach a node that is upper compared to our previous node (if(min < low[u])).  We know this by keeping record of the upmost node reachable from node u, including node u itself during each branch of the depth first search. We use low to denote the minimum index representing the upmost node in the branch.
+
+\noindent If the current node is less than the upper node is less than the current index, it means that we have 
+
+\noindent If the upper node is equal to the node we are currently visiting, then the algorithm just found a strongly connected component that contains all nodes on the stack starting from the top of it, until encountering the current node. The nodes are popped out of the stack and a SCC id/index is assigned to it for later use. Once the current node is reached, we increment the count of the SCCs to start filling a new SCC.
+
+\noindent // write that there are no self loops / self edges (u!=i)
+\cite{tarjan1972depth}
+
+\newpage
+
+%graphtstart
+\begin{figure}[H]
+%graph21
+\begin{minipage}{8.0cm}
+\centering
+\psset{colsep=6cm, rowsep=0.3cm, arrows=->, arrowsize=6pt, arrowinset=0, radius=3cm}
+\begin{psmatrix}
+[mnode=circle]1&10 \\
+2&11 \\
+3&12 \\
+4&13 \\
+5&14 \\
+6&15 \\
+7&16 \\
+8&17 \\
+9&18 \\
+[mnode=none]L&[mnode=none]R 
+
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{1,2}{1,1} % a > 1 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{1,1}{8,2} % a > 8
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{2,1}{2,2} % b > 2
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{3,2}{2,1} % b > 3 X
+
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{2,2}{3,1} % c > 2 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{3,1}{3,2} % c > 3
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{4,1}{2,2} % d > 2 
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{4,2}{4,1} % d > 4 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{4,1}{5,2} % d > 5
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{5,1}{4,2} % e > 4 
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{5,1}{5,2} % e > 5
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{6,2}{5,1} % e > 6 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{6,1}{4,2} % f > 4
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{5,2}{6,1} % f > 5 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{6,1}{6,2} % f > 6
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{7,1}{2,2} % g > 2
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{7,2}{7,1} % g > 7 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{7,1}{9,2} % g > 9
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{8,1}{3,2} % h > 3
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{8,1}{7,2} % h > 7
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{8,2}{8,1} % h > 8 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{2,2} % i > 2
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{3,2} % i > 3
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{5,2} % i > 5
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{8,2} % i > 8
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linewidth=2pt]{9,2}{9,1} % i > 9 X
+
+\end{psmatrix}
+\caption{Initial graph}
+\label{graph21}
+\end{minipage}
+%graph22
+\hfill
+\begin{minipage}{8.0cm}
+\centering
+\definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
+\definecolor{amber}{rgb}{1.0, 0.75, 0.0}
+\definecolor{babyblue}{rgb}{0.54, 0.81, 0.94}
+\definecolor{americanrose}{rgb}{1.0, 0.01, 0.24}
+%yellow
+
+\psset{colsep=6cm, rowsep=0.3cm, arrows=->, arrowsize=6pt, arrowinset=0, radius=3cm}
+\begin{psmatrix}
+[mnode=circle][fillstyle=solid,fillcolor=babyblue]1&[fillstyle=solid,fillcolor=americanrose]10 \\
+[fillstyle=solid,fillcolor=amber]2&[fillstyle=solid,fillcolor=amber]11 \\
+[fillstyle=solid,fillcolor=amber]3&[fillstyle=solid,fillcolor=amber]12 \\
+[fillstyle=solid,fillcolor=applegreen]4&[fillstyle=solid,fillcolor=applegreen]13 \\
+[fillstyle=solid,fillcolor=applegreen]5&[fillstyle=solid,fillcolor=applegreen]14 \\
+[fillstyle=solid,fillcolor=applegreen]6&[fillstyle=solid,fillcolor=applegreen]15 \\
+[fillstyle=solid,fillcolor=yellow]7&[fillstyle=solid,fillcolor=yellow]16 \\
+[fillstyle=solid,fillcolor=yellow]8&[fillstyle=solid,fillcolor=yellow]17 \\
+[fillstyle=solid,fillcolor=yellow]9&[fillstyle=solid,fillcolor=yellow]18 \\
+[mnode=none]L&[mnode=none]R 
+
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{1,2}{1,1} % a > 1 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{1,1}{8,2} % a > 8
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{2,1}{2,2} % b > 2
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{3,2}{2,1} % b > 3 X
+
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{2,2}{3,1} % c > 2 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{3,1}{3,2} % c > 3
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{4,1}{2,2} % d > 2 
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{4,2}{4,1} % d > 4 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{4,1}{5,2} % d > 5
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{5,1}{4,2} % e > 4 
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{5,1}{5,2} % e > 5
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{6,2}{5,1} % e > 6 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{6,1}{4,2} % f > 4
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{5,2}{6,1} % f > 5 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{6,1}{6,2} % f > 6
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{7,1}{2,2} % g > 2
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{7,2}{7,1} % g > 7 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{7,1}{9,2} % g > 9
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{8,1}{3,2} % h > 3
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{8,1}{7,2} % h > 7
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{8,2}{8,1} % h > 8 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{2,2} % i > 2
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{3,2} % i > 3
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{5,2} % i > 5
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{8,2} % i > 8
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{9,2}{9,1} % i > 9 X
+
+
+\end{psmatrix}
+\caption{Maximum matching TODO RENAME}
+\label{graph22}
+\end{minipage}
+%\caption{Tarjan's algorithm TODO RENAME}
+\label{fig:ff_1_6} %todo rename
+\end{figure}
+%graphtend
 
 \definecolor{LightCyan}{rgb}{0.88,1,1}
 \definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
@@ -685,7 +591,8 @@ e&5 \\
 \definecolor{babyblue}{rgb}{0.54, 0.81, 0.94}
 \definecolor{americanrose}{rgb}{1.0, 0.01, 0.24}
 
-\begin{table}[ht]
+%tabletstart
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|l|l|l|l|l|}
 \hline
@@ -738,47 +645,14 @@ node & pre & low & stack & new component & color \\
 & & & [] & [10] & \\
 \hline
 \end{tabular}
+\caption{Steps Tarjan's algorithm TODO}
+\label{ttable} %todo rename
 \end{table}
+%tabletend
 
-Now that all the edges from the graph are directed, the next step in the alldifferent algorithm is to find the strongly connected components of the graph. In order to do this, we introduce now Tarjan’s algorithm for finding strongly connected components  (SCCs) in a given graph G.
+%\vspace*{1cm}
 
-\noindent The algorithm starts by visiting every node in the directed graph in a depth first search manner. During the search, nodes are added to a stack in the order they are discovered only if they were not already part of the stack. 
-
-\noindent Backtracking is triggered when we reach a node that is upper compared to our previous node (if(min < low[u])).  We know this by keeping record of the upmost node reachable from node u, including node u itself during each branch of the depth first search. We use low to denote the minimum index representing the upmost node in the branch.
-
-\noindent If the current node is less than the upper node is less than the current index, it means that we have 
-
-\noindent If the upper node is equal to the node we are currently visiting, then the algorithm just found a strongly connected component that contains all nodes on the stack starting from the top of it, until encountering the current node. The nodes are popped out of the stack and a SCC id/index is assigned to it for later use. Once the current node is reached, we increment the count of the SCCs to start filling a new SCC.
-
-\noindent // write that there are no self loops / self edges (u!=i)
-\cite{tarjan1972depth}
-
-
-\noindent Tarjan's algorithm for finding strongly connected components is shown in algorithm \ref{TarjanPC}. The $Tarjan$ proceduce in line 1 takes a Graph $G$ as an argument and represents the start of the algorithm. The global integer $pre$ declared in line 3 is used to store \textbf{XXX}. The integer $components$ in line 4 keeps track of how many components were identified in the given graph. The integer $n$ in line 5 represents the number of vertices in the given graph.
-
-\noindent In line 6 we introduce a Stack data structure that will hold all the vertices that are part of the same strongly connected component. Line 7 contains a declaration for the $stacked$ vertex-indexed array of booleans used to keep track if a vertex is present or not on the stack $S$.
-
-\noindent An integer vertex-indexed array $id$ is declared in line 8 to store the id of the strongly connected component of each vertex. Line 9 declares a vertex-indexed array $low$ used to store the topmost reachable vertex in the depth-first search tree through a back edge.
-
-\noindent Lines 10 and 11 contain a for loop that calls a procedure for performing depth first search on every vertex in the given graph that is not currently stacked.
-
-\noindent Line 12 declares a recursive procedure for performing a depth-first search starting from vertex $u$ in graph $G$.
-
-\noindent The procedure starts by pushing the vertex $u$ on the stack $S$ (line 14) and updating the value in the $stacked$ array (line 15) to reflect the change. Line 16 sets the vertex's $v$ value for $low$ to $pre$ \textbf{XXX} in line 16 to 17. Line 18 declares an integer $min$ that has an initial value \textbf{XXX}.
-
-\noindent Lines 19 to 21 loop through every vertex $v$ that is a neighbour of vertex $u$. The procedure $N(u, G)$ on line 19 returns a list of neighbouring vertices of a given vertex, not including the given vertex. If the discovered neighbour $v$ is not currently on the stack $S$, then we proceed to make a recursive call to the depth-first search function on the found vertex.
-
-\noindent After the recursive call finishes processing the sub-tree of the neighbouring vertex $v$, $min$ gets updated on line 21 to store the topmost reachable vertex that could be the same, or even higher in the tree if a higher back-edge from $v$ was discovered.
-
-\noindent Line 22 updates the topmost reachable vertex of vertex $u$ to reflect any changes after processing all the neighbouring vertices.
-
-\noindent Line 23 declares an integer $v$ used to store a vertex that for the repeat-until loop in lines 24 to 28. The loop begins by popping vertices out of the stack $s$ on line 25. Each vertex $v$ found on the stack is assigned the current component id. Line 26 assigns the last leaf node of the graph as a topmost reachable vertex of vertex $v$ in order to mark it as already part of a component. The repeat-until loop in line 24 to 28 is runs until finding \textbf{XXX self edge?}.
-
-\noindent The depth-first search procedure finishes on line 29 by updating the total number of strongly connected components discovered.
-
-\clearpage
-
-\begin{algorithm}
+\begin{algorithm}[H]
 \DontPrintSemicolon
 \nl $\textbf{void} ~\mathit{Tarjan}(\textbf{Graph}~G)$ \;
 \nl \Begin{
@@ -824,6 +698,138 @@ Now that all the edges from the graph are directed, the next step in the alldiff
 \label{TarjanPC}
 \end{algorithm}
 
+\noindent Tarjan's algorithm for finding strongly connected components is shown in algorithm \ref{TarjanPC}. The $Tarjan$ proceduce in line 1 takes a Graph $G$ as an argument and represents the start of the algorithm. The global integer $pre$ declared in line 3 is used to store \textbf{XXX}. The integer $components$ in line 4 keeps track of how many components were identified in the given graph. The integer $n$ in line 5 represents the number of vertices in the given graph.
+
+\noindent In line 6 we introduce a Stack data structure that will hold all the vertices that are part of the same strongly connected component. Line 7 contains a declaration for the $stacked$ vertex-indexed array of booleans used to keep track if a vertex is present or not on the stack $S$.
+
+\noindent An integer vertex-indexed array $id$ is declared in line 8 to store the id of the strongly connected component of each vertex. Line 9 declares a vertex-indexed array $low$ used to store the topmost reachable vertex in the depth-first search tree through a back edge.
+
+\noindent Lines 10 and 11 contain a for loop that calls a procedure for performing depth first search on every vertex in the given graph that is not currently stacked.
+
+\noindent Line 12 declares a recursive procedure for performing a depth-first search starting from vertex $u$ in graph $G$.
+
+\noindent The procedure starts by pushing the vertex $u$ on the stack $S$ (line 14) and updating the value in the $stacked$ array (line 15) to reflect the change. Line 16 sets the vertex's $v$ value for $low$ to $pre$ \textbf{XXX} in line 16 to 17. Line 18 declares an integer $min$ that has an initial value \textbf{XXX}.
+
+\noindent Lines 19 to 21 loop through every vertex $v$ that is a neighbour of vertex $u$. The procedure $N(u, G)$ on line 19 returns a list of neighbouring vertices of a given vertex, not including the given vertex. If the discovered neighbour $v$ is not currently on the stack $S$, then we proceed to make a recursive call to the depth-first search function on the found vertex.
+
+\noindent After the recursive call finishes processing the sub-tree of the neighbouring vertex $v$, $min$ gets updated on line 21 to store the topmost reachable vertex that could be the same, or even higher in the tree if a higher back-edge from $v$ was discovered.
+
+\noindent Line 22 updates the topmost reachable vertex of vertex $u$ to reflect any changes after processing all the neighbouring vertices.
+
+\noindent Line 23 declares an integer $v$ used to store a vertex that for the repeat-until loop in lines 24 to 28. The loop begins by popping vertices out of the stack $s$ on line 25. Each vertex $v$ found on the stack is assigned the current component id. Line 26 assigns the last leaf node of the graph as a topmost reachable vertex of vertex $v$ in order to mark it as already part of a component. The repeat-until loop in line 24 to 28 is runs until finding \textbf{XXX self edge?}.
+
+\noindent The depth-first search procedure finishes on line 29 by updating the total number of strongly connected components discovered.
+
+%grapht2start
+\begin{figure}[H]
+%graph23
+\begin{minipage}{8.0cm}
+\centering
+\definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
+\definecolor{amber}{rgb}{1.0, 0.75, 0.0}
+\definecolor{babyblue}{rgb}{0.54, 0.81, 0.94}
+\definecolor{americanrose}{rgb}{1.0, 0.01, 0.24}
+%yellow
+
+\psset{colsep=6cm, rowsep=0.3cm, arrows=->, arrowsize=6pt, arrowinset=0, radius=3cm}
+\begin{psmatrix}
+[mnode=circle][fillstyle=solid,fillcolor=babyblue]1&[fillstyle=solid,fillcolor=americanrose]10 \\
+[fillstyle=solid,fillcolor=amber]2&[fillstyle=solid,fillcolor=amber]11 \\
+[fillstyle=solid,fillcolor=amber]3&[fillstyle=solid,fillcolor=amber]12 \\
+[fillstyle=solid,fillcolor=applegreen]4&[fillstyle=solid,fillcolor=applegreen]13 \\
+[fillstyle=solid,fillcolor=applegreen]5&[fillstyle=solid,fillcolor=applegreen]14 \\
+[fillstyle=solid,fillcolor=applegreen]6&[fillstyle=solid,fillcolor=applegreen]15 \\
+[fillstyle=solid,fillcolor=yellow]7&[fillstyle=solid,fillcolor=yellow]16 \\
+[fillstyle=solid,fillcolor=yellow]8&[fillstyle=solid,fillcolor=yellow]17 \\
+[fillstyle=solid,fillcolor=yellow]9&[fillstyle=solid,fillcolor=yellow]18 \\
+[mnode=none]L&[mnode=none]R 
+
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{1,2}{1,1} % a > 1 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{2,1}{2,2} % b > 2
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{3,2}{2,1} % b > 3 X
+
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{2,2}{3,1} % c > 2 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{3,1}{3,2} % c > 3
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{4,1}{2,2} % d > 2 
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{4,2}{4,1} % d > 4 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{4,1}{5,2} % d > 5
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{5,1}{4,2} % e > 4 
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{5,1}{5,2} % e > 5
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{6,2}{5,1} % e > 6 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{6,1}{4,2} % f > 4
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{5,2}{6,1} % f > 5 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{6,1}{6,2} % f > 6
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{7,1}{2,2} % g > 2
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{7,2}{7,1} % g > 7 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{7,1}{9,2} % g > 9
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{8,1}{3,2} % h > 3
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{8,1}{7,2} % h > 7
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{8,2}{8,1} % h > 8 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{2,2} % i > 2
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{3,2} % i > 3
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{9,1}{5,2} % i > 5
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{9,1}{8,2} % i > 8
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=lightgray]{9,2}{9,1} % i > 9 X
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt]{1,1}{8,2} % a > 8
+
+
+\end{psmatrix}
+\caption{Initial graph}
+\label{graph23}
+\end{minipage}
+%graph24
+\hfill
+\begin{minipage}{8.0cm}
+\centering
+\definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
+\definecolor{amber}{rgb}{1.0, 0.75, 0.0}
+\definecolor{babyblue}{rgb}{0.54, 0.81, 0.94}
+\definecolor{americanrose}{rgb}{1.0, 0.01, 0.24}
+%yellow
+
+\psset{colsep=6cm, rowsep=0.3cm, arrows=->, arrowsize=6pt, arrowinset=0, radius=3cm}
+\begin{psmatrix}
+[mnode=circle][fillstyle=solid,fillcolor=babyblue]1&[fillstyle=solid,fillcolor=americanrose]10 \\
+[fillstyle=solid,fillcolor=amber]2&[fillstyle=solid,fillcolor=amber]11 \\
+[fillstyle=solid,fillcolor=amber]3&[fillstyle=solid,fillcolor=amber]12 \\
+[fillstyle=solid,fillcolor=applegreen]4&[fillstyle=solid,fillcolor=applegreen]13 \\
+[fillstyle=solid,fillcolor=applegreen]5&[fillstyle=solid,fillcolor=applegreen]14 \\
+[fillstyle=solid,fillcolor=applegreen]6&[fillstyle=solid,fillcolor=applegreen]15 \\
+[fillstyle=solid,fillcolor=yellow]7&[fillstyle=solid,fillcolor=yellow]16 \\
+[fillstyle=solid,fillcolor=yellow]8&[fillstyle=solid,fillcolor=yellow]17 \\
+[fillstyle=solid,fillcolor=yellow]9&[fillstyle=solid,fillcolor=yellow]18 \\
+[mnode=none]L&[mnode=none]R 
+
+\nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=blue]{1,2}{1,1} % a > 1 X
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{1,1}{8,2} % a > 8
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{4,1}{2,2} % d > 2 
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{7,1}{2,2} % g > 2
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{8,1}{3,2} % h > 3
+
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{9,1}{2,2} % i > 2
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{9,1}{3,2} % i > 3
+\nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{9,1}{5,2} % i > 5
+
+\end{psmatrix}
+\caption{Maximum matching}
+\label{graph24}
+\end{minipage}
+\caption{Tarjan's algorithm next steps TODO: rename}
+\label{fig:ff_1_6}
+\end{figure}
+%grapht2end
+
 \chapter{AllDiff Demo}
 \noindent implementation and usage
 
@@ -843,12 +849,6 @@ Now that all the edges from the graph are directed, the next step in the alldiff
 
 \noindent Throughout the application, Timer objects are used to schedule repeated actions such as the fading out of the components or movement of the cells. The model contains a two-dimensional ArrayList of Timer objects that acts as a queue of animations. Timers on the same level start running at the same time until they all finish. Once all the timers on a level finish, the next level in the two-dimensional ArrayList is started, allowing us to queue a movement of a row after all the cells finish fading out.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=13.2cm]{screenshot.png}
-\caption{The state of the program after the all-different algorithm finishes on a row, in this case, the last one.}
-\end{figure}
-
 %\lstset{language=Java}
 
 %\begin{figure}
@@ -860,6 +860,13 @@ Now that all the edges from the graph are directed, the next step in the alldiff
 \label{conclusion}
 We have shown how to implement the all-different constraint.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=13.2cm]{screenshot.png}
+\caption{The state of the program after the all-different algorithm finishes on a row, in this case, the last one.}
+\end{figure}
+
+Move this from here
 %%%%%%%%%%%%%%%%
 %              %
 %  APPENDICES  %
