@@ -1,4 +1,4 @@
-import java.util.Stack;
+import java.util.*;
 
 public class Tarjan {
     int[][] A; // adjacency matrix, will be used only for displaying output
@@ -10,21 +10,46 @@ public class Tarjan {
     boolean[] stacked; // visited?, used in bfs
     
     int[] id, low;
+    static int[] low2, low_index;
 
+    static StringBuilder output = new StringBuilder();
+    static ArrayList<String> row_colors = new ArrayList<String>();
+    
     Tarjan (int[][] A, int n){
 	this.A = A;
 	this.n = n;
 
+	row_colors.add("babyblue");
+	row_colors.add("yellow");
+	row_colors.add("yellow");
+	row_colors.add("amber");
+	row_colors.add("amber");
+	row_colors.add("amber");
+	row_colors.add("amber");
+	row_colors.add("yellow");
+	row_colors.add("yellow");
+	row_colors.add("yellow");
+	row_colors.add("yellow");
+	row_colors.add("applegreen");
+	row_colors.add("applegreen");
+	row_colors.add("applegreen");
+	row_colors.add("applegreen");
+	row_colors.add("applegreen");
+	row_colors.add("applegreen");
+	row_colors.add("americanrose");
+	
 	S = new Stack<Integer>();
 	stacked = new boolean[n];
 	
 	id = new int[n];
 	low = new int[n];
+	low2 = new int[n];
+	low_index = new int[n];
 
 	for (int v = 0; v < n; v++) {
             if(!stacked[v]){
 		//System.out.println("DFS from MAIN " + v);
-		System.out.println("DFS from MAIN " + (v+1) + " (low " + (low[v]+1)  + ")");
+		//System.out.println("DFS from MAIN " + (v+1) + " (low " + (low[v]+1)  + ")");
 		dfs(v);
 	    }
         }
@@ -34,26 +59,30 @@ public class Tarjan {
 	stacked[u] = true;
 
 	low[u] = pre;
+	low2[u] = pre;
 	pre = pre + 1;
+	low_index[pre-1] = u;
 	int min = low[u];
 	
 	S.push(u);
-	System.out.println("PRE " + (pre) + " gets assigned as low");
-	System.out.print("\tPUSHED " + (u+1) + " (low " + (low[u]+1)  + ")" + " on the stack, now S: [");
-
+	//output.append("\\rowcolor{LightCyan}");
+	//output.append("\n");
 	for(int i=0; i<S.size(); i++){
-	    System.out.print((S.get(i) + 1) + ", ");
+	    S.setElementAt((S.get(i) + 1), i);
 	}
-	System.out.print("]");
-	System.out.println();
-	
+	output.append((u+1) + "& " + pre + " & lowZ & " + S + " & & \\cellcolor{blue!25} \\\\");
+	output.append("\n");
+	for(int i=0; i<S.size(); i++){
+	    S.setElementAt((S.get(i) - 1), i);
+	}
+        output.append("\\hline");
+	output.append("\n");
+
 	for(int i=0; i<A[u].length; i++){
 	    int w = A[u][i];
 
 	    if(w == 1 && u!=i){
 		if(!stacked[i]){
-		    //System.out.println("DFS from " + u + " to " + i);
-		    System.out.println("DFS from " + (u+1) + " (low " + (low[u]+1)  + ")" + " to " + (i+1) + " (low " + (low[i]+1)  + ")");
 		    dfs(i);
 		}
 		
@@ -64,36 +93,40 @@ public class Tarjan {
 	}
 
 	if(min < low[u]){
-	    System.out.print("\tLow for " + (u+1) + " got updated from " + (low[u]+1) + " to ");
 	    low[u] = min;
-	    System.out.print(low[u] + 1);
-	    System.out.println();
-	    //System.out.println("RETURN FROM " + u);
-	    System.out.println("RETURN FROM " + (u+1) + " (low " + (low[u]+1) + ")");
+	    low2[u] = min;
+
 	    return;
 	}
 	
 	int w;
+
+	StringBuilder component = new StringBuilder("[");
 	
 	do{
 	    w = S.pop();
-	    System.out.print("\tPOP " + (w+1) + " (low " + (low[w]+1)  + ")" + " from the stack, now S: [");
-	    for(int i=0; i<S.size(); i++){
-		System.out.print((S.get(i) + 1) + ", ");
-	    }
-	    System.out.print("]");
-	    System.out.println();
-	    
-	    System.out.println("\tAdd " + (w+1) + " to SCC (low from now on " + (n+1)  + ")");
-	    
+	    component = component.append("" + (w+1) + ", ");
 	    id[w] = count;
 	    low[w] = n;
 	} while (w != u);
 	
 	count = count + 1;
 
-	System.out.println("Finished SCC " + (count-1) + " from " + (u+1));
-	System.out.println();
+	component.setLength(component.length() - 2);
+	component = component.append("]");
+
+	//output.append("\\rowcolor{LightCyan}");
+	//output.append("\n");
+	for(int i=0; i<S.size(); i++){
+	    S.setElementAt((S.get(i) + 1), i);
+	}
+	output.append("& & & " + S + " & " + component.toString() + " & \\\\");
+	output.append("\n");
+	for(int i=0; i<S.size(); i++){
+	    S.setElementAt((S.get(i) - 1), i);
+	}
+	output.append("\\hline");
+	output.append("\n");
     }
 
     public static void main(String[] args){
@@ -133,12 +166,33 @@ public class Tarjan {
 	a[16][7] = 1;
 	a[17][8] = 1;
 
+	output.append("\\begin{table}[ht]");
+	output.append("\n");
+        output.append("\\centering");
+	output.append("\n");
+        output.append("\\begin{tabular}{|l|l|l|l|l|l|}");
+	output.append("\n");
+        output.append("\\hline");
+	output.append("\n");
+        output.append("node & pre & low & stack & new component & color \\\\");
+	output.append("\n");
+	output.append("\\hline");
+	output.append("\n");
+	
 	Tarjan t = new Tarjan(a, 18);
 
-	System.out.println("count:" + t.count);
+        output.append("\\end{tabular}");
+	output.append("\n");
+	output.append("\\end{table}");
+	output.append("\n");
 	
 	for (int i = 0; i < 18; i++) {
-	    System.out.println((i+1) + " is in component " + t.id[i]);
+	    //output.append((low2[low_index[i]] + 1) + " ");
+	    output = new StringBuilder(output.toString().replaceFirst("lowZ", "" + (low2[low_index[i]] + 1) + ""));
+	    output = new StringBuilder(output.toString().replaceFirst("blue!25", "" + (row_colors.get(i)) + ""));
 	}
+
+	System.out.println(output.toString());
+
     }
 }

@@ -38,8 +38,7 @@
 \Crefmultiformat{figure}{Figs.~#2#1#3}{ and~#2#1#3}{, #2#1#3}{ and~#2#1#3}
 
 \usepackage{listings}
-\usepackage{color}
-
+\usepackage{color, colortbl}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
@@ -571,6 +570,16 @@ e&5 \\
  
 \chapter{Algorithms for AllDiff}
 \section{Ford Fulkerson}
+A flow represents a directed graph with special nodes called the source and the sink. Source nodes have outgoing edges to inner nodes, while sink nodes have incoming edges from inner nodes of the graph. The problem requires sending flows, for example water through a pipe, from the source to the sink, while conserving the equilibrium.
+
+Flows need to get from the source to the sink by following the directed edges that often have different maximum capacity constraints, such as the diameter of a water pipe. Given a flow $f$ in graph $G$, we build a residual directed graph $G_f$. Forward edges in the graph haven’t reached their maximum capacity, while backward edges reached their upper bound. 
+
+Ford-Fulkerson algorithm uses the residual graph to achieve a maximum flow in the graph. The algorithm looks for augmenting paths from source $S$ to sink $T$ in a breadth first-search manner. Once a path $p$ is found, we send the weight that will make the bottleneck edge in $p$ fill its maximum capacity. Then, we add (subtract) the weight of each forward (backward) edge in $p$. Forward edges that reach their maximum capacity turn into backward edges. This results in flow $f’$ that has a greater value than before. Berge’s theorem guarantees that once all the augmenting paths have been successively visited in the algorithm, the end result is a maximum flow of the graph. TODO: CITATION
+
+The maximum matching problem is a special case of the maximum flow problem. For the purpose of our example, there will be only one source $S$ that has outgoing edges to the nodes in the left partition $L$ of the bipartite graph and one sink $T$ with incoming edges from the right partition $R$ of the graph. Nodes in $L$ are connected through edges to nodes in $R$. A matching TODO. A maximum matching TODO. To find a maximum matching for a Graph G, we add a source and sink nodes and set all edges to a maximum capacity of one. We then run the Ford-Fulkerson algorithm on the graph, by finding all the augmenting paths from free nodes in $L$ to free nodes in $R$.
+
+
+
 Having a maximum matching for our graph, the next step in the alldifferent algorithm is to turn the previously undirected graph, into a directed one. The matches resulted from the Ford Fulkerson algorithm are assigned a direction from the 1 to 9 values to the corresponding cells of the Sudoku row. The edges that remain unused in the matching are given a direction from left to right (i.e. from the Sudoku cells of the row to the 1-9 values).
 
 \noindent // write that we delete S/T nodes and corresponding edges
@@ -668,6 +677,68 @@ Having a maximum matching for our graph, the next step in the alldifferent algor
 
 \clearpage
 \section{Tarjan algorithm}
+
+\definecolor{LightCyan}{rgb}{0.88,1,1}
+\definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
+\definecolor{amber}{rgb}{1.0, 0.75, 0.0}
+\definecolor{babyblue}{rgb}{0.54, 0.81, 0.94}
+\definecolor{americanrose}{rgb}{1.0, 0.01, 0.24}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+node & pre & low & stack & new component & color \\
+\hline
+1& 1 & 1 & [1] & & \cellcolor{babyblue} \\
+\hline
+17& 2 & 2 & [1, 17] & & \cellcolor{yellow} \\
+\hline
+8& 3 & 2 & [1, 17, 8] & & \cellcolor{yellow} \\
+\hline
+12& 4 & 4 & [1, 17, 8, 12] & & \cellcolor{amber} \\
+\hline
+2& 5 & 4 & [1, 17, 8, 12, 2] & & \cellcolor{amber} \\
+\hline
+11& 6 & 4 & [1, 17, 8, 12, 2, 11] & & \cellcolor{amber} \\
+\hline
+3& 7 & 4 & [1, 17, 8, 12, 2, 11, 3] & & \cellcolor{amber} \\
+\hline
+& & & [1, 17, 8] & [3, 11, 2, 12] & \\
+\hline
+16& 8 & 2 & [1, 17, 8, 16] & & \cellcolor{yellow} \\
+\hline
+7& 9 & 2 & [1, 17, 8, 16, 7] & & \cellcolor{yellow} \\
+\hline
+18& 10 & 2 & [1, 17, 8, 16, 7, 18] & & \cellcolor{yellow} \\
+\hline
+9& 11 & 2 & [1, 17, 8, 16, 7, 18, 9] & & \cellcolor{yellow} \\
+\hline
+14& 12 & 12 & [1, 17, 8, 16, 7, 18, 9, 14] & & \cellcolor{applegreen} \\
+\hline
+6& 13 & 12 & [1, 17, 8, 16, 7, 18, 9, 14, 6] & & \cellcolor{applegreen} \\
+\hline
+13& 14 & 12 & [1, 17, 8, 16, 7, 18, 9, 14, 6, 13] & & \cellcolor{applegreen} \\
+\hline
+4& 15 & 12 & [1, 17, 8, 16, 7, 18, 9, 14, 6, 13, 4] & & \cellcolor{applegreen} \\
+\hline
+15& 16 & 12 & [1, 17, 8, 16, 7, 18, 9, 14, 6, 13, 4, 15] & & \cellcolor{applegreen} \\
+\hline
+5& 17 & 12 & [1, 17, 8, 16, 7, 18, 9, 14, 6, 13, 4, 15, 5] & & \cellcolor{applegreen} \\
+\hline
+& & & [1, 17, 8, 16, 7, 18, 9] & [5, 15, 4, 13, 6, 14] & \\
+\hline
+& & & [1] & [9, 18, 7, 16, 8, 17] & \\
+\hline
+& & & [] & [1] & \\
+\hline
+10& 18 & 18 & [10] & & \cellcolor{americanrose} \\
+\hline
+& & & [] & [10] & \\
+\hline
+\end{tabular}
+\end{table}
+
 Now that all the edges from the graph are directed, the next step in the alldifferent algorithm is to find the strongly connected components of the graph. In order to do this, we introduce now Tarjan’s algorithm for finding strongly connected components  (SCCs) in a given graph G.
 
 \noindent The algorithm starts by visiting every node in the directed graph in a depth first search manner. During the search, nodes are added to a stack in the order they are discovered only if they were not already part of the stack. 
