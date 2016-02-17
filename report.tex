@@ -97,7 +97,7 @@ Teaching constraint programming, need for visualisations
 \begin{figure}[h]
 %graph1
   %\hfill
-  \begin{minipage}{8.0cm}
+  \begin{minipage}{8.5cm}
     \centering
 \psset{colsep=1.8cm,rowsep=0.5cm}
 \begin{psmatrix}
@@ -124,9 +124,9 @@ e&5 \\
 \end{minipage}
 %graph2
 \hfill
-\begin{minipage}{8.0cm}
+\begin{minipage}{8.5cm}
 \centering
-  \psset{colsep=1.8cm,rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, labelsep=3pt}
+  \psset{colsep=2.0cm,rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, labelsep=3pt}
 \begin{psmatrix}
 &[mnode=circle]a&[mnode=circle]1 \\
 &[mnode=circle]b&[mnode=circle]2 \\
@@ -135,27 +135,27 @@ e&5 \\
 &[mnode=circle]e&[mnode=circle]5 \\
 [mnode=none]&L&R
 
-\ncline[linecolor=blue]{3,1}{1,2}\mput*{1}
-\ncline[linecolor=blue]{3,1}{2,2}\mput*{1}
-\ncline[linecolor=blue]{3,1}{3,2}\mput*{1}
-\ncline[linecolor=blue]{3,1}{4,2}\mput*{1}
-\ncline[linecolor=blue]{3,1}{5,2}\mput*{1}
+\ncline[linecolor=blue]{3,1}{1,2}\mput*{0/1}
+\ncline[linecolor=blue]{3,1}{2,2}\mput*{0/1}
+\ncline[linecolor=blue]{3,1}{3,2}\mput*{0/1}
+\ncline[linecolor=blue]{3,1}{4,2}\mput*{0/1}
+\ncline[linecolor=blue]{3,1}{5,2}\mput*{0/1}
 
-\ncline{1,2}{1,3}\mput*{1} % a > 1
-\ncline{1,2}{2,3}\mput*{1} % a > 2
-\ncline{2,2}{1,3}\mput*{1} % b > 1
-\ncline{3,2}{2,3}\mput*{1} % c > 2
-\ncline{3,2}{3,3}\mput*{1} % c > 3
-\ncline{4,2}{3,3}\mput*{1} % d > 3
-\ncline{4,2}{4,3}\mput*{1} % d > 4
-\ncline{4,2}{5,3}\mput*{1} % d > 5
-\ncline{5,2}{5,3}\mput*{1} % e > 5
+\ncline{1,2}{1,3}\mput*{0/1} % a > 1
+\ncline{1,2}{2,3}\mput*{0/1} % a > 2
+\ncline{2,2}{1,3}\mput*{0/1} % b > 1
+\ncline{3,2}{2,3}\mput*{0/1} % c > 2
+\ncline{3,2}{3,3}\mput*{0/1} % c > 3
+\ncline{4,2}{3,3}\mput*{0/1} % d > 3
+\ncline{4,2}{4,3}\mput*{0/1} % d > 4
+\ncline{4,2}{5,3}\mput*{0/1} % d > 5
+\ncline{5,2}{5,3}\mput*{0/1} % e > 5
 
-\ncline[linecolor=blue]{1,3}{3,4}\mput*{1}
-\ncline[linecolor=blue]{2,3}{3,4}\mput*{1}
-\ncline[linecolor=blue]{3,3}{3,4}\mput*{1}
-\ncline[linecolor=blue]{4,3}{3,4}\mput*{1}
-\ncline[linecolor=blue]{5,3}{3,4}\mput*{1}
+\ncline[linecolor=blue]{1,3}{3,4}\mput*{0/1}
+\ncline[linecolor=blue]{2,3}{3,4}\mput*{0/1}
+\ncline[linecolor=blue]{3,3}{3,4}\mput*{0/1}
+\ncline[linecolor=blue]{4,3}{3,4}\mput*{0/1}
+\ncline[linecolor=blue]{5,3}{3,4}\mput*{0/1}
 \end{psmatrix}
 \caption{S\&T nodes added}
 \label{graph2}
@@ -168,9 +168,9 @@ e&5 \\
 
 %\begin{figure}[h]
 %\hfill
-\begin{minipage}{8.0cm}
+\begin{minipage}{8.5cm}
   \centering
-\psset{colsep=1.8cm,rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, labelsep=3pt}
+\psset{colsep=2.0cm,rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, labelsep=3pt}
 \begin{psmatrix}
 &[mnode=circle]a&[mnode=circle]1 \\
 &[mnode=circle]b&[mnode=circle]2 \\
@@ -179,36 +179,36 @@ e&5 \\
 &[mnode=circle]e&[mnode=circle]5 \\
 [mnode=none]&L&R
 
-\ncline[linewidth=2pt, linecolor=red]{1,2}{3,1}\mput*{1} 
-\ncline{3,1}{2,2}\mput*{1}
-\ncline[linewidth=2pt, linecolor=red]{3,2}{3,1}\mput*{1}
-\ncline[linewidth=2pt, linecolor=red]{4,2}{3,1}\mput*{1}
-\ncline[linewidth=2pt, linecolor=red]{5,2}{3,1}\mput*{1}
+\ncline[linewidth=2pt, linecolor=red]{1,2}{3,1}\mput*{1/1} 
+\ncline{3,1}{2,2}\mput*{0/1}
+\ncline[linewidth=2pt, linecolor=red]{3,2}{3,1}\mput*{1/1}
+\ncline[linewidth=2pt, linecolor=red]{4,2}{3,1}\mput*{1/1}
+\ncline[linewidth=2pt, linecolor=red]{5,2}{3,1}\mput*{1/1}
 
-\ncline[linewidth=2pt, linecolor=red]{1,3}{1,2}\mput*{1} % a > 1
-\ncline{1,2}{2,3}\mput*{1} % a > 2
-\ncline{2,2}{1,3}\mput*{1} % b > 1
-\ncline[linewidth=2pt, linecolor=red]{2,3}{3,2}\mput*{1} % c > 2
-\ncline{3,2}{3,3}\mput*{1} % c > 3
-\ncline[linewidth=2pt, linecolor=red]{3,3}{4,2}\mput*{1} % d > 3
-\ncline{4,2}{4,3}\mput*{1} % d > 4
-\ncline{4,2}{5,3}\mput*{1} % d > 5
-\ncline[linewidth=2pt, linecolor=red]{5,3}{5,2}\mput*{1} % e > 5
+\ncline[linewidth=2pt, linecolor=red]{1,3}{1,2}\mput*{1/1} % a > 1
+\ncline{1,2}{2,3}\mput*{0/1} % a > 2
+\ncline{2,2}{1,3}\mput*{0/1} % b > 1
+\ncline[linewidth=2pt, linecolor=red]{2,3}{3,2}\mput*{1/1} % c > 2
+\ncline{3,2}{3,3}\mput*{0/1} % c > 3
+\ncline[linewidth=2pt, linecolor=red]{3,3}{4,2}\mput*{1/1} % d > 3
+\ncline{4,2}{4,3}\mput*{0/1} % d > 4
+\ncline{4,2}{5,3}\mput*{0/1} % d > 5
+\ncline[linewidth=2pt, linecolor=red]{5,3}{5,2}\mput*{1/1} % e > 5
 
-\ncline[linewidth=2pt, linecolor=red]{3,4}{1,3}\mput*{1}
-\ncline[linewidth=2pt, linecolor=red]{3,4}{2,3}\mput*{1}
-\ncline[linewidth=2pt, linecolor=red]{3,4}{3,3}\mput*{1}
-\ncline{4,3}{3,4}\mput*{1}
-\ncline[linewidth=2pt, linecolor=red]{3,4}{5,3}\mput*{1}
+\ncline[linewidth=2pt, linecolor=red]{3,4}{1,3}\mput*{1/1}
+\ncline[linewidth=2pt, linecolor=red]{3,4}{2,3}\mput*{1/1}
+\ncline[linewidth=2pt, linecolor=red]{3,4}{3,3}\mput*{1/1}
+\ncline{4,3}{3,4}\mput*{0/1}
+\ncline[linewidth=2pt, linecolor=red]{3,4}{5,3}\mput*{1/1}
 \end{psmatrix}
 \caption{Greedy match}
 \label{graph3}
 \end{minipage}
 %graph4
 \hfill
-\begin{minipage}{8.0cm}
+\begin{minipage}{8.5cm}
 \centering
-  \psset{colsep=1.8cm,rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, labelsep=3pt}
+  \psset{colsep=2.0cm,rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, labelsep=3pt}
 \begin{psmatrix}
 &[mnode=circle]a&[mnode=circle]1 \\
 &[mnode=circle]b&[mnode=circle]2 \\
@@ -217,27 +217,27 @@ e&5 \\
 &[mnode=circle]e&[mnode=circle]5 \\
 [mnode=none]&L&R
 
-\ncline[linewidth=2pt]{1,2}{3,1}\mput*{1}
-\ncline[linewidth=2pt, linecolor=green]{3,1}{2,2}\mput*{1}
-\ncline[linewidth=2pt]{3,2}{3,1}\mput*{1}
-\ncline[linewidth=2pt]{4,2}{3,1}\mput*{1}
-\ncline[linewidth=2pt]{5,2}{3,1}\mput*{1}
+\ncline[linewidth=2pt]{1,2}{3,1}\mput*{1/1}
+\ncline[linewidth=2pt, linecolor=green]{3,1}{2,2}\mput*{0/1}
+\ncline[linewidth=2pt]{3,2}{3,1}\mput*{1/1}
+\ncline[linewidth=2pt]{4,2}{3,1}\mput*{1/1}
+\ncline[linewidth=2pt]{5,2}{3,1}\mput*{1/1}
 
-\ncline[linewidth=2pt, linecolor=red]{1,3}{1,2}\mput*{1} % a > 1
-\ncline[linewidth=2pt, linecolor=green]{1,2}{2,3}\mput*{1} % a > 2
-\ncline[linewidth=2pt, linecolor=green]{2,2}{1,3}\mput*{1} % b > 1
-\ncline[linewidth=2pt, linecolor=red]{2,3}{3,2}\mput*{1} % c > 2
-\ncline[linewidth=2pt, linecolor=green]{3,2}{3,3}\mput*{1} % c > 3
-\ncline[linewidth=2pt, linecolor=red]{3,3}{4,2}\mput*{1} % d > 3
-\ncline[linewidth=2pt, linecolor=green]{4,2}{4,3}\mput*{1} % d > 4
-\ncline{4,2}{5,3}\mput*{1} % d > 5
-\ncline[linewidth=2pt]{5,3}{5,2}\mput*{1} % e > 5
+\ncline[linewidth=2pt, linecolor=red]{1,3}{1,2}\mput*{1/1} % a > 1
+\ncline[linewidth=2pt, linecolor=green]{1,2}{2,3}\mput*{0/1} % a > 2
+\ncline[linewidth=2pt, linecolor=green]{2,2}{1,3}\mput*{0/1} % b > 1
+\ncline[linewidth=2pt, linecolor=red]{2,3}{3,2}\mput*{1/1} % c > 2
+\ncline[linewidth=2pt, linecolor=green]{3,2}{3,3}\mput*{0/1} % c > 3
+\ncline[linewidth=2pt, linecolor=red]{3,3}{4,2}\mput*{1/1} % d > 3
+\ncline[linewidth=2pt, linecolor=green]{4,2}{4,3}\mput*{0/1} % d > 4
+\ncline{4,2}{5,3}\mput*{0/1} % d > 5
+\ncline[linewidth=2pt]{5,3}{5,2}\mput*{1/1} % e > 5
 
-\ncline[linewidth=2pt]{3,4}{1,3}\mput*{1}
-\ncline[linewidth=2pt]{3,4}{2,3}\mput*{1}
-\ncline[linewidth=2pt]{3,4}{3,3}\mput*{1}
-\ncline[linewidth=2pt, linecolor=green]{4,3}{3,4}\mput*{1}
-\ncline[linewidth=2pt]{3,4}{5,3}\mput*{1}
+\ncline[linewidth=2pt]{3,4}{1,3}\mput*{1/1}
+\ncline[linewidth=2pt]{3,4}{2,3}\mput*{1/1}
+\ncline[linewidth=2pt]{3,4}{3,3}\mput*{1/1}
+\ncline[linewidth=2pt, linecolor=green]{4,3}{3,4}\mput*{0/1}
+\ncline[linewidth=2pt]{3,4}{5,3}\mput*{1/1}
 \end{psmatrix}
 \caption{Longer augmenting path}
 \label{graph4}
@@ -246,9 +246,9 @@ e&5 \\
 \vspace*{1cm}
 %\null\hfill
 %graph5
-\begin{minipage}{8.0cm}
+\begin{minipage}{8.5cm}
   \centering
-\psset{colsep=1.8cm,rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, labelsep=3pt}
+\psset{colsep=2.0cm,rowsep=0.5cm, arrows=->, arrowsize=6pt, arrowinset=0, labelsep=3pt}
 \begin{psmatrix}
 &[mnode=circle]a&[mnode=circle]1 \\
 &[mnode=circle]b&[mnode=circle]2 \\
@@ -257,36 +257,36 @@ e&5 \\
 &[mnode=circle]e&[mnode=circle]5 \\
 [mnode=none]&L&R
 
-\ncline[linewidth=2pt]{1,2}{3,1}\mput*{1}
-\ncline[linewidth=2pt]{2,2}{3,1}\mput*{1}
-\ncline[linewidth=2pt]{3,2}{3,1}\mput*{1}
-\ncline[linewidth=2pt]{4,2}{3,1}\mput*{1}
-\ncline[linewidth=2pt]{5,2}{3,1}\mput*{1}
+\ncline[linewidth=2pt]{1,2}{3,1}\mput*{1/1}
+\ncline[linewidth=2pt]{2,2}{3,1}\mput*{1/1}
+\ncline[linewidth=2pt]{3,2}{3,1}\mput*{1/1}
+\ncline[linewidth=2pt]{4,2}{3,1}\mput*{1/1}
+\ncline[linewidth=2pt]{5,2}{3,1}\mput*{1/1}
 
-\ncline{1,2}{1,3}\mput*{1} % a > 1
-\ncline[linewidth=2pt]{2,3}{1,2}\mput*{1} % a > 2
-\ncline[linewidth=2pt]{1,3}{2,2}\mput*{1} % b > 1
-\ncline{3,2}{2,3}\mput*{1} % c > 2
-\ncline[linewidth=2pt]{3,3}{3,2}\mput*{1} % c > 3
-\ncline{4,2}{3,3}\mput*{1} % d > 3
-\ncline[linewidth=2pt]{4,3}{4,2}\mput*{1} % d > 4
-\ncline{4,2}{5,3}\mput*{1} % d > 5
-\ncline[linewidth=2pt]{5,3}{5,2}\mput*{1} % e > 5
+\ncline{1,2}{1,3}\mput*{0/1} % a > 1
+\ncline[linewidth=2pt]{2,3}{1,2}\mput*{1/1} % a > 2
+\ncline[linewidth=2pt]{1,3}{2,2}\mput*{1/1} % b > 1
+\ncline{3,2}{2,3}\mput*{0/1} % c > 2
+\ncline[linewidth=2pt]{3,3}{3,2}\mput*{1/1} % c > 3
+\ncline{4,2}{3,3}\mput*{0/1} % d > 3
+\ncline[linewidth=2pt]{4,3}{4,2}\mput*{1/1} % d > 4
+\ncline{4,2}{5,3}\mput*{0/1} % d > 5
+\ncline[linewidth=2pt]{5,3}{5,2}\mput*{1/1} % e > 5
 
-\ncline[linewidth=2pt]{3,4}{1,3}\mput*{1}
-\ncline[linewidth=2pt]{3,4}{2,3}\mput*{1}
-\ncline[linewidth=2pt]{3,4}{3,3}\mput*{1}
-\ncline[linewidth=2pt]{3,4}{4,3}\mput*{1}
-\ncline[linewidth=2pt]{3,4}{5,3}\mput*{1}
+\ncline[linewidth=2pt]{3,4}{1,3}\mput*{1/1}
+\ncline[linewidth=2pt]{3,4}{2,3}\mput*{1/1}
+\ncline[linewidth=2pt]{3,4}{3,3}\mput*{1/1}
+\ncline[linewidth=2pt]{3,4}{4,3}\mput*{1/1}
+\ncline[linewidth=2pt]{3,4}{5,3}\mput*{1/1}
 \end{psmatrix}
 \caption{New matching}
 \label{graph5}
 \end{minipage}
 \hfill
 %graph6
-\begin{minipage}{8.0cm}
+\begin{minipage}{8.5cm}
 \centering
-  \psset{colsep=1.8cm,rowsep=0.5cm}
+  \psset{colsep=2.0cm,rowsep=0.5cm}
 \begin{psmatrix}
 [mnode=circle]a&1 \\
 b&2 \\
@@ -570,17 +570,17 @@ e&5 \\
  
 \chapter{Algorithms for AllDiff}
 \section{Ford Fulkerson}
-A flow represents a directed graph with special nodes called the source and the sink. Source nodes have outgoing edges to inner nodes, while sink nodes have incoming edges from inner nodes of the graph. The problem requires sending flows, for example water through a pipe, from the source to the sink, while conserving the equilibrium.
+\noindent A flow represents a directed graph with special nodes called the source and the sink. Source nodes have outgoing edges to inner nodes, while sink nodes have incoming edges from inner nodes of the graph. The problem requires sending flows, for example water through a pipe, from the source to the sink, while conserving the equilibrium.
 
-Flows need to get from the source to the sink by following the directed edges that often have different maximum capacity constraints, such as the diameter of a water pipe. Given a flow $f$ in graph $G$, we build a residual directed graph $G_f$. Forward edges in the graph haven’t reached their maximum capacity, while backward edges reached their upper bound. 
+\noindent Flows need to get from the source to the sink by following the directed edges that often have different maximum capacity constraints, such as the diameter of a water pipe. Given a flow $f$ in graph $G$, we build a residual directed graph $G_f$. Forward edges in the graph haven’t reached their maximum capacity, while backward edges reached their upper bound. 
 
-Ford-Fulkerson algorithm uses the residual graph to achieve a maximum flow in the graph. The algorithm looks for augmenting paths from source $S$ to sink $T$ in a breadth first-search manner. Once a path $p$ is found, we send the weight that will make the bottleneck edge in $p$ fill its maximum capacity. Then, we add (subtract) the weight of each forward (backward) edge in $p$. Forward edges that reach their maximum capacity turn into backward edges. This results in flow $f’$ that has a greater value than before. Berge’s theorem guarantees that once all the augmenting paths have been successively visited in the algorithm, the end result is a maximum flow of the graph. TODO: CITATION
+\noindent Ford-Fulkerson algorithm uses the residual graph to achieve a maximum flow in the graph. The algorithm looks for augmenting paths from source $S$ to sink $T$ in a breadth first-search manner. Once a path $p$ is found, we send the weight that will make the bottleneck edge in $p$ fill its maximum capacity. Then, we add (subtract) the weight of each forward (backward) edge in $p$. Forward edges that reach their maximum capacity turn into backward edges. This results in flow $f’$ that has a greater value than before. Berge’s theorem guarantees that once all the augmenting paths have been successively visited in the algorithm, the end result is a maximum flow of the graph \cite{berge1957two}.
 
-The maximum matching problem is a special case of the maximum flow problem. For the purpose of our example, there will be only one source $S$ that has outgoing edges to the nodes in the left partition $L$ of the bipartite graph and one sink $T$ with incoming edges from the right partition $R$ of the graph. Nodes in $L$ are connected through edges to nodes in $R$. A matching TODO. A maximum matching TODO. To find a maximum matching for a Graph G, we add a source and sink nodes and set all edges to a maximum capacity of one. We then run the Ford-Fulkerson algorithm on the graph, by finding all the augmenting paths from free nodes in $L$ to free nodes in $R$.
+\noindent The maximum matching problem is a special case of the maximum flow problem. For the purpose of our example, there will be only one source $S$ that has outgoing edges to the nodes in the left partition $L$ of the bipartite graph and one sink $T$ with incoming edges from the right partition $R$ of the graph. Nodes in $L$ are connected through edges to nodes in $R$. A matching TODO. A maximum matching TODO. To find a maximum matching for a Graph G, we add a source and sink nodes and set all edges to a maximum capacity of one. We then run the Ford-Fulkerson algorithm on the graph, by finding all the augmenting paths from free nodes in $L$ to free nodes in $R$.
 
 
 
-Having a maximum matching for our graph, the next step in the alldifferent algorithm is to turn the previously undirected graph, into a directed one. The matches resulted from the Ford Fulkerson algorithm are assigned a direction from the 1 to 9 values to the corresponding cells of the Sudoku row. The edges that remain unused in the matching are given a direction from left to right (i.e. from the Sudoku cells of the row to the 1-9 values).
+\noindent Having a maximum matching for our graph, the next step in the alldifferent algorithm is to turn the previously undirected graph, into a directed one. The matches resulted from the Ford Fulkerson algorithm are assigned a direction from the 1 to 9 values to the corresponding cells of the Sudoku row. The edges that remain unused in the matching are given a direction from left to right (i.e. from the Sudoku cells of the row to the 1-9 values).
 
 \noindent // write that we delete S/T nodes and corresponding edges
 
@@ -600,6 +600,7 @@ Having a maximum matching for our graph, the next step in the alldifferent algor
 
 \noindent The $minCost$ procedure at line 36 is used to find the minimum cost, in terms of capacity used, from the sink \textbf{to the source?}. Line 38 declares an integer $minCost$ used to represent the current value of the minimum cost, and it has a very large number at the time of its initialization. Line 39 declares an integer variable $v$ used to store vertices. The variable $v$ is initialized as the last vertex in the graph called the sink. Lines 40 to 42 contains a \textbf{loop over the parent vertices} of $v$. Line 41 updates the value of the minCost variable \textbf{to the minimum}. The $minimum$ procedure returns the minimum of two given integers. Line 42 updates the value of integer $v$ to \textbf{its parent}. At the end of the $minCost$ procedure, we return the value of the currently found $minCost$ variable.
 
+% use \mathit to fix italics spacing
 \begin{algorithm}
 \DontPrintSemicolon
 \nl $\textbf{void} ~FordFulkerson(\textbf{Graph}~G)$ \;
@@ -611,14 +612,14 @@ Having a maximum matching for our graph, the next step in the alldifferent algor
 \nl $\textbf{Global} ~ pred \gets ~new~\textbf{int}[n]$ \;
 \nl $\textbf{Global} ~ visited \gets ~new~\textbf{boolean}[n]$ \;
 \nl $\textbf{Global} ~ Q \gets ~new~\textbf{Queue}()$ \;
-\nl \While {$bfs(G)$}{
+\nl \While {$\mathit{bfs}(G)$}{
 \nl $update()$ \;
 }
 
 } %begin FordFulkerson
 
 \;
-\nl $\textbf{boolean} ~bfs(\textbf{Graph} ~ G)$ \;
+\nl $\textbf{boolean} ~\mathit{bfs}(\textbf{Graph} ~ G)$ \;
 \nl \Begin{
 \nl $clear(Q) $ \;
 \nl $fill(pred, -1) $ \;
@@ -637,7 +638,7 @@ Having a maximum matching for our graph, the next step in the alldifferent algor
 } %if
 } %for
 } %while
-\nl $\textbf{return} ~ false $ \;
+\nl $\textbf{return} ~ \mathit{false} $ \;
 } %begin bfs
 
 \;
@@ -779,7 +780,7 @@ Now that all the edges from the graph are directed, the next step in the alldiff
 
 \begin{algorithm}
 \DontPrintSemicolon
-\nl $\textbf{void} ~Tarjan(\textbf{Graph}~G)$ \;
+\nl $\textbf{void} ~\mathit{Tarjan}(\textbf{Graph}~G)$ \;
 \nl \Begin{
 \nl $\textbf{Global} ~ \textbf{int} ~ pre \gets 0 $ \;
 \nl $\textbf{Global} ~ \textbf{int} ~ components \gets 0 $ \; %new
@@ -790,11 +791,11 @@ Now that all the edges from the graph are directed, the next step in the alldiff
 \nl $\textbf{Global} ~ low \gets ~new~\textbf{int}[n]$ \;
 
 \nl \For {$u \in ~V(G)$}{
-\nl \lIf {$\neg stacked[u]$}{ $ dfs(u, G) $ }
+\nl \lIf {$\neg stacked[u]$}{ $ \mathit{dfs}(u, G) $ }
 }
 }
 \;
-\nl $\textbf{void} ~dfs(\textbf{int}~u, \textbf{Graph}~G)$ \;
+\nl $\textbf{void} ~\mathit{dfs}(\textbf{int}~u, \textbf{Graph}~G)$ \;
 \nl \Begin{
 \nl $push(u, S) $ \;
 \nl $stacked[u] \gets ~true $\;
@@ -803,7 +804,7 @@ Now that all the edges from the graph are directed, the next step in the alldiff
 \nl $\textbf{int} ~ min \gets low[u] $ \;
 
 \nl \For {$v \in ~ N(u, G)$}{
-\nl \lIf {$\neg stacked[v]$}{ $dfs(v, G) $ }
+\nl \lIf {$\neg stacked[v]$}{ $\mathit{dfs}(v, G) $ }
 \nl $ min \gets minimum(low[v], min) $
  }
 \nl $ low[u] \gets minimum(low[u], min) $
