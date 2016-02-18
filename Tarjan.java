@@ -174,7 +174,7 @@ public class Tarjan {
 	output.append("\n");
         output.append("\\hline");
 	output.append("\n");
-        output.append("node & pre & low & stack & new component & color \\\\");
+        output.append("node & index & low & stack & new component & color \\\\");
 	output.append("\n");
 	output.append("\\hline");
 	output.append("\n");

@@ -444,7 +444,24 @@ e&5 \\
 
 \noindent The $minCost$ procedure at line 36 is used to find the minimum cost, in terms of capacity used, from the sink \textbf{to the source?}. Line 38 declares an integer $minCost$ used to represent the current value of the minimum cost, and it has a very large number at the time of its initialization. Line 39 declares an integer variable $v$ used to store vertices. The variable $v$ is initialized as the last vertex in the graph called the sink. Lines 40 to 42 contains a \textbf{loop over the parent vertices} of $v$. Line 41 updates the value of the minCost variable \textbf{to the minimum}. The $minimum$ procedure returns the minimum of two given integers. Line 42 updates the value of integer $v$ to \textbf{its parent}. At the end of the $minCost$ procedure, we return the value of the currently found $minCost$ variable.
 
+\newpage
+
 \section{Tarjan algorithm}
+\noindent A strongly connected component $SCC$ of a directed graph $G$ is a maximal set of vertices such that every vertex is reachable from every other vertex by following the directed edges.
+
+\noindent There are four kinds of edges in a depth-first traversal: tree edges, forward edges, back edges and cross edges. Tree edges are edges between a vertex and vertices that were not previously visited. Forward edges are from ancestor vertices to descendant vertices that were already visited during the search. Back edges link descendant vertices back to already visited ancestor vertices. Lastly, cross edges represent edges between two vertices that are neither an ancestor nor a descendant for each other, such as the edges between different components of the graph. 
+
+\noindent For each vertex in a graph G, the algorithm keeps track of two properties. The first property we remember is the $index$ of the node, its consecutive order of discovery during the depth-first search, a value that will remain constant throughout the algorithm. The second property associated with all the nodes is named $low$ and keeps track of the lowest (oldest) ancestor reachable from their position in the graph. As each node of the graph gets discovered in a depth-first search manner, the initial value that $low$ gets assigned is the same as the $order$ the node was discovered. The value for $low$ may get changed during the search if an ancestor for the node is discovered by following a back edge. After the recursive depth-first search finishes visiting all of a node’s neighbours, the node’s value for $low$ gets updated to the lowest index of its oldest reachable ancestor. If the value for $low$ of a node stays the same even after visiting all of its neighbours, then it means it is the root of a strongly connected component or it’s an individual vertex that will be a component on its own. \cite{tarjan1972depth}
+
+\noindent For the purpose of finding SCCs, every time a node is discovered in the search, the node is put on a stack $S$. After returning from the recursive DFS calls on all of the adjacent neighbours of vertex, if both $index$ and $low$ have the same value, it means we’ve finished discovering a SCC. The vertices in the newly discovered strongly connected component will be popped from the stack $S$ until we reach the current vertex representing the root of the SCC. Vertices that are part of other SCCs are still left on the stack as they have different roots represented by the value of $low$.
+
+\noindent Figure 2.8  TODO shows a bipartite directed graph with 18 vertices. There are 9 backward edges that represent the maximum matching found using the Ford-Fulkerson algorithm in section TODO. The rest of the possible edges are assigned a forward direction. This graph is similar to the graphs that will be generated to represent a row, column or one of the nine sub-grids of the Sudoku puzzle. For example, the left partition of the graph will contain the nine variables of a Sudoku row, and the right partition will contain the digits from 1 to 9. The edges will then link each variable of the row to values that are still available in their domain.
+
+\noindent The Table 2.1 TODO contains the output after running the Tarjan’s algorithm on the graph in figure 2.8 TODO. As previously discussed, vertices are visited in a depth-first search manner, in this case starting from the first vertex. Each node has two properties associated to it: its order of discovery or $inded$, and its oldest reachable ancestor. Initially, both properties take the value of the index, but as the algorithm progresses the values for low may become lower after visiting all of the neighbours of the node and finding the oldest (lowest) reachable ancestor. All vertices are pushed on a stack in the order they are visited. Once a back edge is found in the graph, vertices that are currently on the stack get popped including the root of the newly discovered SCC. Note that vertices may still remain on the stack as they will be part of different components that have other roots. As each vertex is made part of a component, its value for $low$ gets updated to a large value to mark it as already part of a component such that it will not become the root of another component in the future.
+
+\noindent The graph in figure 2.9 TODO shows the 5 strongly connected components identified after running Tarjan’s algorithm on the initial graph in figure 2.8 TODO. Vertices that have the same background are part of the same component; meaning that one vertex can reach every other vertex in the component by following the directed edges. Note that some vertices make a component on their own as there is no way to reach them again in a cycle.
+
+\iffalse ///////////////////////////
 Now that all the edges from the graph are directed, the next step in the alldifferent algorithm is to find the strongly connected components of the graph. In order to do this, we introduce now Tarjan’s algorithm for finding strongly connected components  (SCCs) in a given graph G.
 
 \noindent The algorithm starts by visiting every node in the directed graph in a depth first search manner. During the search, nodes are added to a stack in the order they are discovered only if they were not already part of the stack. 
@@ -456,7 +473,9 @@ Now that all the edges from the graph are directed, the next step in the alldiff
 \noindent If the upper node is equal to the node we are currently visiting, then the algorithm just found a strongly connected component that contains all nodes on the stack starting from the top of it, until encountering the current node. The nodes are popped out of the stack and a SCC id/index is assigned to it for later use. Once the current node is reached, we increment the count of the SCCs to start filling a new SCC.
 
 \noindent // write that there are no self loops / self edges (u!=i)
-\cite{tarjan1972depth}
+
+ /////////////////////////////////////////////////////
+\fi
 
 \newpage
 
@@ -596,7 +615,7 @@ Now that all the edges from the graph are directed, the next step in the alldiff
 \centering
 \begin{tabular}{|l|l|l|l|l|l|}
 \hline
-node & pre & low & stack & new component & color \\
+node & index & low & stack & new component & color \\
 \hline
 1& 1 & 1 & [1] & & \cellcolor{babyblue} \\
 \hline
@@ -656,7 +675,7 @@ node & pre & low & stack & new component & color \\
 \DontPrintSemicolon
 \nl $\textbf{void} ~\mathit{Tarjan}(\textbf{Graph}~G)$ \;
 \nl \Begin{
-\nl $\textbf{Global} ~ \textbf{int} ~ pre \gets 0 $ \;
+\nl $\textbf{Global} ~ \textbf{int} ~ index \gets 0 $ \;
 \nl $\textbf{Global} ~ \textbf{int} ~ components \gets 0 $ \; %new
 \nl $\textbf{Global} ~ \textbf{int} ~ n \gets |V(G)|$ \; %new
 \nl $\textbf{Global} ~ S \gets ~new~\textbf{Stack}()$ \;
@@ -673,8 +692,8 @@ node & pre & low & stack & new component & color \\
 \nl \Begin{
 \nl $push(u, S) $ \;
 \nl $stacked[u] \gets ~true $\;
-\nl $low[u] \gets ~pre $ \;
-\nl $pre \gets pre + 1$ \;
+\nl $low[u] \gets ~index $ \;
+\nl $index \gets index + 1$ \;
 \nl $\textbf{int} ~ min \gets low[u] $ \;
 
 \nl \For {$v \in ~ N(u, G)$}{
@@ -720,6 +739,8 @@ node & pre & low & stack & new component & color \\
 
 \noindent The depth-first search procedure finishes on line 29 by updating the total number of strongly connected components discovered.
 
+\noindent The final step in the all-different algorithm uses the knowledge gained after finding the strongly connected component in the graph using Tarjan’s algorithm. For this step, we are going to be interested only the edges that link two vertices in different strongly connected component. Figure 2.10 TODO shows a graph highlighting the edges we are interested in. It is important to remember that we chose a graph with 18 vertices to highlight how the all-different algorithm will run on the 9 variables of a Sudoku row. The variables of the Sudoku row are shown in the left $L$ partition of the graph and are assigned letters from A-I, each having edges to vertices in the right $R$ partition of the graph representing digits in the domain of the variable. The direction of the edges that are left indicate two actions. Forward edges (coloured in red) indicate that the digits from the right $R$ partition should be removed from the domain of the variables in the $L$ partition to achieve consistency TODO. Backward edges (coloured in blue) indicate finding the solution to a variable, in this case the first variable $A$ of a selected Sudoku row will certainly take the value of $1$ as all other options were removed from its domain.
+
 %grapht2start
 \begin{figure}[H]
 %graph23
@@ -733,15 +754,15 @@ node & pre & low & stack & new component & color \\
 
 \psset{colsep=6cm, rowsep=0.3cm, arrows=->, arrowsize=6pt, arrowinset=0, radius=3cm}
 \begin{psmatrix}
-[mnode=circle][fillstyle=solid,fillcolor=babyblue]1&[fillstyle=solid,fillcolor=americanrose]10 \\
-[fillstyle=solid,fillcolor=amber]2&[fillstyle=solid,fillcolor=amber]11 \\
-[fillstyle=solid,fillcolor=amber]3&[fillstyle=solid,fillcolor=amber]12 \\
-[fillstyle=solid,fillcolor=applegreen]4&[fillstyle=solid,fillcolor=applegreen]13 \\
-[fillstyle=solid,fillcolor=applegreen]5&[fillstyle=solid,fillcolor=applegreen]14 \\
-[fillstyle=solid,fillcolor=applegreen]6&[fillstyle=solid,fillcolor=applegreen]15 \\
-[fillstyle=solid,fillcolor=yellow]7&[fillstyle=solid,fillcolor=yellow]16 \\
-[fillstyle=solid,fillcolor=yellow]8&[fillstyle=solid,fillcolor=yellow]17 \\
-[fillstyle=solid,fillcolor=yellow]9&[fillstyle=solid,fillcolor=yellow]18 \\
+[mnode=circle][fillstyle=solid,fillcolor=babyblue]A&[fillstyle=solid,fillcolor=americanrose]1 \\
+[fillstyle=solid,fillcolor=amber]B&[fillstyle=solid,fillcolor=amber]2 \\
+[fillstyle=solid,fillcolor=amber]C&[fillstyle=solid,fillcolor=amber]3 \\
+[fillstyle=solid,fillcolor=applegreen]D&[fillstyle=solid,fillcolor=applegreen]4 \\
+[fillstyle=solid,fillcolor=applegreen]E&[fillstyle=solid,fillcolor=applegreen]5 \\
+[fillstyle=solid,fillcolor=applegreen]F&[fillstyle=solid,fillcolor=applegreen]6 \\
+[fillstyle=solid,fillcolor=yellow]G&[fillstyle=solid,fillcolor=yellow]7 \\
+[fillstyle=solid,fillcolor=yellow]H&[fillstyle=solid,fillcolor=yellow]8 \\
+[fillstyle=solid,fillcolor=yellow]I&[fillstyle=solid,fillcolor=yellow]9 \\
 [mnode=none]L&[mnode=none]R 
 
 \nccurve[angleA=180, offsetA=3pt, offsetB=3pt]{1,2}{1,1} % a > 1 X
@@ -797,15 +818,15 @@ node & pre & low & stack & new component & color \\
 
 \psset{colsep=6cm, rowsep=0.3cm, arrows=->, arrowsize=6pt, arrowinset=0, radius=3cm}
 \begin{psmatrix}
-[mnode=circle][fillstyle=solid,fillcolor=babyblue]1&[fillstyle=solid,fillcolor=americanrose]10 \\
-[fillstyle=solid,fillcolor=amber]2&[fillstyle=solid,fillcolor=amber]11 \\
-[fillstyle=solid,fillcolor=amber]3&[fillstyle=solid,fillcolor=amber]12 \\
-[fillstyle=solid,fillcolor=applegreen]4&[fillstyle=solid,fillcolor=applegreen]13 \\
-[fillstyle=solid,fillcolor=applegreen]5&[fillstyle=solid,fillcolor=applegreen]14 \\
-[fillstyle=solid,fillcolor=applegreen]6&[fillstyle=solid,fillcolor=applegreen]15 \\
-[fillstyle=solid,fillcolor=yellow]7&[fillstyle=solid,fillcolor=yellow]16 \\
-[fillstyle=solid,fillcolor=yellow]8&[fillstyle=solid,fillcolor=yellow]17 \\
-[fillstyle=solid,fillcolor=yellow]9&[fillstyle=solid,fillcolor=yellow]18 \\
+[mnode=circle][fillstyle=solid,fillcolor=babyblue]A&[fillstyle=solid,fillcolor=americanrose]1 \\
+[fillstyle=solid,fillcolor=amber]B&[fillstyle=solid,fillcolor=amber]2 \\
+[fillstyle=solid,fillcolor=amber]C&[fillstyle=solid,fillcolor=amber]3 \\
+[fillstyle=solid,fillcolor=applegreen]D&[fillstyle=solid,fillcolor=applegreen]4 \\
+[fillstyle=solid,fillcolor=applegreen]E&[fillstyle=solid,fillcolor=applegreen]5 \\
+[fillstyle=solid,fillcolor=applegreen]F&[fillstyle=solid,fillcolor=applegreen]6 \\
+[fillstyle=solid,fillcolor=yellow]G&[fillstyle=solid,fillcolor=yellow]7 \\
+[fillstyle=solid,fillcolor=yellow]H&[fillstyle=solid,fillcolor=yellow]8 \\
+[fillstyle=solid,fillcolor=yellow]I&[fillstyle=solid,fillcolor=yellow]9 \\
 [mnode=none]L&[mnode=none]R 
 
 \nccurve[angleA=180, offsetA=3pt, offsetB=3pt, linecolor=blue]{1,2}{1,1} % a > 1 X
