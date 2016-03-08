@@ -38,6 +38,9 @@
 \Crefmultiformat{figure}{Figs.~#2#1#3}{ and~#2#1#3}{, #2#1#3}{ and~#2#1#3}
 
 \usepackage{listings}
+
+\usepackage[thinlines]{easytable}
+
 \usepackage{color, colortbl}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -99,6 +102,21 @@ Teaching constraint programming, need for visualisations
 \noindent Sudoku is a puzzle 
 
 \section{Constraint Programming}
+\noindent Constraint Programming (CP) is a technique originating from Artificial Intelligence used to solve hard real life combinatorial problems.
+
+\noindent Constraints can be found everywhere in our daily life, and represent mathematical abstractions of the dependencies in the physical world. More formally, a constraint is a logical relationship among a number of variables, each with its own domain. The constraint therefore imposes restrictions on the values the variables can take. It is good to note that the values of the variables are not always numeric, a heterogeneous constraint would require a word (string) to have a specific length (numeric). The constraints are declarative as they only specify a relationship that must hold between variables and do not provide an algorithm to enforce the relationship.
+
+\noindent Constraint Programming is the area of Computing Science that solves problems by specifying a list of constraints and then finding the solutions that satisfy all the constraints.
+A Constraint Satisfaction Problem (CSP) can be defined as a triple $\mathcal{P} = <X, D, C>$, where $X$ represents a set of n variables $X = <x_1, x_2,..., x_n>$, $D$ represents the n domains associated to the n variables $D = <D_1, D_2,..., D_n>$ such that $x_i \in D_i$, and finally C represents a set of t constraints $C = <C_1, C_2,..., C_t>$. A constraint $C_i$ restricts the values one or more variables can simultaneously take.
+
+\noindent A solution for a CSP $\mathcal{P}$ is a set of values $S = <s_1, s_2,..., s_n>$, such that each variable gets assigned a value from its domain and all the constraints are satisfied at once. The set of all the solutions to the problem is noted as $sol(\mathcal{P})$ for a CSP that has multiple solutions. One may also be interested in finding an optimal solution to the problem, one that for example minimizes the path of a traveling salesman. When $sol(\mathcal{P})$ is equal to the empty set, it means that the original CSP is unsatisfiable. This simple representation can be used to model complex real world problems such as planning, scheduling, timetabling, supply chain management and more.
+
+\noindent There are two strategies for solving CSPs: inference and search. If all the variables in the problem have finite domains, this means the search space for a solution is finite and represented by all the possible combinations of the values of the variables. Although one can, in theory, enumerate all the possible combinations, we use inference and search to reduce the search space. Inference techniques remove large subspaces of the search tree through local constraint propagation on the basis that no solutions may be found using a particular value from the domain of a variable. Search techniques, such as backtracking, are used to systematically explore the search space, usually with the use of some heuristics, and reduce the search space whenever a single failure is found. Both strategies are frequently used together and work because a solution to a CSP must have all its constraints satisfied, therefore a local inconsistency on a subset of the variables will not result in a solution.
+
+
+
+
+
 \noindent Every Constraint Satisfaction Problem (CSP) has variables with domains and constraints associated to them. To start solving Sudoku puzzles, we have to come up with a model representation of the problem. For the purpose of this exercise, there will be 81 variables representing the 9x9 cells in the Sudoku grid, each with an initial domain of integers from 1 to 9. As all the initial puzzles start with a partially completed grid, values that are known will be reflected as variables with an initial domain of one digit, the known value. Such variables will therefore keep their initial domain throughout the algorithm, as no other values are present in their domain.
 
 \noindent The constraints for a Sudoku puzzle can be expressed in natural language as such: “digits may not appear twice in the same row, column or 3x3 subregions”. The rules of the puzzle highlight the need of thinking in terms of 9 rows, 9 columns and 9 subregions, each of them having digits from 1 to 9 with no repetition. We can create 36 not equals constraints between the 9 variables of each row, column, subregions times 27 such regions for a total of 972 constraints between two variables. This would be highly inefficient, hence the need for a better approach. A better approach is to use 27 all-different constraints, one for each row, column and subregions. Each constraint contains 9 variables that should take different values. As each variable is part of a row, column and subregion at the same time, it will therefore be involved in 3 constraints.
@@ -112,10 +130,84 @@ Teaching constraint programming, need for visualisations
 \noindent Humans and the alldifferent algorithm are smart enough to use this information to their advantage and remove the two values from the domains of the adjacent variables. By using this technique, we can ensure the progress of the algorithm towards a solution, even though we still don’t know which two variables take which two values. It is good to note that although humans may choose a guessing approach to continue towards a solution, the alldifferent algorithm performs no guessing and works only with the information about the current state of the puzzle.
 
 \section{The Alldifferent Constraint}
+\subsection{Review of Jean-Charles Regin's paper}
 \noindent Review Regin’s paper and explain how constraint works \cite{regin1994filtering}
 
-\noindent Example of  its usage and how it works (maybe 5 variables with domains)
+\subsection{Usage example}
+\noindent To demonstrate the usage and effects of the alldifferent constraint, we are going to use a simple example. The CSP problem will be modeled in Java and will make use of Choco3, a powerful free and open-source Java library used to solve Constraint Satisfaction Problems. The implamentation of the alldifferent constraint in the Choco3 library is based on Jean-Charles Regin's paper\cite{regin1994filtering} reviewed above.
 
+\noindent The problem has three variables $x$, $y$, $z$ with the following initial domains: $x = \{1, 2\}$, $y = \{1, 2\}$ and $z = \{2, 3\}$. The constraint that should be satisfied by all the solutions of the problem is that $x$, $y$ and $z$ should all be different. The listing TODO shows how the problem is modeled and implemented using the Choco3 library. Line 1 defines a Choco3 solver object, that will store the variables, their domains and constraints associated to them. Lines 3 to 5 define the three integer variables in the problem and their associated initial domains. The reference to the $solver$ object makes sure the variables are added to the model. Line 7 introduces the $alldifferent$ constraint between the three variables. The constraint is then posted to the model and the CSP is now fully modeled.
+
+\noindent Before trying to find a solution, a call to the $propagate$ method is made on the model on line 10. The propagation algorithm will make all the constraints consistent by looping thorugh all the constraints in the model (only one in this case) with the aim of reducing the domains of the variables by removing values that will never part of a solution. When a value is removed from the domain of a variable, this might trigger a recursive propagation call on all its dependant variables to make the constraints consistent. The recursive propagation calls end when the problem is in a consistent state. It is good to note that propagation will preserve all the original solutions to the problem, while greatly reducing the search space.
+
+\noindent The $ContradictionException$ on line 11 is an exception that is raised by Choco3 whenever a variable is left with an empty domain or is instantiated to a value that is out of its initial domain. This usually happens in overconstrained problems, where there are no values in the domains of the variables that satisfy all the constraints at once. In such cases, there would be no valid solutions to the problem. This is not the case with the example showcased here, as there are three variables with three different values in total.
+
+\noindent Once the propagation is finished, a call is made on line 15 to output the updated domains of the variables. The updated domains after the call to the $propagation$ method are as follows: $x = \{1, 2\}$, $y = \{1, 2\}$ and $z = \{3\}$. The variable $z$ lost the value $2$ from its domain, while to the domains of $x$ and $y$ stayed the same. There are two reasons behind removing the value $2$ from the domain of variable $z$. Firstly, there would no solutions with $z$ taking the value of $2$ as this would leave either $x$ or $y$ with an empty domain after one of them takes the value of $1$. Secondly, two variables ($x$ and $y$) have the same domain of $\{1, 2\}$, therefore a solution that is consistent with the alldifferent constraint will have $x$ taking the value of $1$ and $y$ taking the value of $2$ (or vice-versa), making it impossible for $z$ to take the value of $2$.  Since we know that the values $1$ and $2$ will be attributed to $x$ and $y$, the value $2$ is removed from the domain of $z$ to reflect this change and reduce the search space.
+
+\noindent Lines 17 to 25 will iterate over the two solutions of the problem and print the values for the variables. The solutions to the problem are $S_1 = \{1, 2, 3\}$ and $S_2 = \{2, 1, 3\}$ and they both contain values for the three variables that satisfy the alldifferent constraint.
+
+\lstset{
+  %frame=tb,
+  language=Java,
+  %aboveskip=3mm,
+  %belowskip=3mm,
+  columns=fullflexible,
+  %basicstyle={\small\ttfamily},
+  basicstyle=\small,     % the size of the fonts that are used for the code  
+  numbers=left,
+  stepnumber=1,
+  numberstyle=\small\color{gray},    % the size of the fonts that are used for the line-numbers
+  numbersep=10pt,             % how far the line-numbers are from the code
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,            % sets automatic line breaking
+  breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+  showstringspaces=false,     % Don't show underscores as space characters
+  %tabsize=4,
+  frame=trBL,                 % adds a frame around the code
+  frameround=fttt,
+  captionpos=b,               % sets the caption-position to bottom
+  showspaces=false,
+}
+\begin{figure}
+\lstset{caption={Usage of the alldifferent constraint in Choco3}, label=alldifferentChoco3}
+%\lstinputlisting{AllDifferentExample.java}
+\begin{lstlisting}
+Solver solver = new Solver("AllDifferentExample");
+
+IntVar x = VF.enumerated("x", new int[]{1, 2}, solver); 
+IntVar y = VF.enumerated("y", new int[]{1, 2}, solver);
+IntVar z = VF.enumerated("z", new int[]{2, 3}, solver);
+
+solver.post(ICF.alldifferent(new IntVar[]{x, y, z}));
+
+try{
+    solver.propagate();
+} catch (ContradictionException e){
+    // Handle the exception
+}
+
+System.out.println(x + "\n" + y + "\n" + z);
+
+if(solver.findSolution()){
+    do{
+	int x_val = x.getValue();
+	int y_val = y.getValue();
+	int z_val = z.getValue();
+
+	System.out.println(x_val + "; " + y_val + "; " + z_val);
+    } while(solver.nextSolution());
+}
+\end{lstlisting}
+\end{figure}
+
+The solutions are
+\begin{verbatim}
+x: 1	y: 2	z: 3
+x: 2	y: 1	z: 3
+solutions:2
+\end{verbatim}
  
 \chapter{Algorithms for AllDiff}
 \section{Ford Fulkerson}
@@ -736,6 +828,7 @@ node & index & low & stack & new component & color \\
 
 \noindent The final step in the all-different algorithm uses the knowledge gained after finding the strongly connected component in the graph using Tarjan’s algorithm. For this step, we are going to be interested only the edges that link two vertices in different strongly connected component. Figure 2.10 TODO shows a graph highlighting the edges we are interested in. It is important to remember that we chose a graph with 18 vertices to highlight how the all-different algorithm will run on the 9 variables of a Sudoku row. The variables of the Sudoku row are shown in the left $L$ partition of the graph and are assigned letters from A-I, each having edges to vertices in the right $R$ partition of the graph representing digits in the domain of the variable. The direction of the edges that are left indicate two actions. Forward edges (coloured in red) indicate that the digits from the right $R$ partition should be removed from the domain of the variables in the $L$ partition to achieve consistency TODO. Backward edges (coloured in blue) indicate finding the solution to a variable, in this case the first variable $A$ of a selected Sudoku row will certainly take the value of $1$ as all other options were removed from its domain.
 
+\newpage
 %grapht2start
 \begin{figure}[H]
 %graph23
@@ -846,10 +939,76 @@ node & index & low & stack & new component & color \\
 \end{figure}
 %grapht2end
 
+
+\begin{figure}[H]
+\begin{center}
+\large
+\begin{TAB}(e, 1.5cm, 1.5cm){|c|c|c|c|c|c|c|c|c|}{|c|}
+18 & 23 & 23 & 245 & 456 & 456 & 279 & 378 & 23589
+\end{TAB}
+\end{center}
+\caption{A Sudoku row used to illustrate the alldifferent algorithm}
+\label{fig:row_1}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\large
+\begin{TAB}(e, 1.5cm, 1.5cm){|c|c|c|c|c|c|c|c|c|}{|c|}
+\textcolor{blue}{1}\textcolor{red}{8} & 23 & 23 & \textcolor{red}{2}45 & 456 & 456 & \textcolor{red}{2}79 & \textcolor{red}{3}78 & \textcolor{red}{235}89
+\end{TAB}
+\end{center}
+\caption{Removal of values from the domain (in red) and assignments (in blue) in a Sudoku row after the alldifferent algorithm}
+\label{fig:row_2}
+\end{figure}
+
 \chapter{AllDiff Demo}
 \noindent implementation and usage
 
 \noindent Explain how demo is used, what it shows, etc (NOT implementation)
+
+
+\begin{figure}[h]
+\hfill
+\subfigure[1st column after running the all-different algorithm]{\includegraphics[width=8cm]{images/proof_of_concept/1.png}}
+\hfill
+\subfigure[5th row after running the all-different algorithm]{\includegraphics[width=8cm]{images/proof_of_concept/2.png}}
+\vspace*{2cm}
+\hfill
+%\caption{Title for both}
+%\end{figure}
+
+%\begin{figure}[h]
+\hfill
+\subfigure[6th row after running the all-different algorithm]{\includegraphics[width=8cm]{images/proof_of_concept/3.png}}
+\hfill
+\subfigure[4th 3x3 sub-grid after running the all-different algorithm]{\includegraphics[width=8cm]{images/proof_of_concept/4.png}}
+\vspace*{2cm}
+\hfill
+%\caption{Title for both}
+%\end{figure}
+
+%\begin{figure}[h]
+\hfill
+\subfigure[1st column after running the all-different algorithm]{\includegraphics[width=8cm]{images/proof_of_concept/5.png}}
+\hfill
+%\subfigure[Proof]{\includegraphics[width=8cm]{images/proof_of_concept/6.png}}
+\hfill
+\caption{Steps in the demo}
+\label{fig:proof_1_5}
+\end{figure}
+
+\clearpage 
+
+\begin{figure}[h]
+\includegraphics[width=16cm]{images/proof_of_concept/6.png}
+\caption{State of the program after running the demo}
+\label{fig:proof_6}
+\end{figure}
+
+\noindent As seen in ~\Cref{fig:proof_1_5}, the all-different algorithm performs changes only to the selected 9 cells  inside a row, column or 3x3 sub-grid. 
+
+\noindent The end result of following the above steps can be seen in ~\Cref{fig:proof_6}. This state mimics the human thinking when solving a Sudoku. In the 1st column there are two cells with a domain of ${1, 8}$, but we don't know yet which cell will take which digit. What we do know though, is that the digits ${1, 8}$ will be distributed in that two particular cells, therefore in the last step, after running the all-different algorithm on the 1st column we can observe that the digits ${1, 8}$ disappear from the domains of the rest of the cells in the selection.
 
  
 \chapter{Implementation}
@@ -931,49 +1090,6 @@ The following sequence of steps will provide a visual proof of the all-different
 \end{verbatim}
 
 \noindent Alternatively, the user can press the $Show Demo$ button to run the same steps.
-
-\begin{figure}[h]
-\hfill
-\subfigure[1st column after running the all-different algorithm]{\includegraphics[width=8cm]{images/proof_of_concept/1.png}}
-\hfill
-\subfigure[5th row after running the all-different algorithm]{\includegraphics[width=8cm]{images/proof_of_concept/2.png}}
-\vspace*{2cm}
-\hfill
-%\caption{Title for both}
-%\end{figure}
-
-%\begin{figure}[h]
-\hfill
-\subfigure[6th row after running the all-different algorithm]{\includegraphics[width=8cm]{images/proof_of_concept/3.png}}
-\hfill
-\subfigure[4th 3x3 sub-grid after running the all-different algorithm]{\includegraphics[width=8cm]{images/proof_of_concept/4.png}}
-\vspace*{2cm}
-\hfill
-%\caption{Title for both}
-%\end{figure}
-
-%\begin{figure}[h]
-\hfill
-\subfigure[1st column after running the all-different algorithm]{\includegraphics[width=8cm]{images/proof_of_concept/5.png}}
-\hfill
-%\subfigure[Proof]{\includegraphics[width=8cm]{images/proof_of_concept/6.png}}
-\hfill
-\caption{Steps in the demo}
-\label{fig:proof_1_5}
-\end{figure}
-
-\clearpage 
-
-\begin{figure}[h]
-\includegraphics[width=16cm]{images/proof_of_concept/6.png}
-\caption{State of the program after running the demo}
-\label{fig:proof_6}
-\end{figure}
-
-\noindent As seen in ~\Cref{fig:proof_1_5}, the all-different algorithm performs changes only to the selected 9 cells  inside a row, column or 3x3 sub-grid. 
-
-\noindent The end result of following the above steps can be seen in ~\Cref{fig:proof_6}. This state mimics the human thinking when solving a Sudoku. In the 1st column there are two cells with a domain of ${1, 8}$, but we don't know yet which cell will take which digit. What we do know though, is that the digits ${1, 8}$ will be distributed in that two particular cells, therefore in the last step, after running the all-different algorithm on the 1st column we can observe that the digits ${1, 8}$ disappear from the domains of the rest of the cells in the selection.
-
 \end{appendices}
 
 %%%%%%%%%%%%%%%%%%%%
