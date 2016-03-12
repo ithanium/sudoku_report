@@ -75,7 +75,7 @@
 
 \title{Animating a Sudoku solver}
 \author{Gabriel I. Stratan}
-\date{November 18, 2015}
+\date{March 25, 2016}
 \maketitle
 
 \begin{abstract}
@@ -87,19 +87,56 @@ Sudoku is a popular puzzle played all over the world. It consists of filling in 
 %NOTE: if you include the educationalconsent (above) and your project is graded an A then
 %      it may be entered in the CS Hall of Fame
 %
-%\tableofcontents
+\tableofcontents
 %==============================================================================
 \chapter{Introduction}
-\label{intro}
+\label{chap1intro}
 \pagenumbering{arabic}
 
 \section{Aims}
-Teaching constraint programming, need for visualisations
+aaaa
 
 \section{Background}
+With the TSP being a popular problem, a large number of sample instances and 
 
+\section{Motivation}
+The major motivation of this project is in providing a tool to make teaching 
+
+\section{Report Content}
+The rest of the report will provide information on the algorithms used and their implementation in the project.
+\begin{itemize}
+\item Chapter~\ref{chap2background} covers details about the Sudoku puzzle and Constraint Programming.
+\item Chapter~\ref{chap3alldiffconstraint} introduces a powerful constraint of difference.
+\item Chapter~\ref{chap4alldiffalgos} explains the two algorithms needed to solve a constraint of difference.
+\item Chapter~\ref{chap5alldiffdemo} covers a presentation of the project solving a Sudoku puzzle.
+\item Chapter~\ref{chap6implementation} explains the implementation of the project.
+\item Chapter~\ref{chap7conclusion} details the overall achievements of the project.
+%appendices
+\end{itemize}
+
+\chapter{Background}
+\label{chap2background}
 \section{Sudoku}
-\noindent Sudoku is a puzzle 
+\noindent Sudoku is a puzzle
+
+\begin{figure}[H]
+%\vspace{-6cm}
+\begin{center}
+%\hspace{-1.5cm}
+\begin{minipage}{6cm}
+%\centering
+\includegraphics[height=6cm]{sudokugrid.pdf}
+\end{minipage}
+%\hfill
+\hspace{2.5cm}
+\begin{minipage}{6cm}
+%\centering
+\includegraphics[trim=0.075cm 0.075cm 0.075cm 0.075cm, height=6cm]{sudokugrid2.pdf}
+\end{minipage}
+\caption{An initial Sudoku puzzle, and the state of the puzzle after a propagation}
+\label{sudokugrid1}
+\end{center}
+\end{figure}
 
 \section{Constraint Programming}
 \noindent Constraint Programming (CP) is a technique originating from Artificial Intelligence used to solve hard real life combinatorial problems.
@@ -129,8 +166,10 @@ A Constraint Satisfaction Problem (CSP) can be defined as a triple $\mathcal{P} 
 
 \noindent Real world problems are often large and over-constrained, which may raise difficulties in modeling them. Most of the time there are conflicting objectives such as trying to maximize the efficiency of a production facility, while minimizing the operational costs. Tradeoffs between the constraints should be made to come up with a solution to the problem. Problem decomposition should also used to break a large real world scenario into smaller problems that are easier to solve. Finally, one should consider which model is easier to upgrade when more constraints should be added.
 
-\section{The Alldifferent Constraint}
-\subsection{Review of Jean-Charles Regin's paper}
+\chapter{The Alldifferent Constraint}
+\label{chap3alldiffconstraint}
+
+\section{Review of Jean-Charles Regin's paper}
 \noindent This section will introduce the reader to Jean-Charles Regin’s paper published in 1994, which describes a filtering algorithm for constraints of difference used in solving CSPs. As mentioned before, because the search for all the solutions to a CSP is NP-complete, there is a justified need to prune the search space before both before and during the search for the solutions.
 
 \noindent A constraint of difference is defined as a relationship on a subset of the variables of a problem for which the values that are assigned to them should be all different. Many real world problems require such constraints. The paper starts by recognizing the need for a powerful n-ary constraint of difference, as binary constraint of difference cannot efficiently prune the search space of values for variables that will never be part of a solution, and for most instances it does not delete any value. Before the publishing of the paper, the common practice to represent n-ary constraint of difference was to model it as many binary constraints, one for each pair of variables in the n-ary constraint.
@@ -154,7 +193,7 @@ After finding maximum matchings for all the value graphs associated to the const
 
 \noindent The results of his experiment show that the search space of the problem gets pruned more using the approach proposed in the paper, making the search for a solution to the problem more efficient. The same method was successfully used to solve the subgraph isomorphism problem. \cite{regin1994filtering}
 
-\subsection{Usage example}
+\section{Usage example}
 \noindent To demonstrate the usage and effects of the alldifferent constraint, we are going to use a simple example. The CSP problem will be modeled in Java and will make use of Choco3, a powerful free and open-source Java library used to solve Constraint Satisfaction Problems. The implamentation of the alldifferent constraint in the Choco3 library is based on Jean-Charles Regin's paper\cite{regin1994filtering} reviewed above.
 
 \noindent The problem has three variables $x$, $y$, $z$ with the following initial domains: $x = \{1, 2\}$, $y = \{1, 2\}$ and $z = \{2, 3\}$. The constraint that should be satisfied by all the solutions of the problem is that $x$, $y$ and $z$ should all be different. The listing TODO shows how the problem is modeled and implemented using the Choco3 library. Line 1 defines a Choco3 solver object, that will store the variables, their domains and constraints associated to them. Lines 3 to 5 define the three integer variables in the problem and their associated initial domains. The reference to the $solver$ object makes sure the variables are added to the model. Line 7 introduces the $alldifferent$ constraint between the three variables. The constraint is then posted to the model and the CSP is now fully modeled.
@@ -231,6 +270,8 @@ solutions:2
 \end{verbatim}
  
 \chapter{Algorithms for AllDiff}
+\label{chap4alldiffalgos}
+
 \section{Ford Fulkerson}
 \noindent A flow represents a directed graph with special nodes called the source and the sink. Source nodes have outgoing edges to inner nodes, while sink nodes have incoming edges from inner nodes of the graph. The problem requires sending flows, for example water through a pipe, from the source to the sink, while conserving the equilibrium.
 
@@ -984,6 +1025,8 @@ node & index & low & stack & new component & color \\
 \end{figure}
 
 \chapter{AllDiff Demo}
+\label{chap5alldiffdemo}
+
 \noindent implementation and usage
 
 \noindent Explain how demo is used, what it shows, etc (NOT implementation)
@@ -1045,6 +1088,8 @@ node & index & low & stack & new component & color \\
 
  
 \chapter{Implementation}
+\label{chap6implementation}
+
 \noindent The Graphical User Interface (GUI) is inside a JLayeredPane which is a special swing component that allows components inside it to overlap according to their specified depth. In my implementation, the backmost layer contains a JPanel responsible for the drawn edges in the graph. The layer above contains the rest of the GUI represented by the Sudoku puzzle on the left hand side of the screen, and the vertices of the graph on the right hand side of the screen. By using a layered panel, the edges of the graph can be drawn behind the vertices.
 
 \noindent The Sudoku Grid present on the left hand side of the screen is made up of 9 by 9 Sudoku Cells positioned at specific locations. When a new Sudoku Cell instance in made, its ith row and jth column number are passed as arguments to the constructor. Using the information related to its location in the grid, it is now possible to render the border of each cell. Initially all the top, left, bottom and right borders have a width of 1px. To represent the 3 by 3 sub-grids, specific borders are set to have a width of 2px. In the end, the 9 by 9 grid is given an overall thick border by specifying a width of 4px to the cells that are in the first and last columns and rows. All Sudoku Cells contain a JLabel with text retrieved from the Model denoting which possible values are still available for that particular cell.
@@ -1065,7 +1110,7 @@ node & index & low & stack & new component & color \\
 %\end{figure}
 
 \chapter{Conclusion and Future Work}
-\label{conclusion}
+\label{chap7conclusion}
 We have shown how to implement the all-different constraint.
 
 \begin{figure}[H]
@@ -1081,7 +1126,6 @@ Move this from here
 %              %
 %%%%%%%%%%%%%%%%
 \begin{appendices}
-
 \chapter{Running the Program}
 An example of running from the command line is as follows:
 \begin{verbatim}
