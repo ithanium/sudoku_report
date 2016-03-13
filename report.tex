@@ -5,12 +5,15 @@
 %
 % put any packages here
 %
+
 \usepackage{float}
 \usepackage[labelfont=bf]{caption}
 
 \usepackage{subfigure}
 
 \usepackage{cleveref}
+
+\usepackage[nottoc,notlot,notlof]{tocbibind}
 
 \usepackage{pstricks, pst-node}
 
@@ -70,6 +73,62 @@
   frameround=fttt,
   captionpos=b,               % sets the caption-position to bottom
 }
+
+\RequirePackage{filecontents}
+\begin{filecontents}{mybib.bib}
+@article{tarjan1972depth,
+  title={Depth-first search and linear graph algorithms},
+  author={Tarjan, Robert},
+  journal={SIAM journal on computing},
+  volume={1},
+  number={2},
+  pages={146--160},
+  year={1972},
+  publisher={SIAM}
+}
+
+@article{ford1956maximal,
+  title={Maximal flow through a network},
+  author={Ford, Lester R and Fulkerson, Delbert R},
+  journal={Canadian journal of Mathematics},
+  volume={8},
+  number={3},
+  pages={399--404},
+  year={1956}
+}
+
+@inproceedings{regin1994filtering,
+  title={A filtering algorithm for constraints of difference in CSPs},
+  author={R{\'e}gin, Jean-Charles},
+  booktitle={AAAI},
+  volume={94},
+  pages={362--367},
+  year={1994}
+}
+
+@article{berge1957two,
+  title={Two theorems in graph theory},
+  author={Berge, Claude},
+  journal={Proceedings of the National Academy of Sciences},
+  volume={43},
+  number={9},
+  pages={842--844},
+  year={1957},
+  publisher={National Acad Sciences}
+}
+
+@article{haralick1980increasing,
+  title={Increasing tree search efficiency for constraint satisfaction problems},
+  author={Haralick, Robert M and Elliott, Gordon L},
+  journal={Artificial intelligence},
+  volume={14},
+  number={3},
+  pages={263--313},
+  year={1980},
+  publisher={Elsevier}
+}
+
+\end{filecontents}
 
 \begin{document}
 
@@ -198,15 +257,8 @@ After finding maximum matchings for all the value graphs associated to the const
 \section{Usage example}
 \noindent To demonstrate the usage and effects of the alldifferent constraint, we are going to use a simple example. The CSP problem will be modeled in Java and will make use of Choco3, a powerful free and open-source Java library used to solve Constraint Satisfaction Problems. The implamentation of the alldifferent constraint in the Choco3 library is based on Jean-Charles Regin's paper\cite{regin1994filtering} reviewed above.
 
-\noindent The problem has three variables $x$, $y$, $z$ with the following initial domains: $x = \{1, 2\}$, $y = \{1, 2\}$ and $z = \{2, 3\}$. The constraint that should be satisfied by all the solutions of the problem is that $x$, $y$ and $z$ should all be different. The listing TODO shows how the problem is modeled and implemented using the Choco3 library. Line 1 defines a Choco3 solver object, that will store the variables, their domains and constraints associated to them. Lines 3 to 5 define the three integer variables in the problem and their associated initial domains. The reference to the $solver$ object makes sure the variables are added to the model. Line 7 introduces the $alldifferent$ constraint between the three variables. The constraint is then posted to the model and the CSP is now fully modeled.
+\noindent The problem has three variables $x$, $y$, $z$ with the following initial domains: $x = \{1, 2\}$, $y = \{1, 2\}$ and $z = \{2, 3\}$. The constraint that should be satisfied by all the solutions of the problem is that $x$, $y$ and $z$ should all be different. The listing TODO shows how the problem is modeled and implemented using the Choco3 library.
 
-\noindent Before trying to find a solution, a call to the $propagate$ method is made on the model on line 10. The propagation algorithm will make all the constraints consistent by looping thorugh all the constraints in the model (only one in this case) with the aim of reducing the domains of the variables by removing values that will never part of a solution. When a value is removed from the domain of a variable, this might trigger a recursive propagation call on all its dependant variables to make the constraints consistent. The recursive propagation calls end when the problem is in a consistent state. It is good to note that propagation will preserve all the original solutions to the problem, while greatly reducing the search space.
-
-\noindent The $ContradictionException$ on line 11 is an exception that is raised by Choco3 whenever a variable is left with an empty domain or is instantiated to a value that is out of its initial domain. This usually happens in overconstrained problems, where there are no values in the domains of the variables that satisfy all the constraints at once. In such cases, there would be no valid solutions to the problem. This is not the case with the example showcased here, as there are three variables with three different values in total.
-
-\noindent Once the propagation is finished, a call is made on line 15 to output the updated domains of the variables. The updated domains after the call to the $propagation$ method are as follows: $x = \{1, 2\}$, $y = \{1, 2\}$ and $z = \{3\}$. The variable $z$ lost the value $2$ from its domain, while to the domains of $x$ and $y$ stayed the same. There are two reasons behind removing the value $2$ from the domain of variable $z$. Firstly, there would no solutions with $z$ taking the value of $2$ as this would leave either $x$ or $y$ with an empty domain after one of them takes the value of $1$. Secondly, two variables ($x$ and $y$) have the same domain of $\{1, 2\}$, therefore a solution that is consistent with the alldifferent constraint will have $x$ taking the value of $1$ and $y$ taking the value of $2$ (or vice-versa), making it impossible for $z$ to take the value of $2$.  Since we know that the values $1$ and $2$ will be attributed to $x$ and $y$, the value $2$ is removed from the domain of $z$ to reflect this change and reduce the search space.
-
-\noindent Lines 17 to 25 will iterate over the two solutions of the problem and print the values for the variables. The solutions to the problem are $S_1 = \{1, 2, 3\}$ and $S_2 = \{2, 1, 3\}$ and they both contain values for the three variables that satisfy the alldifferent constraint.
 
 \lstset{
   %frame=tb,
@@ -232,7 +284,8 @@ After finding maximum matchings for all the value graphs associated to the const
   captionpos=b,               % sets the caption-position to bottom
   showspaces=false,
 }
-\begin{figure}
+
+\begin{figure}[H]
 \lstset{caption={Usage of the alldifferent constraint in Choco3}, label=alldifferentChoco3}
 %\lstinputlisting{AllDifferentExample.java}
 \begin{lstlisting}
@@ -263,14 +316,17 @@ if(solver.findSolution()){
 }
 \end{lstlisting}
 \end{figure}
-
-The solutions are
-\begin{verbatim}
-x: 1	y: 2	z: 3
-x: 2	y: 1	z: 3
-solutions:2
-\end{verbatim}
  
+\noindent Line 1 defines a Choco3 solver object, that will store the variables, their domains and constraints associated to them. Lines 3 to 5 define the three integer variables in the problem and their associated initial domains. The reference to the $solver$ object makes sure the variables are added to the model. Line 7 introduces the $alldifferent$ constraint between the three variables. The constraint is then posted to the model and the CSP is now fully modeled.
+
+\noindent Before trying to find a solution, a call to the $propagate$ method is made on the model on line 10. The propagation algorithm will make all the constraints consistent by looping thorugh all the constraints in the model (only one in this case) with the aim of reducing the domains of the variables by removing values that will never part of a solution. When a value is removed from the domain of a variable, this might trigger a recursive propagation call on all its dependant variables to make the constraints consistent. The recursive propagation calls end when the problem is in a consistent state. It is good to note that propagation will preserve all the original solutions to the problem, while greatly reducing the search space.
+
+\noindent The $ContradictionException$ on line 11 is an exception that is raised by Choco3 whenever a variable is left with an empty domain or is instantiated to a value that is out of its initial domain. This usually happens in overconstrained problems, where there are no values in the domains of the variables that satisfy all the constraints at once. In such cases, there would be no valid solutions to the problem. This is not the case with the example showcased here, as there are three variables with three different values in total.
+
+\noindent Once the propagation is finished, a call is made on line 15 to output the updated domains of the variables. The updated domains after the call to the $propagation$ method are as follows: $x = \{1, 2\}$, $y = \{1, 2\}$ and $z = \{3\}$. The variable $z$ lost the value $2$ from its domain, while to the domains of $x$ and $y$ stayed the same. There are two reasons behind removing the value $2$ from the domain of variable $z$. Firstly, there would no solutions with $z$ taking the value of $2$ as this would leave either $x$ or $y$ with an empty domain after one of them takes the value of $1$. Secondly, two variables ($x$ and $y$) have the same domain of $\{1, 2\}$, therefore a solution that is consistent with the alldifferent constraint will have $x$ taking the value of $1$ and $y$ taking the value of $2$ (or vice-versa), making it impossible for $z$ to take the value of $2$.  Since we know that the values $1$ and $2$ will be attributed to $x$ and $y$, the value $2$ is removed from the domain of $z$ to reflect this change and reduce the search space.
+
+\noindent Lines 17 to 25 will iterate over the two solutions of the problem and print the values for the variables. The solutions to the problem are $S_1 = \{1, 2, 3\}$ and $S_2 = \{2, 1, 3\}$ and they both contain values for the three variables that satisfy the alldifferent constraint.
+
 \chapter{Algorithms for AllDiff}
 \label{chap4alldiffalgos}
 
@@ -1176,6 +1232,6 @@ The following sequence of steps will provide a visual proof of the all-different
 %%%%%%%%%%%%%%%%%%%%
 
 \bibliographystyle{plain}
-\bibliography{bib}
+\bibliography{mybib}
 
 \end{document}
