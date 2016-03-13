@@ -180,6 +180,8 @@ The rest of the report will provide information on the algorithms used and their
 \section{Sudoku}
 \noindent Sudoku is a puzzle
 
+
+
 \begin{figure}[H]
 %\vspace{-6cm}
 \begin{center}
@@ -246,7 +248,7 @@ After finding maximum matchings for all the value graphs associated to the const
 
 \noindent To begin reducing the domains of the variables, more definitions regarding matches are introduced. First, a vertex is $matched$ if there is an edge connecting it to a vertex in another partition of the graph. Vertices that are not matched are said to be $free$. Alternating paths represent paths made of edges that are alternatively matches and free and have a length corresponding to the number of edges in the path. Vital edges are edges that are part of all the maximum matchings in the value graph of a constraint.
 
-\noindent Berge’s property (TODO) is used to find the edges that correspond to no maximum matchings and can therefore be deleted. According to the property, such edges are not vital and when starting from an arbitrary maximum matching, no even alternating paths can be found to include that edge. The algorithm starts by computing a maximum matching for the value graph of a constraint of difference. After this, an algorithm such as the one proposed by Tarjan (TODO) is used to find the strongly connected components in the graph. This means that edges in such a component will belong to even alternating paths, as the graph is bipartite and doesn’t have any odd cycles. The step of finding strongly connected components is necessary as this means that every edge connecting vertices from two strongly connected components can be deleted as it will never be part of an even alternating bath. The deletion of an edge in the value graph of the constraint represents the reduction of a variable’s domain and is done for reasons independent from the constraint. The complexity of this algorithm proposed by Jean-Charles Regin’s is of $O(p^2 * d^2)$ for one constraint of difference.
+\noindent Berge’s property (TODO) is used to find the edges that correspond to no maximum matchings and can therefore be deleted. According to the property, such edges are not vital and when starting from an arbitrary maximum matching, no even alternating paths can be found to include that edge. The algorithm starts by computing a maximum matching for the value graph of a constraint of difference. After this, an algorithm such as the one proposed by Tarjan (TODO) is used to find the strongly connected components in the graph. This means that edges in such a component will belong to even alternating paths, as the graph is bipartite and doesn’t have any odd cycles. The step of finding strongly connected components is necessary as this means that every edge connecting vertices from two strongly connected components can be deleted as it will never be part of an even alternating path. The deletion of an edge in the value graph of the constraint represents the reduction of a variable’s domain and is done for reasons independent from the constraint. The complexity of this algorithm proposed by Jean-Charles Regin’s is of $O(p^2 * d^2)$ for one constraint of difference.
 
 \noindent Reducing the domain of a variable by deleting edges in the value graph of a constraint can trigger modifications for other constraints involving the same variable. If a variable is part of other constraints of difference, the author shows a more efficient propagation approach than simply repeating the same algorithm. The filtering algorithm for the second constraint builds on the information from the previous step by trying to remove the same edges in the value graph of the new constraint as long as they are not vital and a new maximum matching can be found.
 
@@ -946,9 +948,49 @@ node & index & low & stack & new component & color \\
 
 \noindent The depth-first search procedure finishes on line 29 by updating the total number of strongly connected components discovered.
 
-\noindent The final step in the all-different algorithm uses the knowledge gained after finding the strongly connected component in the graph using Tarjan’s algorithm. For this step, we are going to be interested only the edges that link two vertices in different strongly connected component. Figure 2.10 TODO shows a graph highlighting the edges we are interested in. It is important to remember that we chose a graph with 18 vertices to highlight how the all-different algorithm will run on the 9 variables of a Sudoku row. The variables of the Sudoku row are shown in the left $L$ partition of the graph and are assigned letters from A-I, each having edges to vertices in the right $R$ partition of the graph representing digits in the domain of the variable. The direction of the edges that are left indicate two actions. Forward edges (coloured in red) indicate that the digits from the right $R$ partition should be removed from the domain of the variables in the $L$ partition to achieve consistency TODO. Backward edges (coloured in blue) indicate finding the solution to a variable, in this case the first variable $A$ of a selected Sudoku row will certainly take the value of $1$ as all other options were removed from its domain.
+\section{Deletion of edges from the graph}
 
-\newpage
+\noindent The final step in the all-different algorithm uses the knowledge gained after computing a maximum matching and finding the strongly connected components in the graph. For this step, every edge that does not belong to any matching covering the vertices in the left partition of the graph will be deleted. The algorithm shown in \Cref{RemovePC} is a slight adaptation of the fourth and final step in Jean-Charles Regin's paper \cite{regin1994filtering} describing the all-different constraint. The algorithm starts by computing a matching using the Ford Fulkerson algorithm. Having the match, a breadth-first search is made on the free vertices in the graph and traversed edges are marked as $used$. Tarjan's algorithm is then used to find the strongly connected components in the graph. Each edge connecting two vertices in the same component is marked as $used$. Finally, all the edges in the graph that are $unused$ and are not part of the matching will be deleted from the graph. The $unused$ edges represent edges that are not part of any alternating path of even length, and therefore belong to no possible matching in the value graph of the constraint. The removed edges in the graph correspond to values getting removed from the domains of the variables, and represents the way the search spaced is pruned making the search for a solution more efficient.
+
+\begin{algorithm}[H]
+\DontPrintSemicolon
+$\mathit{RemoveEdgesFromGraph}(\textbf{Graph}~G)$ \;
+// \textit{RemovedEdges} is the set of edges removed from G \;
+// $M(G)$ is a matching over $G$ using the Ford-Fulkerson algorithm \;
+// The function returns \textit{RemovedEdges} \;
+\Begin{
+    \nl Mark all the edges in graph \textit{G} as $unused$ \;
+    \nl Initialize \textit{RemovedEdges} to the empty set \;
+    \nl Compute a mathing over \textit{G} using the Ford–Fulkerson algorithm\;
+    \nl Perform a breadth-first search starting from the free vertices and mark all visited edges as $used$ \;
+    \nl Compute the strongly connected components of graph \textit{G} using Tarjan's algorithm \;
+    \nl Mark each edge that connects two vertices in the same component as $used$ \;
+
+\nl \For {\normalfont{each edge} $e$ \normalfont{in graph} $G$ \normalfont{that is} $unused$}{
+ \eIf {$e$ $\in M(G)$}{ mark $e$ as $vital$ }{ \textit{RemovedEdges} $\gets $ \textit{RemovedEdges}$ ~ \cup ~ \{e\}$ \;
+   Remove $e$ from $G$
+ }
+}
+$\textbf{return} ~ \textit{RemovedEdges} $
+}
+\;
+\caption{Remove edges from the value graph of a constraint of difference}
+\label{RemovePC}
+\end{algorithm}
+
+\begin{figure}[H]
+\begin{center}
+\large
+\begin{TAB}(e, 1.5cm, 1.5cm){|c|c|c|c|c|c|c|c|c|}{|c|}
+18 & 23 & 23 & 245 & 456 & 456 & 279 & 378 & 23589
+\end{TAB}
+\end{center}
+\caption{A Sudoku row used to illustrate the alldifferent algorithm}
+\label{fig:row_1}
+\end{figure}
+
+\noindent The recently described last step of the all-different algorithm is the general implementation of the all-different constraint. The properties of the all-different constraints used in the Sudoku puzzle make the last step of the all-different algorithm much easier. It is good to notice that the chosen value graph used in this paper has 18 vertices in two partitions. The Sudoku row shown in \Cref{fig:row_1} corresponds to the value graph that was used in this paper and was chosen as an example to illustrate the effects of running the all-different algorithm on the 9 variables involved in the constraint. The value graph of the constraint is shown in figure 4.10 TODO. The variables of the Sudoku row in the left $L$ partition of the value graph and have names from A to I. Each variable has edges to vertices in the right $R$ partition of the graph representing digits in the domain of the variable. As all the constraints of difference in the Sudoku puzzle have 9 variables taking at most 9 possible values, the two partitions of the graph will always be balanced. This property makes the last step of the all-different constraint a straightforward process in the case of the Sudoku puzzle. This alternative algorithm for the last step in the all-different constraint considers all the edges that connect two vertices from different components of the value graph. Edges of interest are highlighted in Figure 4.10 TODO. The direction of the edges indicate two outcomes and are coloured in blue and red as shown in Figure 4.11. Forward edges (coloured in red) indicate that the digits from the right $R$ partition should be removed from the domain of the variables in the $L$ partition as they will never be part of an even alternating path and therefore can't be part of a solution where the constraint holds. Backward edges (coloured in blue) indicate finding the unique assignment to a variable. In the case shown in Figure 4.11 TODO, the first variable $A$ of a selected Sudoku row will certainly take the value of $1$ as all other values got removed from its domain.
+
 %grapht2start
 \begin{figure}[H]
 %graph23
@@ -1011,7 +1053,7 @@ node & index & low & stack & new component & color \\
 
 
 \end{psmatrix}
-\caption{Initial graph}
+\caption{Edges connecting vertices in separate components}
 \label{graph23}
 \end{minipage}
 %graph24
@@ -1051,25 +1093,11 @@ node & index & low & stack & new component & color \\
 \nccurve[angleB=180, offsetA=3pt, offsetB=3pt, linecolor=red]{9,1}{5,2} % i > 5
 
 \end{psmatrix}
-\caption{Maximum matching}
+\caption{Deletions (red) and assignments (blue) for the variables}
 \label{graph24}
 \end{minipage}
-\caption{Tarjan's algorithm next steps TODO: rename}
-\label{fig:ff_1_6}
 \end{figure}
 %grapht2end
-
-
-\begin{figure}[H]
-\begin{center}
-\large
-\begin{TAB}(e, 1.5cm, 1.5cm){|c|c|c|c|c|c|c|c|c|}{|c|}
-18 & 23 & 23 & 245 & 456 & 456 & 279 & 378 & 23589
-\end{TAB}
-\end{center}
-\caption{A Sudoku row used to illustrate the alldifferent algorithm}
-\label{fig:row_1}
-\end{figure}
 
 \begin{figure}[H]
 \begin{center}
@@ -1078,9 +1106,11 @@ node & index & low & stack & new component & color \\
 \textcolor{blue}{1}\textcolor{red}{8} & 23 & 23 & \textcolor{red}{2}45 & 456 & 456 & \textcolor{red}{2}79 & \textcolor{red}{3}78 & \textcolor{red}{235}89
 \end{TAB}
 \end{center}
-\caption{Removal of values from the domain (in red) and assignments (in blue) in a Sudoku row after the alldifferent algorithm}
+\caption{Removal of values from the domain (in red), and assignments (in blue) in a Sudoku row}
 \label{fig:row_2}
 \end{figure}
+
+\noindent The \Cref{fig:row_1} shows the final state of the Sudoku row after the last step in the all-different algorithm. Values coloured in red correspond to edges that got removed from the value graph of the constraint. Values coloured in blue represent the unique value that is assigned to a variable as all other values from the domain got removed.
 
 \chapter{AllDiff Demo}
 \label{chap5alldiffdemo}
@@ -1185,19 +1215,29 @@ Move this from here
 %%%%%%%%%%%%%%%%
 \begin{appendices}
 \chapter{Running the Program}
-An example of running from the command line is as follows:
+Running the program from the command line is done after compiling the source code as follows:
 \begin{verbatim}
       > javac *.java
       > java Sudoku
 \end{verbatim}
-This will open the application loaded with the hard Sudoku problem $/herald20061222H.txt$.
+This will open the application loaded with the Sudoku puzzle $\textit{/puzzles/lockedset.txt}$.
 
-\noindent
-\textbf{TODO}: what about the Choco3 library? add it to path? remove it?
+\noindent Detailed debug output in the console can be activated using:
+\begin{verbatim}
+      > java Sudoku debug
+\end{verbatim}
+
+\noindent NOTE that the Choco3 library found in $\textit{lib/choco-solver-3.3.1-with-dependencies.jar}$ has to be added to the CLASSPATH environment variable as follows:
+
+\begin{verbatim}
+      > export CLASSPATH=$CLASSPATH:/path/to/the/lib/choco-solver-3.3.1-
+with-dependencies.jar
+\end{verbatim}
+
 
 \chapter{Proof of concept}
 
-The following sequence of steps will provide a visual proof of the all-different algorithm. The following figures capture the user running the all-different algorithm on 5 predetermined rows, columns or 3x3 sub-grids. For demonstration purposes, the Sudoku instance used is $lockedset.txt$.
+The following sequence of steps will provide a visual proof of the all-different algorithm. The following figures capture the user running the all-different algorithm on 5 predetermined rows, columns or 3x3 sub-grids. For demonstration purposes, the Sudoku instance used is $/puzzles/lockedset.txt$.
 
 \noindent The sequence is as follows:
 \begin{verbatim}
@@ -1205,26 +1245,28 @@ The following sequence of steps will provide a visual proof of the all-different
       >
       > Select the 1st column
       > Run the all-different algorithm
-      > Unselect
+      > Deselect the column
       >
       > Select the 5th row
       > Run the all-different algorithm
-      > Unselect
+      > Deselect the row
       >
       > Select the 6th row
       > Run the all-different algorithm
-      > Unselect
+      > Deselect the row
       >
       > Select the 4th 3x3 sub-grid
       > Run the all-different algorithm
-      > Unselect
+      > Deselect the sub-grid
       >
       > Select the 1st column
       > Run the all-different algorithm
-      > Unselect
+      > Deselect the 1st column
 \end{verbatim}
 
 \noindent Alternatively, the user can press the $Show Demo$ button to run the same steps.
+
+\noindent Detailed description about why the last state of the program is a proof that the algorithm works as expected is provided in Chapter~\ref{chap5alldiffdemo}.
 \end{appendices}
 
 %%%%%%%%%%%%%%%%%%%%
