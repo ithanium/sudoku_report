@@ -13,6 +13,8 @@
 
 \usepackage{cleveref}
 
+\usepackage[backend=bibtex,style=numeric]{biblatex}  %backend=biber is 'better'  
+
 \usepackage[nottoc,notlot,notlof]{tocbibind}
 
 \usepackage{pstricks, pst-node}
@@ -76,6 +78,16 @@
 
 \RequirePackage{filecontents}
 \begin{filecontents}{mybib.bib}
+  @online{tarjanart,
+  author = {Robert Tarjan},
+  title = {HP Labs - Inventor interview - Robert Tarjan : The art of the algorithm},
+  year = 2004,
+  organization = {},
+  file = {:./references/HP Labs - Inventor interview - Robert Tarjan : The art of the algorithm.html:html},
+  url = {http://www.hpl.hp.com/news/2004/oct_dec/tarjan.html},
+  urldate = {2016-03-14}
+  }
+  
 @article{tarjan1972depth,
   title={Depth-first search and linear graph algorithms},
   author={Tarjan, Robert},
@@ -130,6 +142,8 @@
 
 \end{filecontents}
 
+\addbibresource{mybib.bib}
+
 \begin{document}
 
 \title{Animating a Sudoku solver}
@@ -180,8 +194,6 @@ The rest of the report will provide information on the algorithms used and their
 \section{Sudoku}
 \noindent Sudoku is a puzzle
 
-
-
 \begin{figure}[H]
 %\vspace{-6cm}
 \begin{center}
@@ -189,15 +201,17 @@ The rest of the report will provide information on the algorithms used and their
 \begin{minipage}{6cm}
 %\centering
 \includegraphics[height=6cm]{sudokugrid.pdf}
+\caption{A Sudoku puzzle}
+\label{sudokugrid1}
 \end{minipage}
 %\hfill
 \hspace{2.5cm}
 \begin{minipage}{6cm}
 %\centering
 \includegraphics[trim=0.075cm 0.075cm 0.075cm 0.075cm, height=6cm]{sudokugrid2.pdf}
+\caption{The state of the puzzle after the propagation}
+\label{sudokugrid2}
 \end{minipage}
-\caption{An initial Sudoku puzzle, and the state of the puzzle after a propagation}
-\label{sudokugrid1}
 \end{center}
 \end{figure}
 
@@ -1199,7 +1213,7 @@ $\textbf{return} ~ \textit{RemovedEdges} $
 
 \chapter{Conclusion and Future Work}
 \label{chap7conclusion}
-We have shown how to implement the all-different constraint.
+``It is one thing to have an algorithm that is theoretically good. It is another to have an algorithm that is simple enough that someone would want to program it and use it in practice.'' \cite{tarjanart}
 
 \begin{figure}[H]
 \centering
@@ -1273,7 +1287,8 @@ The following sequence of steps will provide a visual proof of the all-different
 %   BIBLIOGRAPHY   %
 %%%%%%%%%%%%%%%%%%%%
 
-\bibliographystyle{plain}
-\bibliography{mybib}
+%\bibliographystyle{plain}
+%\bibliography{mybib}
+\printbibliography
 
 \end{document}
