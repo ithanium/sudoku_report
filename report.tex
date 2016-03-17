@@ -164,7 +164,7 @@
 %
 \tableofcontents
 %==============================================================================
-\chapter{Introduction - TODO}
+\chapter{Introduction}
 \label{chap1intro}
 \pagenumbering{arabic}
 
@@ -352,7 +352,7 @@ if(solver.findSolution()){
 
 \noindent Lines 17 to 25 will iterate over the two solutions of the problem and print the values for the variables. The solutions to the problem are $S_1 = \{1, 2, 3\}$ and $S_2 = \{2, 1, 3\}$ and they both contain values for the three variables that satisfy the all-different constraint.
 
-\chapter{Algorithms for AllDiff}
+\chapter{Algorithms for All-Different}
 \label{chap4alldiffalgos}
 
 \section{Ford Fulkerson}
@@ -1136,7 +1136,7 @@ $\textbf{return} ~ \textit{RemovedEdges} $
 
 \noindent The \Cref{fig:row_2} shows the final state of the Sudoku row after the last step in the all-different algorithm. Values coloured in red correspond to edges that got removed from the value graph of the constraint. Values coloured in blue represent the unique value that is assigned to a variable as all other values from the domain got removed.
 
-\chapter{AllDiff Demo - TODO}
+\chapter{AllDifferent Demo}
 \label{chap5alldiffdemo}
 
 \noindent implementation and usage
@@ -1199,7 +1199,7 @@ $\textbf{return} ~ \textit{RemovedEdges} $
 \noindent The end result of following the above steps can be seen in ~\Cref{fig:proof_6}. This state mimics the human thinking when solving a Sudoku. In the 1st column there are two cells with a domain of ${1, 8}$, but \textbf{TODO WE:}we don't know yet which cell will take which digit. What \textbf{TODO WE:}we do know though, is that the digits ${1, 8}$ will be distributed in that two particular cells, therefore in the last step, after running the all-different algorithm on the 1st column \textbf{TODO WE:}we can observe that the digits ${1, 8}$ disappear from the domains of the rest of the cells in the selection.
 
  
-\chapter{Implementation - TODO}
+\chapter{Implementation}
 \label{chap6implementation}
 
 \noindent The Graphical User Interface (GUI) is inside a JLayeredPane which is a special swing component that allows components inside it to overlap according to their specified depth. In my implementation, the backmost layer contains a JPanel responsible for the drawn edges in the graph. The layer above contains the rest of the GUI represented by the Sudoku puzzle on the left hand side of the screen, and the vertices of the graph on the right hand side of the screen. By using a layered panel, the edges of the graph can be drawn behind the vertices.
@@ -1235,7 +1235,7 @@ The aim of this project was to develop a Java application to be used during the 
 As a Joint Honours student which studies Computing Science and Business Management, I have come to appreciate the importance of an efficient algorithm over an expensive hardware upgrade. Powerful algorithms such as the one in this paper can offer a great competitive advantage in business environments that deal with hard combinatorial problems on a daily basis. Such an example would be the scheduling of the deliveries that need to be made the next day, where an optimal solution should be found in a matter of hours. In the end I would like to quote Robert Tarjan, a Turing Award winner, on the characteristics of a good algorithm:``It is one thing to have an algorithm that is theoretically good. It is another to have an algorithm that is simple enough that someone would want to program it and use it in practice.'' \cite{tarjanart}.
 
 \section{Acknowledgements}
-\noindent I would like to thank my supervisor, \normalfont{Dr. Patrick Prosser}, and Ciaran McCreesh, for all their guidance and feedback provided throughout this project.
+\noindent I would like to thank my supervisor, Dr.~Patrick Prosser, and Ciaran McCreesh, for all their guidance and feedback provided throughout this project.
 
 
 %%%%%%%%%%%%%%%%
