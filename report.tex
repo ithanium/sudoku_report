@@ -80,6 +80,25 @@
 
 \RequirePackage{filecontents}
 \begin{filecontents}{mybib.bib}
+
+  @inproceedings{eppstein2012solving,
+  title={Solving Single-Digit Sudoku Subproblems.},
+  author={Eppstein, David},
+  booktitle={FUN},
+  pages={142--153},
+  year={2012},
+  organization={Springer}
+}
+
+  @inproceedings{stergiou1999difference,
+  title={The difference all-difference makes},
+  author={Stergiou, Kostas and Walsh, Toby},
+  booktitle={IJCAI},
+  volume={99},
+  pages={414--419},
+  year={1999}
+}
+
   @online{tarjanart,
   author = {Robert Tarjan},
   title = {HP Labs - Inventor interview - Robert Tarjan : The art of the algorithm},
@@ -182,12 +201,12 @@ The motivation of this project is to provide a tool that makes it easier for a l
 \section{Report Content}
 The rest of the report will provide information on the algorithms used and their implementation in the project.
 \begin{itemize}
-\item Chapter~\ref{chap2background} covers details about the Sudoku puzzle and Constraint Programming.
-\item Chapter~\ref{chap3alldiffconstraint} introduces a powerful constraint of difference.
-\item Chapter~\ref{chap4alldiffalgos} explains the two algorithms needed to solve a constraint of difference.
-\item Chapter~\ref{chap5alldiffdemo} covers a presentation of the project solving a Sudoku puzzle.
-\item Chapter~\ref{chap6implementation} explains the implementation of the project.
-\item Chapter~\ref{chap7conclusion} details the overall achievements of the project.
+\item \textbf{Chapter~\ref{chap2background}} covers details about the Sudoku puzzle and Constraint Programming.
+\item \textbf{Chapter~\ref{chap3alldiffconstraint}} introduces a powerful constraint of difference.
+\item \textbf{Chapter~\ref{chap4alldiffalgos}} explains the two algorithms needed to solve a constraint of difference.
+\item \textbf{Chapter~\ref{chap5alldiffdemo}} covers a presentation of the project solving a Sudoku puzzle.
+\item \textbf{Chapter~\ref{chap6implementation}} explains the implementation of the project.
+\item \textbf{Chapter~\ref{chap7conclusion}} details the overall achievements of the project.
 %appendices
 \end{itemize}
 
@@ -205,7 +224,7 @@ The rest of the report will provide information on the algorithms used and their
 \includegraphics[height=6cm]{sudokugrid.pdf}
 \caption{A Sudoku puzzle}
 \label{sudokugrid1}
-\end{minipage}
+\end{minipage}%
 %\hfill
 \hspace{2.5cm}
 \begin{minipage}{6cm}
@@ -213,7 +232,7 @@ The rest of the report will provide information on the algorithms used and their
 \includegraphics[trim=0.075cm 0.075cm 0.075cm 0.075cm, height=6cm]{sudokugrid2.pdf}
 \caption{The state of the puzzle after the propagation}
 \label{sudokugrid2}
-\end{minipage}
+\end{minipage}%
 \end{center}
 \end{figure}
 
@@ -397,7 +416,7 @@ e&5 \\
 \end{psmatrix}
 \caption{Initial graph}
 \label{graph1}
-\end{minipage}
+\end{minipage}%
 %graph2
 \hfill
 \begin{minipage}{8.5cm}
@@ -435,7 +454,7 @@ e&5 \\
 \end{psmatrix}
 \caption{S\&T nodes added}
 \label{graph2}
-\end{minipage}
+\end{minipage}%
 \vspace*{1cm}
 %graph3
 %\hfill
@@ -479,7 +498,7 @@ e&5 \\
 \end{psmatrix}
 \caption{Greedy match}
 \label{graph3}
-\end{minipage}
+\end{minipage}%
 %graph4
 \hfill
 \begin{minipage}{8.5cm}
@@ -517,7 +536,7 @@ e&5 \\
 \end{psmatrix}
 \caption{Longer augmenting path}
 \label{graph4}
-\end{minipage}
+\end{minipage}%
 
 \vspace*{1cm}
 %\null\hfill
@@ -557,7 +576,7 @@ e&5 \\
 \end{psmatrix}
 \caption{New matching}
 \label{graph5}
-\end{minipage}
+\end{minipage}%
 \hfill
 %graph6
 \begin{minipage}{8.5cm}
@@ -583,7 +602,7 @@ e&5 \\
 \end{psmatrix}
 \caption{Maximum matching}
 \label{graph6}
-\end{minipage}
+\end{minipage}%
 %\null\hfill
 \caption{Ford–Fulkerson algorithm}
 \label{fig:ff_1_6}
@@ -772,7 +791,7 @@ Now that all the edges from the graph are directed, the next step in the all-dif
 \end{psmatrix}
 \caption{An initial graph}
 \label{graph21}
-\end{minipage}
+\end{minipage}%
 %graph22
 \hfill
 \begin{minipage}{8.0cm}
@@ -835,7 +854,7 @@ Now that all the edges from the graph are directed, the next step in the all-dif
 \end{psmatrix}
 \caption{The components of the graph}
 \label{graph22}
-\end{minipage}
+\end{minipage}%
 %\caption{Tarjan's algorithm TODO RENAME}
 %\label{fig:ff_1_6} %todo rename
 \end{figure}
@@ -1079,7 +1098,7 @@ $\textbf{return} ~ \textit{RemovedEdges} $
 \end{psmatrix}
 \caption{Edges connecting vertices in separate components}
 \label{graph23}
-\end{minipage}
+\end{minipage}%
 %graph24
 \hfill
 \begin{minipage}{8.0cm}
@@ -1119,7 +1138,7 @@ $\textbf{return} ~ \textit{RemovedEdges} $
 \end{psmatrix}
 \caption{Deletions (red) and assignments (blue) for the variables}
 \label{graph24}
-\end{minipage}
+\end{minipage}%
 \end{figure}
 %grapht2end
 
@@ -1155,43 +1174,58 @@ $\textbf{return} ~ \textit{RemovedEdges} $
 
 \noindent Humans and the all-different algorithm are smart enough to use this information to their advantage and remove the two values from the domains of the adjacent variables. By using this technique, \textbf{TODO WE:}we can ensure the progress of the algorithm towards a solution, even though \textbf{TODO WE:}we still don’t know which two variables take which two values. It is good to note that although humans may choose a guessing approach to continue towards a solution, the all-different algorithm performs no guessing and works only with the information about the current state of the puzzle.
 
+\newpage
 
-\begin{figure}[h]
+\begin{figure}[H]
+\begin{minipage}{8.0cm}
+\centering
+\includegraphics[width=8cm]{images/proof_of_concept/screenshot1.png}
+\caption{1st column after finding a maximum matching}
+\label{screenshot1}
+\end{minipage}%
 \hfill
-\subfigure[1st column after running the all-different algorithm]{\includegraphics[width=8cm]{images/proof_of_concept/1.png}}
+\begin{minipage}{8.0cm}
+\centering
+\includegraphics[width=8cm]{images/proof_of_concept/screenshot2.png}
+\caption{1st column after running the all-different algorithm}
+\label{screenshot2}
+\end{minipage}%
+\vspace*{1cm}
+\begin{minipage}{8.0cm}
+\centering
+\includegraphics[width=8cm]{images/proof_of_concept/screenshot3.png}
+\caption{5th row after running the all-different algorithm}
+\label{screenshot3}
+\end{minipage}%
 \hfill
-\subfigure[5th row after running the all-different algorithm]{\includegraphics[width=8cm]{images/proof_of_concept/2.png}}
-\vspace*{2cm}
+\begin{minipage}{8.0cm}
+\centering
+\includegraphics[width=8cm]{images/proof_of_concept/screenshot4.png}
+\caption{6th row after running the all-different algorithm}
+\label{screenshot4}
+\end{minipage}%
+\vspace*{1cm}
+\begin{minipage}{8.0cm}
+\centering
+\includegraphics[width=8cm]{images/proof_of_concept/screenshot5.png}
+\caption{4th $3\times 3$ sub-grid after running the all-different algorithm}
+\label{screenshot5}
+\end{minipage}%
 \hfill
-%\caption{Title for both}
-%\end{figure}
-
-%\begin{figure}[h]
-\hfill
-\subfigure[6th row after running the all-different algorithm]{\includegraphics[width=8cm]{images/proof_of_concept/3.png}}
-\hfill
-\subfigure[4th $3\times 3$ sub-grid after running the all-different algorithm]{\includegraphics[width=8cm]{images/proof_of_concept/4.png}}
-\vspace*{2cm}
-\hfill
-%\caption{Title for both}
-%\end{figure}
-
-%\begin{figure}[h]
-\hfill
-\subfigure[1st column after running the all-different algorithm]{\includegraphics[width=8cm]{images/proof_of_concept/5.png}}
-\hfill
-%\subfigure[Proof]{\includegraphics[width=8cm]{images/proof_of_concept/6.png}}
-\hfill
-\caption{Steps in the demo}
-\label{fig:proof_1_5}
+\begin{minipage}{8.0cm}
+\centering
+\includegraphics[width=8cm]{images/proof_of_concept/screenshot6.png}
+\caption{1st column after running the all-different algorithm}
+\label{screenshot6}
+\end{minipage}%
 \end{figure}
 
-\clearpage 
+\newpage
 
-\begin{figure}[h]
-\includegraphics[width=16cm]{images/proof_of_concept/6.png}
+\begin{figure}[H]
+\includegraphics[width=16cm]{images/proof_of_concept/screenshot7.png}
 \caption{State of the program after running the demo}
-\label{fig:proof_6}
+\label{screenshot7}
 \end{figure}
 
 \noindent As seen in ~\Cref{fig:proof_1_5}, the all-different algorithm performs changes only to the selected 9 cells  inside a row, column or $3\times 3$ sub-grid. 
