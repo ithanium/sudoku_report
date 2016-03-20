@@ -80,14 +80,43 @@
 
 \RequirePackage{filecontents}
 \begin{filecontents}{mybib.bib}
+  @article{hopcroft1973n,
+  title={An n\^{}5/2 algorithm for maximum matchings in bipartite graphs},
+  author={Hopcroft, John E and Karp, Richard M},
+  journal={SIAM Journal on computing},
+  volume={2},
+  number={4},
+  pages={225--231},
+  year={1973},
+  publisher={SIAM}
+}
 
-  @inproceedings{eppstein2012solving,
-  title={Solving Single-Digit Sudoku Subproblems.},
-  author={Eppstein, David},
-  booktitle={FUN},
-  pages={142--153},
-  year={2012},
-  organization={Springer}
+@article{crook2009pencil,
+  title={A pencil-and-paper algorithm for solving Sudoku puzzles},
+  author={Crook, JF},
+  journal={Notices of the AMS},
+  volume={56},
+  number={4},
+  pages={460--468},
+  year={2009}
+}
+
+  @inproceedings{gomes2002completing,
+  title={Completing quasigroups or latin squares: A structured graph coloring problem},
+  author={Gomes, Carla and Shmoys, David},
+  booktitle={proceedings of the Computational Symposium on Graph Coloring and Generalizations},
+  pages={22--39},
+  year={2002}
+}
+
+@inproceedings{simonis2005sudoku,
+  title={Sudoku as a constraint problem},
+  author={Simonis, Helmut},
+  booktitle={CP Workshop on modeling and reformulating Constraint Satisfaction Problems},
+  volume={12},
+  pages={13--27},
+  year={2005},
+  organization={Citeseer}
 }
 
   @inproceedings{stergiou1999difference,
@@ -1248,15 +1277,8 @@ $\textbf{return} ~ \textit{RemovedEdges} $
 
 \noindent Throughout the application, Timer objects are used to schedule repeated actions such as the fading out of the components or movement of the cells. The model contains a two-dimensional ArrayList of Timer objects that acts as a queue of animations. Timers on the same level start running at the same time until they all finish. Once all the timers on a level finish, the next level in the two-dimensional ArrayList is started, allowing us to queue a movement of a row after all the cells finish fading out.
 
-%\lstset{language=Java}
-
-%\begin{figure}
-%\lstset{caption={Implementation of Tarjan's algorithm %for finding strongly connected %components},label=codeTarjan}
-%\lstinputlisting{Tarjan.java}
-%\end{figure}
-
 \chapter{Conclusion}
-\label{chap7conclusion}
+\label{chap7conclusion} 
 \section{Summary}
 The aim of this project was to develop a Java application to be used during the Constraint Programming lectures to introduce students to the all-different algorithm. This paper started by introducing general concepts from Constraint Programming, a programming paradigm that originated from Artificial Intelligence. A chapter is dedicated to reviewing Jean-Charles Regin's paper \cite{regin1994filtering} from 1994 describing the all-different constraint. The algorithm is a sequence of steps that perform operations such as finding a maximum matching and the strongly connected components in the value graph of a constraint of difference. The Ford-Fulkerson algorithm was used in this project to compute the maximum matching, and Tarjan's algorithm to find the strongly connected components in the graph. The Sudoku puzzle was chosen to illustrate the steps in the all-different algorithm. A Java program was developed to model the problem and provide a Graphical User Interface showing the puzzle and the value graphs of the all-different constraints. A description of the algorithms used and how the project was implemented in Java is provided in the paper.
 
@@ -1270,6 +1292,12 @@ As a Joint Honours student which studies Computing Science and Business Manageme
 
 \section{Acknowledgements}
 \noindent I would like to thank my supervisor, Dr.~Patrick Prosser, and Ciaran McCreesh, for all their guidance and feedback provided throughout this project.
+\cite{crook2009pencil}
+\cite{gomes2002completing}
+\cite{simonis2005sudoku}
+\cite{stergiou1999difference}
+\cite{hopcroft1973n}
+TODO
 
 
 %%%%%%%%%%%%%%%%
