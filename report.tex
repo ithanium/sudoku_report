@@ -732,6 +732,7 @@ e&5 \\
 \newpage
 
 \section{Tarjan algorithm}
+\label{tarjansection}
 \noindent A strongly connected component $SCC$ of a directed graph $G$ is a maximal set of vertices such that every vertex is reachable from every other vertex by following the directed edges.
 
 \noindent There are four kinds of edges in a depth-first traversal: tree edges, forward edges, back edges and cross edges. Tree edges are edges between a vertex and vertices that were not previously visited. Forward edges are from ancestor vertices to descendant vertices that were already visited during the search. Back edges link descendant vertices back to already visited ancestor vertices. Lastly, cross edges represent edges between two vertices that are neither an ancestor nor a descendant for each other, such as the edges between different components of the graph. 
@@ -1184,26 +1185,20 @@ $\textbf{return} ~ \textit{RemovedEdges} $
 
 \noindent The \Cref{fig:row_2} shows the final state of the Sudoku row after the last step in the all-different algorithm. Values coloured in red correspond to edges that got removed from the value graph of the constraint. Values coloured in blue represent the unique value that is assigned to a variable as all other values from the domain got removed.
 
-\chapter{AllDifferent Demo}
+\chapter{AllDifferent Demonstration}
 \label{chap5alldiffdemo}
 
-\noindent implementation and usage
+\noindent This chapter provides a demonstration of the Java application developed to solve Sudoku puzzles using Constraint Programming. The Graphical User Interface of the application is split into two parts, the left-hand side showing a Sudoku puzzle, while the right-hand side shows the value graph of an all-different constraint. Each time a row, column or $3 \times 3$ sub-square is selected by the user, the corresponding $9$ variables are highlighted in the Sudoku puzzle. The steps in the all-different alogorithm perform changes on the graph of the selected constraint of difference.
 
-\noindent Explain how demo is used, what it shows, etc (NOT implementation)
+\noindent Every Constraint Satisfaction Problem (CSP) has variables with domains associated to them and constraints that should hold for a solution. For the purpose of this project, there are 81 variables representing the $9 \times 9$ cells in the Sudoku grid, each with an initial domain of integers from 1 to 9 as shown in \Cref{screenshot1}. The aim is to reduce the domain of all the variables to a single value, the correct value that is part of the solution. As all initial Sudoku puzzles start with a partially completed grid, values that represent clues are reflected as variables that have an initial domain of a single value, the known digit. Such variables keep their initial assignment throughout the algorithm, as no other values are present in their domain.
 
-\noindent Every Constraint Satisfaction Problem (CSP) has variables with domains and constraints associated to them. To start solving Sudoku puzzles, \textbf{TODO WE:}we have to come up with a model representation of the problem. For the purpose of this exercise, there will be 81 variables representing the $9 \times 9$ cells in the Sudoku grid, each with an initial domain of integers from 1 to 9. As all the initial puzzles start with a partially completed grid, values that are known will be reflected as variables with an initial domain of one digit, the known value. Such variables will therefore keep their initial domain throughout the algorithm, as no other values are present in their domain.
+\noindent The constraints for a Sudoku puzzle can be expressed in a natural language as such: “digits may not appear twice in the same row, column or $3\times 3$ sub-squares”. The rules of the puzzle highlight the need of thinking in terms of $9$ rows, $9$ columns and $9$ sub-squares, each of them having digits from $1$ to $9$ with no repetition. The CSP shown in the application has $27$ all-different constraints, one for each of the $9$ rows, columns and sub-squares. Each constraint contains 9 variables that should take different values. As each variable is part of a row, column and sub-square, it is therefore involved in 3 constraints of difference at the same time.
 
-\noindent The constraints for a Sudoku puzzle can be expressed in natural language as such: “digits may not appear twice in the same row, column or $3\times 3$ subregions”. The rules of the puzzle highlight the need of thinking in terms of 9 rows, 9 columns and 9 subregions, each of them having digits from 1 to 9 with no repetition. \textbf{TODO WE:}We can create 36 not equals constraints between the 9 variables of each row, column, subregions times 27 such regions for a total of 972 constraints between two variables. This would be highly inefficient, hence the need for a better approach. A better approach is to use 27 all-different constraints, one for each row, column and subregions. Each constraint contains 9 variables that should take different values. As each variable is part of a row, column and subregion at the same time, it will therefore be involved in 3 constraints.
+\noindent One gets to the solution by running the all-different algorithm on rows, columns and sub-squares to remove values from the domain of the variables. Initially, the known values given at the start of the puzzle will be removed from the domains of possible values in the variables that are part of the same row, column or subregion. As the algorithm progresses, it will eventually remove enough values from the domain of a variable until a single value is left, representing the correct answer for that position. Once a value is found, there is a waterfall-like effect across the puzzle as the knowledge is propagated across the grid. The propagation takes place across all the variables that are in the same row, column and sub-square with the one just solved. This keeps the 3 constraints of difference in a consistent state, as all the variables will have remaining domains not containing any already solved values. Initially, the propagation mechanism is disabled in the application such that all changes to the puzzle are made by the all-different algorithm that detects such inconsistencies and removes them. Propagation after assignments can be enabled from the Settings menu.
 
-\noindent Initial puzzles are always partially completed with enough values that by the end of the game there will be a single unique solution to the puzzle. 
+\noindent In order to test and show that the all-different algorithm is implemented correctly and performs the right decisions, a demonstration is hard coded consisting of running the all-different algorithm on a sequence of $5$ rows, columns and sub-squares. The step by step demonstration can be run using the \textit{Show demo} button and can be paused at any time. Alternatively, the same sequence can be followed by manually selecting the rows, columns and sub-squares mentioned in \Cref{chapterpoc}.
 
-\noindent \textbf{TODO WE:}We get to the solution by running the all-different algorithm on rows, columns and subregions to remove values from the domain of the variables. Initially, the known values given at the start of the puzzle will be removed from the domains of possible values in the variables that are part of the same row, column or subregion. As the algorithm progresses, \textbf{TODO WE:}we will eventually remove enough values from the domain of a variable until \textbf{TODO WE:}we are left with a single value that represents the correct answer for that position. Once a value is found, there is a waterfall-like effect across the puzzle as \textbf{TODO WE:}we propagate the knowledge across the grid. The propagation takes place across all the variables that are in the same row, column and subregion with the one just solved. This will keep the 3 constraints in a consistent state, as all the variables will have valid remaining domains not containing any already solved values.
-
-\noindent The algorithm is intelligent in a sense that it mimics the thinking of humans when solving a Sudoku puzzle. At some stages of the game \textbf{TODO WE:}we have enough information to know that two particular values will fill two cells, but no information about which value corresponds to which cell. This problem is what makes some Sudoku puzzles so hard to solve.
-
-\noindent Humans and the all-different algorithm are smart enough to use this information to their advantage and remove the two values from the domains of the adjacent variables. By using this technique, \textbf{TODO WE:}we can ensure the progress of the algorithm towards a solution, even though \textbf{TODO WE:}we still don’t know which two variables take which two values. It is good to note that although humans may choose a guessing approach to continue towards a solution, the all-different algorithm performs no guessing and works only with the information about the current state of the puzzle.
-
-\newpage
+\noindent There are a number of operations performed by the all-different algorithm on the value graph of a selected constraint of difference. All operations on the graph are shown in a step by step fashion in the right-hand side of the screen. First, a greedy match is made on the graph to associate most of the variables with a value. The second step is to compute a maximum matching for the $9$ variables in the left partition of the graph. The maximum matching is computed using the Ford Fulkerson algorithm introduced in \Cref{ffsection}. \Cref{screenshot1} shows the maximum matching for the constraint of difference in the 1st column of the puzzle. The third step uses information from the maximum matching to find the strongly connected components in the value graph of the constraint, by using Tarjan's algorithm introduced in \Cref{tarjansection}. \Cref{screenshot2} shows vertices belonging to the same component having the same background colour. Finally, the edges connecting vertices that belong to different components get colored in red or blue based on their direction. Red edges connect a variable with a value that was removed from its domain during the algorithm. Blue edges highlight the single value a variable is forced to take, as it is the only option left in its domain. The state of the 1st column after running the all-different algorithm is shown in \Cref{screenshot2}. Notice how the all-different algorithm performs changes only to the selected 9 variables inside a row, column or $3\times 3$ sub-square.
 
 \begin{figure}[H]
 \begin{minipage}{8.0cm}
@@ -1219,7 +1214,15 @@ $\textbf{return} ~ \textit{RemovedEdges} $
 \caption{1st column after running the all-different algorithm}
 \label{screenshot2}
 \end{minipage}%
-\vspace*{1cm}
+\end{figure}
+
+\vspace*{-0.5cm}
+
+\noindent The same steps are followed for the 5th row (\Cref{screenshot3}), the 6th row (\Cref{screenshot4}) and the 4th $3\times 3$ sub-grid (\Cref{screenshot5}). As seen in the figures mentioned before, all the previous runs of the all-different algorithm removed values from the domain of the variables that represented clues in the initial puzzle. Notice how in \Cref{screenshot5} there are two variables in the 1st column of the puzzle, each having a domain of $\{1, 8\}$. One doesn't know which of the two variables will take which value, but since the two values will have to be used by the two variables, this means both values should be removed from the other variables in the same constraint. This detail is spotted by the all-different algorithm that decides to remove the two values from the domains of the adjacent variables. The last selection in this demonstration calls the all-different algorithm on the 1st column of the puzzle once again. \Cref{screenshot6} shows the state of the 1st column after running the all-different algorithm the second time. Notice how only two variables in the 1st column have the values $1$ or $8$ in them, compared to last time. It is good to mention once again that the all-different algorithm doesn't make guesses, instead it uses knowledge about the domains of the variables to remove values that will never be part of a solution.
+
+\noindent The algorithm is intelligent in a sense that it mimics the human thinking when solving a Sudoku puzzle. At some stages of the game there is enough information to know that, for example, two particular values will fill two cells, but no information about which value corresponds to which cell. The hardness of a Sudoku puzzle increases with the number of such dilemmas, and the number of variables having the same values in their domain. By using the all-different algorithm, one can ensure the progress towards a solution, despite not knowing which value goes where. It is good to note that although humans may choose a guessing approach to continue towards a solution, the all-different algorithm performs no guessing and works only with the information about the current state of the puzzle.
+
+\begin{figure}[H]
 \begin{minipage}{8.0cm}
 \centering
 \includegraphics[width=8cm]{images/proof_of_concept/screenshot3.png}
@@ -1249,21 +1252,21 @@ $\textbf{return} ~ \textit{RemovedEdges} $
 \end{minipage}%
 \end{figure}
 
-\newpage
+%\vspace*{-1cm}
 
 \begin{figure}[H]
-\includegraphics[width=16cm]{images/proof_of_concept/screenshot7.png}
+\centering
+\includegraphics[width=14cm]{images/proof_of_concept/screenshot7.png}
 \caption{State of the program after running the demo}
 \label{screenshot7}
 \end{figure}
 
-\noindent As seen in ~\Cref{fig:proof_1_5}, the all-different algorithm performs changes only to the selected 9 cells  inside a row, column or $3\times 3$ sub-grid. 
+\noindent The end result of following the $5$ steps in the demonstration can be seen in ~\Cref{screenshot7}. In the 1st column there are two cells with a domain of ${1, 8}$. Although, one doesn't know yet which cell takes which value, the human and the all-different algorithm is sure that the digits ${1, 8}$ will be distributed to the two particular cells. The last step illustrates the all-different algorithm decision to remove the values ${1, 8}$ from the domains of the rest of the cells in the selection.
 
-\noindent The end result of following the above steps can be seen in ~\Cref{fig:proof_6}. This state mimics the human thinking when solving a Sudoku. In the 1st column there are two cells with a domain of ${1, 8}$, but \textbf{TODO WE:}we don't know yet which cell will take which digit. What \textbf{TODO WE:}we do know though, is that the digits ${1, 8}$ will be distributed in that two particular cells, therefore in the last step, after running the all-different algorithm on the 1st column \textbf{TODO WE:}we can observe that the digits ${1, 8}$ disappear from the domains of the rest of the cells in the selection.
-
- 
 \chapter{Implementation}
 \label{chap6implementation}
+
+\noindent One could create 36 not equals constraints between the 9 variables of each row, column, subregions times 27 such regions for a total of 972 constraints between two variables. This would be highly inefficient, hence the need for a better approach.
 
 \noindent The Graphical User Interface (GUI) is inside a JLayeredPane which is a special swing component that allows components inside it to overlap according to their specified depth. In my implementation, the backmost layer contains a JPanel responsible for the drawn edges in the graph. The layer above contains the rest of the GUI represented by the Sudoku puzzle on the left hand side of the screen, and the vertices of the graph on the right hand side of the screen. By using a layered panel, the edges of the graph can be drawn behind the vertices.
 
@@ -1328,7 +1331,7 @@ with-dependencies.jar
 
 
 \chapter{Proof of concept}
-
+\label{chapterpoc} 
 The following sequence of steps will provide a visual proof of the all-different algorithm. The following figures capture the user running the all-different algorithm on 5 predetermined rows, columns or $3\times 3$ sub-grids. For demonstration purposes, the Sudoku instance used is $/puzzles/lockedset.txt$.
 
 \noindent The sequence is as follows:
