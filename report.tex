@@ -80,6 +80,28 @@
 
 \RequirePackage{filecontents}
 \begin{filecontents}{mybib.bib}
+  @article{mackworth1977consistency,
+  title={Consistency in networks of relations},
+  author={Mackworth, Alan K},
+  journal={Artificial intelligence},
+  volume={8},
+  number={1},
+  pages={99--118},
+  year={1977},
+  publisher={Elsevier}
+}
+
+  @article{gent2008generalised,
+  title={Generalised arc consistency for the alldifferent constraint: An empirical survey},
+  author={Gent, Ian P and Miguel, Ian and Nightingale, Peter},
+  journal={Artificial Intelligence},
+  volume={172},
+  number={18},
+  pages={1973--2000},
+  year={2008},
+  publisher={Elsevier}
+}
+
   @article{hopcroft1973n,
   title={An n\^{}5/2 algorithm for maximum matchings in bipartite graphs},
   author={Hopcroft, John E and Karp, Richard M},
@@ -1280,6 +1302,30 @@ $\textbf{return} ~ \textit{RemovedEdges} $
 
 \noindent Throughout the application, Timer objects are used to schedule repeated actions such as the fading out of the components or movement of the cells. The model contains a two-dimensional ArrayList of Timer objects that acts as a queue of animations. Timers on the same level start running at the same time until they all finish. Once all the timers on a level finish, the next level in the two-dimensional ArrayList is started, allowing us to queue a movement of a row after all the cells finish fading out.
 
+\noindent //////////////
+
+\noindent This section describes the program that was made to showcase how the all-different algorithm works. The programming language used throughout the project is \textit{Java}, a popular language that supports Object Oriented Programming. One of the most important benefits of using Java for this project is that it is platform-independent, meaning that the same source code can be compiled to run on different processors and Operating Systems, allowing for greater portability. Java's standard library includes support for concurrency, building the Graphical User Interface, and various data structures that are needed in the project.
+
+\noindent From a high-level view, the Model-View-Controller (MVC) design pattern was chosen for the program's arhitecture. By using a MVC arhitecture one can achieve a clean separation of concerns, where the Model object encapsulates the data and defines the operations that can done on that data, while the View object reads the data from the Model and presents it to the User. Controller objects are used to link the Model to the View by communicating changes such as User input that update the state of the Model and the View. In practice, most of the time the View and Controller roles are combined as an object that is responsible for rendering the User Interface and handling events such as mouse clicks.
+
+\noindent The program reads partially completed Sudoku puzzles from \textit{.txt} files that can be opened by choosing the option from the File menu. Files should contain $9$ rows filled with digits from $1$ to $9$, separated by spaces, representing clues in the initial puzzle. Unknown values in the initial puzzle that have to be filled by the player are represented in the file by the $0$ digit. By default, the program tries to load the \textit{lockedset.txt} file used in the demonstration that is stored in the \textit{puzzles} directory inside the current working directory. Alternatively, if the default file is not found, the User should choose a file from his hard drive to open.
+
+\noindent Small adjustments had to be made to the size and alignment of the components, and the size of the fonts such that the Graphical User Interface would look as intended across different Operating Systems. Although Java is platform-independent, meaning that the same code will run accross platforms supporting Java, challenges in rendering the User Interface remain as each Operating System specifies its implementation for the specified font family. For example, Windows renders Serif fonts smaller than Mac OS does.
+
+\noindent Digits in each cell of the Sudoku grid are printed as graphics using the drawString method from the Graphics2D object associated to all GUI components. This approach was used to allow for a more precise alignment of the characters having different widths, as opposed to separating them using spaces. The borders in the Sudoku grid, and edges in the value graph of a constraint were made using the drawLine method of the Graphics2D object. The circles representing vertices in the right partition of the graph were made using the fillOval method.
+
+\noindent The all-different algorithm is implemented as a method in the Model. The algorithm consists of multiple operations done on a bi-partite directed \textit{Graph} representing the value graph of a constraint of difference. For the purpose of this project, the graphs and the operations on the graphs were programmed in a procedural way, as this allows for fewer and more readable lines of code. Graphs are represented as a $v \times v$ adjacency matrix (where $v$ is the number of vertices in the Graph) filled with $0$ and $1$ to reflect if an edge exists between two vertices. Note that the adjacency matrix is not necessary symmetric, which allows specifing the direction of the edges. The graph is built with information that is read from the Model about the currently selected row, column or $3 \times 3$ sub-square. First, the Ford-Fulkerson algorithm is used to compute a maximum matching over the $9$ selected variables. Note that the Ford-Fulkerson algorithm uses two extra vertices called the $source$ and the $sink$ connected to the partitions of the graph with edges that have to be specified in the adjacency matrix of the graph. The Ford-Fulkerson algorithm is implemented according to the pseudo-code specified in TODO. The second step is to compute the Strongly Connected Components in the graph using Tarjan's algorithm shown in TODO. Note that this step no longer uses the $source$ and $sink$ vertices from the previous step and changes should be made to the  adjacency matrix to reflect this. Finally, only the edges that have a forward direction connecting a variable with a value from separate components are considered. Based on this final state of the graph, the values will be removed from the domain of the variables their are linked to. Each time a change is made in the graph, the Model informs the View Controller that it needs to refresh to reflect the new changes stored in the Model.
+
+\noindent The propagation mechanism used in this project represents the AC-3 algorithm developed by Alan Mackworth in 1977 \cite{mackworth1977consistency}. This 3rd revision of the Arc Consistency algorithm is more efficient than previous ones and one of the most often used because of its simplicity. The algorithm checks that all the constraints in the problem are consistent by considering all the pairs of variables in each constraint. When an inconsistency is found, such as when a variable still has a value in its domain that is already assigned to another varible, it gets removed from the first variable. Such inconsistencies occur after running the all-different algorithm, since the all-different algorithm only performs changes on the $9$ variables or a row (for example) resulting in the need to update the intersecting columns and sub-squares to reflect the changes made. Each time a value gets removed from a variable, the algorithm rechecks the other constraints the variable is part of to see if they are still consistent after the removal. The algorithm is guranteed to finish after no more removal of values occur and all the constraints are checked. This algorithm is efficient in the sense that changes to the domains of a variable trigger a waterfall-like checks only on the variables that have a constraining relationship with the first one, as opposed to rechecking all the variables and the constraints of the problem.
+
+\noindent The pause/play mechanism used throughout the program to control the flow of the animations is implemented 
+
+\noindent The lower part of the User Interface includes a \textit{JSlider}, which is a slider that can be used by the User to adjust the speed of the animation. The slider represents a bounded interval of speeds ranging from slow to fast. The speed of the animation is controled by specifing how much the logic thread should sleep when solving the problem and by what distance components should move during the animation. Note that only the logic thread is put to sleep and not the Event Dispatching Thread, as this would freeze the Graphical User Interface and make it unresponsive.
+
+\noindent Row selection
+\noindent Show demo
+\noindent Backtrack solve !! check source code, bruteforcing?
+\noindent Choco3 solve
 \chapter{Conclusion}
 \label{chap7conclusion} 
 \section{Summary}
@@ -1300,6 +1346,7 @@ As a Joint Honours student which studies Computing Science and Business Manageme
 \cite{simonis2005sudoku}
 \cite{stergiou1999difference}
 \cite{hopcroft1973n}
+\cite{gent2008generalised} HALL SETS
 TODO
 
 
